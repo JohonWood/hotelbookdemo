@@ -10,9 +10,9 @@
         <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin"/>
 
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://localhost:3306/batistest?useUnicode=yes&amp;characterEncoding=UTF-8&amp;useSSL=false&amp;serverTimezone=UTC"
+                        connectionURL="jdbc:mysql://localhost:3306/hotelbooktest?useUnicode=yes&amp;characterEncoding=UTF-8&amp;useSSL=false&amp;serverTimezone=UTC"
                         userId="root"
-                        password="root">
+                        password="">
             <property name="useInformationSchema" value="true"/>
         </jdbcConnection>
 
@@ -20,7 +20,7 @@
             <property name="forceBigDecimals" value="false"/>
         </javaTypeResolver>
 
-        <javaModelGenerator targetPackage="com.edu.uestc.boot_test.domain" targetProject="src/main/java">
+        <javaModelGenerator targetPackage="com.uestc.fff.hotel.domain" targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
@@ -29,12 +29,36 @@
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
 
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.edu.uestc.boot_test.mapper" targetProject="src/main/java">
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.uestc.fff.hotel.mapper" targetProject="src/main/java">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
-        <table schema="batistest" tableName="users" domainObjectName="Student">
-            <generatedKey column="id" sqlStatement="select second(now())" identity="false"/>
+        <table schema="hotelbooktest" tableName="hotel_info" domainObjectName="HotelInfo">
+            <generatedKey column="Hotel_id" sqlStatement="select second(now())" identity="false"/>
+        </table>
+
+        <table schema="hotelbooktest" tableName="country" domainObjectName="Country">
+            <generatedKey column="Hotel_id" sqlStatement="select second(now())" identity="false"/>
+        </table>
+
+        <table schema="hotelbooktest" tableName="city" domainObjectName="City">
+            <generatedKey column="City_ID" sqlStatement="select second(now())" identity="false"/>
+        </table>
+
+        <table schema="hotelbooktest" tableName="continent" domainObjectName="Continent">
+            <generatedKey column="Contiment_id" sqlStatement="select second(now())" identity="false"/>
+        </table>
+
+        <table schema="hotelbooktest" tableName="order_info" domainObjectName="OrderInfo">
+            <generatedKey column="Order_id" sqlStatement="select second(now())" identity="false"/>
+        </table>
+
+        <table schema="hotelbooktest" tableName="room_info" domainObjectName="RoomInfo">
+            <generatedKey column="Room_id" sqlStatement="select second(now())" identity="false"/>
+        </table>
+
+        <table schema="hotelbooktest" tableName="user_info" domainObjectName="UserInfo">
+            <generatedKey column="User_id" sqlStatement="select second(now())" identity="false"/>
         </table>
 
     </context>
