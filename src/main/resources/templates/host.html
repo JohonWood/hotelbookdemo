@@ -5,239 +5,188 @@
     <title>网站主页</title>
     <!-- Font Awesome -->
     <link rel="stylesheet" type="text/css" media="all" href="../bower_components/bootstrap/dist/css/bootstrap.min.css"
-          th:href="@{/bower_components/bootstrap/dist/css/bootstrap.min.css}" />
+          th:href="@{/bower_components/bootstrap/dist/css/bootstrap.min.css}"/>
     <link rel="stylesheet" type="text/css" media="all" href="../bower_components/font-awesome/css/font-awesome.min.css"
-          th:href="@{/bower_components/font-awesome/css/font-awesome.min.css}" />
+          th:href="@{/bower_components/font-awesome/css/font-awesome.min.css}"/>
     <link rel="stylesheet" type="text/css" media="all" href="../bower_components/Ionicons/css/ionicons.min.css"
-          th:href="@{/bower_components/Ionicons/css/ionicons.min.css}" />
+          th:href="@{/bower_components/Ionicons/css/ionicons.min.css}"/>
     <link rel="stylesheet" type="text/css" media="all" href="../dist/css/AdminLTE.min.css"
-          th:href="@{/dist/css/AdminLTE.min.css}" />
+          th:href="@{/dist/css/AdminLTE.min.css}"/>
     <link rel="stylesheet" type="text/css" media="all" href="../dist/css/skins/skin-blue.min.css"
-          th:href="@{/dist/css/skins/skin-blue.min.css}" />
+          th:href="@{/dist/css/skins/skin-blue.min.css}"/>
     <link rel="stylesheet" type="text/css" media="all" href="/static/bower_components/select2/dist/css/select2.min.css"
           th:href="@{/bower_components/select2/dist/css/select2.min.css}">
+    <style>
+        a:hover {
+            text-decoration: underline
+        }
+    </style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini layout-top-nav">
+
 <div class="wrapper">
-<header class="main-header">
+    <header class="main-header">
 
-    <nav class="navbar navbar-static-top bg-purple" role="navigation">
+        <nav class="navbar navbar-static-top bg-purple" role="navigation">
 
-        <div class="navbar-custom-menu">
-            <ul class="nav navbar-nav">
-                <!-- Messages: style can be found in dropdown.less-->
-                <li class="dropdown messages-menu">
-                    <!-- Menu toggle button -->
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="fa fa-envelope-o"></i>
-                        <span class="label label-success">4</span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li class="header">You have 4 messages</li>
-                        <li>
-                            <!-- inner menu: contains the messages -->
-                            <ul class="menu">
-                                <li><!-- start message -->
-                                    <a href="#">
-                                        <div class="pull-left">
-                                            <!-- User Image -->
-                                            <img th:src="@{/dist/img/user2-160x160.jpg}" src="/" class="img-circle" alt="User Image">
-                                        </div>
-                                        <!-- Message title and timestamp -->
-                                        <h4>
-                                            Support Team
-                                            <small><i class="fa fa-clock-o"></i> 5 mins</small>
-                                        </h4>
-                                        <!-- The message -->
-                                        <p>Why not buy a new awesome theme?</p>
-                                    </a>
-                                </li>
-                                <!-- end message -->
-                            </ul>
-                            <!-- /.menu -->
-                        </li>
-                        <li class="footer"><a href="#">See All Messages</a></li>
-                    </ul>
-                </li>
+            <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
 
-                <li class="dropdown notifications-menu">
-                    <!-- Menu toggle button -->
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="fa fa-bell-o"></i>
-                        <span class="label label-warning">10</span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li class="header">You have 10 notifications</li>
-                        <li>
-                            <!-- Inner Menu: contains the notifications -->
-                            <ul class="menu">
-                                <li><!-- start notification -->
-                                    <a href="#">
-                                        <i class="fa fa-users text-aqua"></i> 5 new members joined today
-                                    </a>
-                                </li>
-                                <!-- end notification -->
-                            </ul>
-                        </li>
-                        <li class="footer"><a href="#">View all</a></li>
-                    </ul>
-                </li>
-                <!-- Tasks Menu -->
-                <li class="dropdown tasks-menu">
-                    <!-- Menu Toggle Button -->
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="fa fa-flag-o"></i>
-                        <span class="label label-danger">9</span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li class="header">You have 9 tasks</li>
-                        <li>
-                            <!-- Inner menu: contains the tasks -->
-                            <ul class="menu">
-                                <li><!-- Task item -->
-                                    <a href="#">
-                                        <!-- Task title and progress text -->
-                                        <h3>
-                                            Design some buttons
-                                            <small class="pull-right">20%</small>
-                                        </h3>
-                                        <!-- The progress bar -->
-                                        <div class="progress xs">
-                                            <!-- Change the css width attribute to simulate progress -->
-                                            <div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar"
-                                                 aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                                                <span class="sr-only">20% Complete</span>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                                <!-- end task item -->
-                            </ul>
-                        </li>
-                        <li class="footer">
-                            <a href="#">View all tasks</a>
-                        </li>
-                    </ul>
-                </li>
-                <!-- User Account Menu -->
-                <li class="dropdown user user-menu">
-                    <!-- Menu Toggle Button -->
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <!-- The user image in the navbar-->
-                        <!--<img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">-->
-                        <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                        <span class="hidden-xs" th:if="${isLogin}==true" th:text="${userName}"></span>
-                        <span class="hidden-xs" th:if="${isLogin}==false">未登录</span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <!-- The user image in the menu -->
-                        <li class="user-header">
-                            <!--<img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">-->
+                    <!-- Tasks Menu -->
+                    <li class="dropdown tasks-menu" th:if="${isLogin}==true">
+                        <!-- Menu Toggle Button -->
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-flag-o"></i>
+                            <span class="label label-danger" th:text="${numOfOrders}"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="header">你有<span th:text="${numOfOrders}"></span>个酒店订单</li>
+                            <li>
+                                <!-- Inner menu: contains the tasks -->
+                                <ul class="menu">
+                                    <li th:each="order,orderStat: ${orderList}" th:if="${orderStat.count} lt 3">
+                                        <!-- Task item -->
+                                        <a href="#">
+                                            <!-- Task title and progress text -->
+                                            <h3>
+                                                <span th:text="${order.hotelName}">酒店</span>
+                                            </h3>
+                                            <p class="text-black">
+                                                <span th:text="${order.roomType}">sadasd</span>
+                                                <span class="pull-right"><i class="fa fa-calendar"></i>
+                                            <span class="text-black" th:text='${order.checkInTime}'></span>入住</span>
+                                            </p>
+                                        </a>
+                                    </li>
+                                    <!-- end task item -->
+                                </ul>
+                            </li>
+                            <li class="footer">
+                                <a href="#">查看所有订单</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- User Account Menu -->
+                    <li class="dropdown user user-menu">
+                        <!-- Menu Toggle Button -->
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <span class="hidden-xs" th:if="${isLogin}==true" th:text="${User_name}"></span>
+                            <span class="hidden-xs" th:if="${isLogin}==false">未登录</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="user-header bg-purple">
 
-                            <p>
-                                Alexander Pierce - Web Developer
-                                <small>Member since Nov. 2012</small>
-                            </p>
-                        </li>
-                        <!-- Menu Body -->
-                        <li class="user-body">
-                            <div class="row">
-                                <div class="col-xs-4 text-center">
-                                    <a href="#">Followers</a>
+                                <p th:if="${isLogin}==true">
+                                    <span th:text="${User_name}"></span>
+                                    <br>
+                                    <br>
+                                    <small>亲爱的用户，欢迎来到504订房网！</small>
+                                </p>
+                                <p th:if="${isLogin}==false">
+                                    <span>用户未登录</span>
+                                    <br>
+                                    <br>
+                                    <small>如果未注册，请注册后登录网站</small>
+                                </p>
+                            </li>
+                            <!-- Menu Body -->
+                            <li class="user-body" th:if="${isLogin}==true">
+                                <div class="row" style="">
+                                    <div class="col-xs-4 text-center">
+
+                                    </div>
+                                    <div class="col-xs-4 text-center">
+                                        <a href="#">我的订单</a>
+                                    </div>
+                                    <div class="col-xs-4 text-center">
+                                        <!--<a href="#">Friends</a>-->
+                                    </div>
                                 </div>
-                                <div class="col-xs-4 text-center">
-                                    <a href="#">Sales</a>
+                                <!-- /.row -->
+                            </li>
+                            <!-- Menu Footer-->
+                            <li class="user-footer" th:if="${isLogin}==true">
+                                <div class="pull-left">
+                                    <a href="#" class="btn btn-default btn-flat">个人信息</a>
                                 </div>
-                                <div class="col-xs-4 text-center">
-                                    <a href="#">Friends</a>
+                                <div class="pull-right">
+                                    <a href="#" class="btn btn-default btn-flat">登出</a>
                                 </div>
-                            </div>
-                            <!-- /.row -->
-                        </li>
-                        <!-- Menu Footer-->
-                        <li class="user-footer">
-                            <div class="pull-left">
-                                <a href="#" class="btn btn-default btn-flat">Profile</a>
-                            </div>
-                            <div class="pull-right">
-                                <a href="#" class="btn btn-default btn-flat">Sign out</a>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </nav>
-</header>
-<div class="content-wrapper -align-center" th:style="'align-content: center;background: url('+@{/img/backImg.jpg} + ') no-repeat center center fixed;
+                            </li>
+                            <li class="user-footer" th:if="${isLogin}==false">
+                                <div class="pull-left">
+                                    <a href="#" class="btn btn-default btn-flat">登录</a>
+                                </div>
+                                <div class="pull-right">
+                                    <a href="#" class="btn btn-default btn-flat">注册</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div class="content-wrapper -align-center" th:style="'align-content: center;background: url('+@{/img/backImg.jpg} + ') no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;'">
-    <!-- Content Header (Page header) -->
-    <section class="content-header text-center">
-        <h1 style="margin-bottom: 10px;margin-top: 40px">
-            在这里，订酒店、度假村、青年旅馆、民宿等各类住宿
-        </h1>
-        <span>享受全球住宿超值优惠</span>
-        <!--<ol class="breadcrumb">-->
-            <!--<li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>-->
-            <!--<li class="active">Here</li>-->
-        <!--</ol>-->
-    </section>
-
-    <!-- Main content -->
-    <section class="content container-fluid" >
-        <div class="row">
-            <!--<div class="col-md-4"></div>-->
-            <div class="col-md-4"></div>
-            <div class="col-md-4 input-group">
-                <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-                <input class="form-control input-lg" type="text" placeholder="酒店" style="height: 80px;width:100%;margin:auto;">
-            </div>
-        </div>
-        <div class="row" style="margin-top: 20px;padding-left: 0">
-            <div class="col-md-4"></div>
-            <div class="col-md-4 input-group">
-                <div class="form-group" style="padding-left: 0px;margin-right: 0px;align: left;float:left;width: 25%">
-                    <label>国家</label>
-                    <select class="form-control input-lg select2 " id="CountrySelect">
-                        <option class="myselect" selected="selected">Alabama</option>
-                        <option class="myselect">Alaska</option>
-                        <option class="myselect">China</option>
-                        <option class="myselect">Delaware</option>
-                        <option class="myselect">Tennessee</option>
-                        <option class="myselect">Texas</option>
-                        <option class="myselect">Washington</option>
-                    </select>
+        <!-- Content Header (Page header) -->
+        <section class="content-header text-center">
+            <h1 style="margin-bottom: 10px;margin-top: 40px">
+                在这里，订酒店、度假村、青年旅馆、民宿等各类住宿
+            </h1>
+            <span>享受全球住宿超值优惠</span>
+        </section>
+        <form th:action="@{/test/post}" method="post">
+            <!-- Main content -->
+            <section class="content container-fluid">
+                <div class="row">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4 input-group">
+                        <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+                        <input name="hotelKey" class="form-control input-lg" type="text" placeholder="酒店"
+                               style="height: 80px;width:100%;margin:auto;">
+                    </div>
                 </div>
-                <div class="form-group" style="padding-left: 0px;margin-left: 0px;float:left;width: 25%">
-                    <label>城市</label>
-                    <select class="form-control input-lg select2" id="CitySelect">
-                        <option selected="selected">Alabama</option>
-                        <option>Alaska</option>
-                        <option>California</option>
-                        <option>Delaware</option>
-                        <option>Tennessee</option>
-                        <option>Texas</option>
-                        <option>Washington</option>
-                    </select>
+                <div class="row" style="margin-top: 20px;padding-left: 0">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4 input-group">
+                        <div class="form-group"
+                             style="padding-left: 0px;margin-right: 0px;align: left;float:left;width: 32%">
+                            <label>国家</label>
+                            <select name="countryKey" class="form-control input-lg select2 " id="CountrySelect">
+                                <option th:each="country: ${countryList}" th:text="${country}"></option>
+                            </select>
+                        </div>
+                        <div class="form-group"
+                             style="padding-left: 0px;margin-left: 0px;margin-right:0px;float:left;width: 32%">
+                            <label>城市</label>
+                            <select name="cityKey" class="form-control input-lg select2" id="CitySelect">
+                                <!--由JS代码生成-->
+                            </select>
+                        </div>
+                        <button type="submit" class="btn bg-purple btn-lg" id="myselect"
+                                style="float:right;width:25%;margin-top:7px">搜索
+                        </button>
+                    </div>
                 </div>
-                <button type="button" class="btn bg-purple btn-lg" id="myselect" style="float:right;width:45%;margin-top:7px">搜索</button>
-            </div>
-        </div>
-    </section>    <!-- /.content -->
-</div>
+            </section>
+        </form>
 
-
-<footer class="main-footer fixed">
-    <!-- To the right -->
-    <div class="pull-right hidden-xs">
-        Anything you wantasdasdasdasdasdasd
     </div>
-    <!-- Default to the left -->
-    <strong>Copyright &copy; 2016 <a href="#">Company</a>.</strong> All rights reserved.asdasdasdasdad sna cmxz cnma wsn c
-</footer>
+
+
+    <footer class="main-footer fixed">
+        <!-- To the right -->
+        <div class="pull-right hidden-xs">
+            电子科技大学第22组
+        </div>
+        <!-- Default to the left -->
+        <strong>Copyright &copy; 2019 <a href="https://www.uestc.edu.cn/">电子科技大学</a>.</strong> All rights reserved.
+    </footer>
 </div>
 
 
@@ -249,35 +198,57 @@
         src="../dist/js/adminlte.min.js"></script>
 <script src="../bower_components/select2/dist/js/select2.full.min.js" type="text/javascript"
         th:src="@{/bower_components/select2/dist/js/select2.full.min.js}"></script>
-<!--<script type="text/javascript" src="../bower_components/bootstrap-daterangepicker/daterangepicker.js"-->
-        <!--th:src="@{/bower_components/bootstrap-daterangepicker/daterangepicker.js}"></script>-->
-<!--&lt;!&ndash;<script type="text/javascript" th:src="@{/bower_components/moment/min/moment.min.js}"&ndash;&gt;-->
-        <!--&lt;!&ndash;src="/../bower_components/moment/min/moment.min.js"></script>&ndash;&gt;-->
-<!--&lt;!&ndash;<script>&ndash;&gt;-->
 
-    <!--&lt;!&ndash;$(function (){&ndash;&gt;-->
-        <!--&lt;!&ndash;$('#reservation').daterangepicker()&ndash;&gt;-->
-    <!--&lt;!&ndash;})&ndash;&gt;-->
-<!--&lt;!&ndash;</script>&ndash;&gt;-->
 <script>
+    var xmlhttp;
+    if (window.XMLHttpRequest) {
+        xmlhttp = new XMLHttpRequest();
+    } else {
+        xmlhttp = new ActiveXObject();
+    }
+
+
     $(function () {
-        $('.select2').select2()
+        xmlhttp.open("GET", "/test/city?country=" + $("#CountrySelect").val(), true);
+        xmlhttp.send();
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                var text;
+                text = xmlhttp.responseText;
+                var jsonData = JSON.parse(text);
+                //$("#CitySelect").empty();
+                for (x in jsonData) {
+                    $("#CitySelect").append('<option>' + jsonData[x] + '</option>');
+                }
+                $('.select2').select2()
 
-    });
-    $("#CountrySelect").change(function () {
-        var city
-        $.ajax({
-            type:"get",
-            url:"/test/city?country="+$("#CountrySelect").val(),
-            dataType: "json",
-            success:function () {
-                console.log(${city})
             }
+            ;
+        }
+    })
+    // $(function () {
+    //
+    //
+    // });
 
-        })
+    $("#CountrySelect").change(function () {
+        xmlhttp.open("GET", "/test/city?country=" + $("#CountrySelect").val(), true);
+        xmlhttp.send();
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                var text;
+                text = xmlhttp.responseText;
+                var jsonData = JSON.parse(text);
+                $("#CitySelect").empty();
+                for (x in jsonData) {
+                    $("#CitySelect").append('<option>' + jsonData[x] + '</option>');
+                }
 
-
+            }
+            ;
+        }
     });
+
     $("#CitySelect").change(function () {
         console.log($("#CitySelect").val())
     });
