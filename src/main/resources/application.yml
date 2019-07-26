@@ -10,7 +10,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/hotelbooktest?useUnicode=yes&characterEncoding=UTF-8&useSSL=false&?serverTimezone=UTC
     username: root
-    password:
+    password: root
     driver-class-name: com.mysql.jdbc.Driver
   thymeleaf:
     cache: false

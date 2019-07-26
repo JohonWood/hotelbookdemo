@@ -14,8 +14,13 @@ public class testController {
 
     @RequestMapping("/host")
     public String hostPages(Model model){
-        model.addAttribute("Hotels",serviceTest.listHotel());
-        return "HotelTest";
+        //model.addAttribute("Hotels",serviceTest.listHotel());
+        return "host";
+    }
+
+    @RequestMapping("/booklist")
+    public String BookListPages(Model model){
+        return "BookList";
     }
 
 }
