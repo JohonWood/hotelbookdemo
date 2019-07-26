@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:lang = "en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册页面</title>
+    <link rel="stylesheet" type="text/css" href="../adminlte/userResource/css/regist.css"
+          th:href="@{../adminlte/userResource/css/regist.css}">
+    <script src="/js/jquery-3.4.1.min.js"></script>
+</head>
+<body>
+    <div class="wrapper">
+    <article>
+        <h1><span>注册</span></h1>
+        <div class="main">
+            <form>
+                <div class="userName">
+                    <input type="text" name="userName" placeholder="您的姓名">
+                </div>
+                <div class="userPhone">
+                    <input type="tel" name="userPhone" placeholder="手机号">
+                </div>
+                <div class="userID">
+                    <input type="text" name="userID" placeholder="您的账号">
+                    <em>不超过20位</em>
+                </div>
+                <div class="loginName">
+                    <input type="text" name="loginName" placeholder="昵称">
+                </div>
+                <div class="loginPassword">
+                    <input type="password" name="loginPassword" placeholder="密码">
+                    <em>不超过18位</em>
+                </div>
+                <div class="loginPasswordAgain">
+                    <input type="password" name="loginPasswordAgain" placeholder="再次输入密码">
+                    <em>不超过18位</em>
+                </div>
+                <button>注册</button>
+            </form>
+        </div>
+    </article>
+    </div>
+</body>
+</html>

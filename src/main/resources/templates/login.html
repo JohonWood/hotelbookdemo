@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:lang = "en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录页面</title>
+    <link rel="stylesheet" type="text/css" href="../adminlte/userResource/css/login.css"
+          th:href="@{../adminlte/userResource/css/login.css}">
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            $(".name input").focus(function(){
+                $(this).prev("i").css({"background-image":"url(img/user2.png)"});
+            });
+            $(".name input").blur(function(){
+                $(this).prev("i").css({"background-image":"url(img/user1.png)"});
+            });
+            $(".password input").focus(function(){
+                $(this).prev("i").css({"background-image":"url(img/password2.png)"});
+            });
+            $(".password input").blur(function(){
+                $(this).prev("i").css({"background-image":"url(img/password1.png)"});
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="wrapper">
+    <article>
+        <div class="main">
+            <h1><span>登录</span></h1>
+            <form action="" method="post">
+                <p class="name"><i></i><input type="text" name="userName" name="userName" class="userName" placeholder="请输入帐号"></p>
+                <p class="password"><i></i><input type="password" name="password" class="pwd" placeholder="请输入密码"></p>
+                <p class="select">
+                    <i></i>
+                    <select>
+                        <option value ="用户">用户</option>
+                        <option value ="管理员">管理员</option>
+                    </select>
+                </p>
+                <button>登录</button>
+                <p class="regist"><a href="regist.html">注册帐号</a></p>
+                <div class="clear"></div>
+            </form>
+        </div>
+    </article>
+</div>
+</body>
+</html>
