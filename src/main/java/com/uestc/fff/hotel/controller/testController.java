@@ -23,4 +23,9 @@ public class testController {
         return "BookList";
     }
 
+    @RequestMapping("/bookinfo")
+    public String BookInfoPages(Model model){
+        return "BookInfo";
+    }
+
 }
