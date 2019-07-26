@@ -15,7 +15,7 @@ public class testController {
     @RequestMapping("/host")
     public String hostPages(Model model){
         model.addAttribute("Hotels",serviceTest.listHotel());
-        return "HotelTest";
+        return "CountryTable";
     }
 
 }
