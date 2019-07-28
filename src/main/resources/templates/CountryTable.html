@@ -10,13 +10,15 @@
           th:href="@{/adminlte/bower_components/font-awesome/css/font-awesome.min.css}"/>
     <link rel="stylesheet" type="text/css" media="all" href="../bower_components/Ionicons/css/ionicons.min.css"
           th:href="@{/adminlte/bower_components/Ionicons/css/ionicons.min.css}"/>
-    <link rel="stylesheet" href="../../bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="../../bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css"
+          th:href="@{/adminlte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css}">
     <link rel="stylesheet" type="text/css" media="all" href="../dist/css/AdminLTE.min.css"
           th:href="@{/adminlte/dist/css/AdminLTE.min.css}"/>
     <link rel="stylesheet" type="text/css" media="all" href="../dist/css/skins/skin-blue.min.css"
           th:href="@{/adminlte/dist/css/skins/skin-blue.min.css}"/>
-    <link rel="stylesheet" type="text/css" media="all" th:href="@{/adminlte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css}"/>
-
+    <link rel="stylesheet" type="text/css" media="all"
+          th:href="@{/adminlte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css}"/>
+    <script th:src="@{/js/jquery-3.4.1.min.js}"></script>
 </head>
 </head>
 
@@ -132,13 +134,20 @@
                                     </select> entries</label>
                                 </div>
                             </div>-->
-                            <div class="col-sm-6">
-                                <div id="example1_filter" class="dataTables_filter">
-                                    <label>Search:<input type="search" class="form-control input-sm"
-                                                         placeholder="请输入国家名字"
-                                                         aria-controls="example1"></label>
+                            <form th:action="@{/manage/search}" method="post">
+                                <div class="col-sm-6">
+                                    <div id="example1_filter" class="dataTables_filter">
+                                        <label>Search:<input type="text" class="form-control input-sm"
+                                                             placeholder="请输入国家名字"
+                                                             aria-controls="example1" name="countryName"></label>
+                                    </div>
                                 </div>
-                            </div>
+                                <div class="col-sm-6">
+                                    <div class="col-xs-2">
+                                        <button type="submit" class="btn btn-block btn-info" style="height: 30px">查询</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                         <div class="row">
                             <div class="col-sm-12">
@@ -165,8 +174,15 @@
                                     <tr th:each="country : ${listCountry}">
                                         <td th:text="${country.countryCode}"></td>
                                         <td th:text="${country.countryName}"></td>
-                                        <td><a><button type="button" class="btn btn-block btn-info">编辑</button></a></td>
-                                        <td><a><button type="button" class="btn btn-block btn-info">删除</button></a></td>
+                                        <td><a>
+                                            <button type="button" class="btn btn-block btn-info">编辑</button>
+                                        </a></td>
+                                        <td><a>
+                                            <button type="button" class="btn btn-block btn-info"
+                                                    data-th-attr="onclick='deleteCountry(this, \'' + ${country.countryCode} + '\')'">
+                                                删除
+                                            </button>
+                                        </a></td>
                                     </tr>
                                     </tbody>
                                     <tfoot>
@@ -180,44 +196,44 @@
                             </div>
                         </div>
                     </div>
-                   <!-- <div class="row">
-                        <div class="col-sm-5">
-                        </div>
-                        <div class="col-sm-7">
-                            <div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">
-                                <ul class="pagination">
-                                    <li class="paginate_button previous disabled" id="example1_previous"><a href="#"
-                                                                                                            aria-controls="example1"
-                                                                                                            data-dt-idx="0"
-                                                                                                            tabindex="0">Previous</a>
-                                    </li>
-                                    <li class="paginate_button active"><a href="#" aria-controls="example1"
-                                                                          data-dt-idx="1" tabindex="0">1</a></li>
-                                    <li class="paginate_button "><a href="#" aria-controls="example1"
-                                                                    data-dt-idx="2" tabindex="0">2</a></li>
-                                    <li class="paginate_button "><a href="#" aria-controls="example1"
-                                                                    data-dt-idx="3" tabindex="0">3</a></li>
-                                    <li class="paginate_button "><a href="#" aria-controls="example1"
-                                                                    data-dt-idx="4" tabindex="0">4</a></li>
-                                    <li class="paginate_button "><a href="#" aria-controls="example1"
-                                                                    data-dt-idx="5" tabindex="0">5</a></li>
-                                    <li class="paginate_button "><a href="#" aria-controls="example1"
-                                                                    data-dt-idx="6" tabindex="0">6</a></li>
-                                    <li class="paginate_button next" id="example1_next"><a href="#"
-                                                                                           aria-controls="example1"
-                                                                                           data-dt-idx="7"
-                                                                                           tabindex="0">Next</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>-->
+                    <!-- <div class="row">
+                         <div class="col-sm-5">
+                         </div>
+                         <div class="col-sm-7">
+                             <div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">
+                                 <ul class="pagination">
+                                     <li class="paginate_button previous disabled" id="example1_previous"><a href="#"
+                                                                                                             aria-controls="example1"
+                                                                                                             data-dt-idx="0"
+                                                                                                             tabindex="0">Previous</a>
+                                     </li>
+                                     <li class="paginate_button active"><a href="#" aria-controls="example1"
+                                                                           data-dt-idx="1" tabindex="0">1</a></li>
+                                     <li class="paginate_button "><a href="#" aria-controls="example1"
+                                                                     data-dt-idx="2" tabindex="0">2</a></li>
+                                     <li class="paginate_button "><a href="#" aria-controls="example1"
+                                                                     data-dt-idx="3" tabindex="0">3</a></li>
+                                     <li class="paginate_button "><a href="#" aria-controls="example1"
+                                                                     data-dt-idx="4" tabindex="0">4</a></li>
+                                     <li class="paginate_button "><a href="#" aria-controls="example1"
+                                                                     data-dt-idx="5" tabindex="0">5</a></li>
+                                     <li class="paginate_button "><a href="#" aria-controls="example1"
+                                                                     data-dt-idx="6" tabindex="0">6</a></li>
+                                     <li class="paginate_button next" id="example1_next"><a href="#"
+                                                                                            aria-controls="example1"
+                                                                                            data-dt-idx="7"
+                                                                                            tabindex="0">Next</a>
+                                     </li>
+                                 </ul>
+                             </div>
+                         </div>
+                     </div>-->
                 </div>
             </div>
             <!-- /.box-body -->
-    </section>
-    <!-- /.content -->
-</div>
+        </section>
+        <!-- /.content -->
+    </div>
 
 
 </div>
@@ -232,4 +248,18 @@
         src="../dist/js/adminlte.min.js"></script>
 
 </body>
+<script>
+    function deleteCountry(elem, code) {
+        $.ajax({
+            url: '/manage/deleteCountry?countryCode=' + code,
+            type: 'get',
+            success: function (data) {
+                $(elem).parent().parent().parent().remove();
+            },
+            fail: function (data) {
+                console.log('fial delete country')
+            }
+        })
+    }
+</script>
 </html>

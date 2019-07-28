@@ -16,4 +16,12 @@ public class CountryManageService {
     public List<Country> listCountry(){
         return countryMapper.selectByExample(new CountryExample());
     }
+
+    public void deleteCountryByCode(String code) {
+        countryMapper.deleteByPrimaryKey(code);
+    }
+
+    public List<Country> searchCountry(String countryName){
+        return countryMapper.searchCountry(countryName);
+    }
 }
