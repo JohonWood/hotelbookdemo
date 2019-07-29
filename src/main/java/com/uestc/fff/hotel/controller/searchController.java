@@ -18,7 +18,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/test")
-public class testController {
+public class searchController {
     @Autowired
     searchService service;
     @RequestMapping("/host")
