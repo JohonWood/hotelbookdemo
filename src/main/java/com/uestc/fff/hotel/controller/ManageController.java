@@ -5,6 +5,7 @@ import com.uestc.fff.hotel.domain.CityExample;
 import com.uestc.fff.hotel.domain.Country;
 import com.uestc.fff.hotel.service.CityManageService;
 import com.uestc.fff.hotel.service.CountryManageService;
+import com.uestc.fff.hotel.service.HotelManageService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,8 @@ public class ManageController {
     private CountryManageService countryManageService ;
     @Autowired
     private CityManageService cityManageService;
+    @Autowired
+    private HotelManageService hotelManageService;
 
     /**********CountryManagement**********/
     @RequestMapping("/country")
@@ -115,9 +118,15 @@ public class ManageController {
 
     /**********HotelManagement**********/
     @RequestMapping("/hotel")
-    public String findHotel(Model model){
-        System.out.println("hotel");
-        return "CountryTable";
+    public String listHotel(Model model){
+        model.addAttribute("listHotel", hotelManageService.listHotel());
+        return "HotelTable";
     }
 
+    @PostMapping("/searchHotel")
+    public String searchHotel(@RequestParam("hotelName") String hotelName,Model model) {
+        hotelName = "%" + hotelName + "%";
+        model.addAttribute("listHotel", hotelManageService.searchHotel(hotelName));
+        return "HotelTable";
+    }
 }
