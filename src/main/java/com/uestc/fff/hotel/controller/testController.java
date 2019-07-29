@@ -12,6 +12,12 @@ public class testController {
     @Autowired
     private ServiceTest serviceTest;
 
+    @RequestMapping("/test")
+    public String TestPages(Model model){
+        model.addAttribute("Hotels",serviceTest.listHotel());
+        return "HotelTest";
+    }
+
     @RequestMapping("/host")
     public String hostPages(Model model){
         //model.addAttribute("Hotels",serviceTest.listHotel());
@@ -20,6 +26,7 @@ public class testController {
 
     @RequestMapping("/booklist")
     public String BookListPages(Model model){
+        model.addAttribute("Orders",serviceTest.listOrder());
         return "BookList";
     }
 

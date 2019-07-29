@@ -273,6 +273,7 @@ public class OrderInfo {
      *
      * @mbg.generated Thu Jul 25 10:49:07 CST 2019
      */
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
