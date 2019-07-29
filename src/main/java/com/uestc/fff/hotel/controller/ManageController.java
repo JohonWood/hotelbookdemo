@@ -1,6 +1,9 @@
 package com.uestc.fff.hotel.controller;
 
+import com.uestc.fff.hotel.domain.City;
+import com.uestc.fff.hotel.domain.CityExample;
 import com.uestc.fff.hotel.domain.Country;
+import com.uestc.fff.hotel.service.CityManageService;
 import com.uestc.fff.hotel.service.CountryManageService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,22 +16,13 @@ import org.springframework.web.bind.annotation.*;
 public class ManageController {
     @Autowired
     private CountryManageService countryManageService ;
+    @Autowired
+    private CityManageService cityManageService;
 
+    /**********CountryManagement**********/
     @RequestMapping("/country")
     public String findCountry(Model model){
         model.addAttribute("listCountry",countryManageService.listCountry());
-        return "CountryTable";
-    }
-
-    @RequestMapping("/city")
-    public String findCity(Model model){
-        System.out.println("city");
-        return "CountryTable";
-    }
-
-    @RequestMapping("/hotel")
-    public String findHotel(Model model){
-        System.out.println("hotel");
         return "CountryTable";
     }
 
@@ -50,7 +44,7 @@ public class ManageController {
     public String editCountry(@RequestParam("countryCode") String countryCode, Model model) {
         Country country = countryManageService.findCountryByCountryCode(countryCode);
         model.addAttribute("country", country);
-        return "editCountry";
+        return "CountryEdit";
     }
 
     @PostMapping("/editCountry")
@@ -62,7 +56,7 @@ public class ManageController {
     @GetMapping("/addCountry")
     public String addCountry(Model model){
         model.addAttribute("country",new Country());
-        return "addCountry";
+        return "CountryAdd";
     }
 
     @PostMapping("/addCountry")
@@ -70,4 +64,60 @@ public class ManageController {
         countryManageService.saveCountry(country);
         return "redirect:/manage/country";
     }
+
+
+
+    /**********CityManagement**********/
+    @RequestMapping("/city")
+    public String listCity(Model model){
+        model.addAttribute("listCity", cityManageService.listCity());
+        return "CityTable";
+    }
+
+    @GetMapping("/deleteCity")
+    @ResponseBody
+    public Boolean deleteCity(@RequestParam("cityID") String cityID){
+        cityManageService.deleteCityByID(cityID);
+        return true;
+    }
+
+    @PostMapping("/searchCity")
+    public String searchCity(@RequestParam("cityName") String cityName, Model model){
+        cityName = "%" + cityName + "%";
+        model.addAttribute("listCity",cityManageService.searchCity(cityName));
+        return "CityTable";
+    }
+
+    @GetMapping("/editCity")
+    public String editCity(@RequestParam("cityID") String cityID, Model model) {
+        City city = cityManageService.findCountryByCountryCode(cityID);
+        model.addAttribute("listCity", city);
+        return "CityEdit";
+    }
+
+    @PostMapping("/editCity")
+    public String updateCity(City city) {
+        cityManageService.updateCountry(city);
+        return "redirect:/manage/city";
+    }
+
+    @GetMapping("/addCity")
+    public String addCity(Model model) {
+        model.addAttribute("listCity",new City());
+        return "CityAdd";
+    }
+
+    @PostMapping("/addCity")
+    public String saveCity(City city){
+        cityManageService.saveCity(city);
+        return "redirect:/manage/city";
+    }
+
+    /**********HotelManagement**********/
+    @RequestMapping("/hotel")
+    public String findHotel(Model model){
+        System.out.println("hotel");
+        return "CountryTable";
+    }
+
 }
