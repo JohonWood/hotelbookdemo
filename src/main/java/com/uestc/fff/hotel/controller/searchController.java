@@ -65,9 +65,6 @@ public class searchController {
     }
     @PostMapping("/post")
     public void receiveParam(String hotelKey, String countryKey,String cityKey){
-        System.out.println(
-                hotelKey+countryKey+cityKey
-        );
 
     }
 
