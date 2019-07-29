@@ -1,9 +1,16 @@
 package com.uestc.fff.hotel.domain;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+
 public class order {
+    private String roomID;
     private String hotelName;
-    private String checkInTime;
+    private Date checkInTime;
     private String roomType;
+
+    public order() {
+    }
 
     public String getHotelName() {
         return hotelName;
@@ -13,13 +20,7 @@ public class order {
         this.hotelName = hotelName;
     }
 
-    public String getCheckInTime() {
-        return checkInTime;
-    }
 
-    public void setCheckInTime(String checkInTime) {
-        this.checkInTime = checkInTime;
-    }
 
     public String getRoomType() {
         return roomType;
@@ -27,5 +28,22 @@ public class order {
 
     public void setRoomType(String roomType) {
         this.roomType = roomType;
+    }
+
+    public String getRoomID() {
+        return roomID;
+    }
+
+    public void setRoomID(String roomID) {
+        this.roomID = roomID;
+    }
+
+
+    public Date getCheckInTime() {
+        return checkInTime;
+    }
+
+    public void setCheckInTime(Date checkInTime) {
+        this.checkInTime = checkInTime;
     }
 }

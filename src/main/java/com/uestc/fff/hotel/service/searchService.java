@@ -24,6 +24,8 @@ public class searchService {
     OrderInfoMapper orderInfoMapper;
     @Autowired
     RoomInfoMapper roomInfoMapper;
+    @Autowired
+    searchMapper searchMapper;
     public List<String> searchCountry(){
         List<Country> countries=countryMapper.selectByExample(new CountryExample());//new ArrayList<Country>();
         List<String> listOfCountry=new ArrayList<String>();
@@ -33,44 +35,30 @@ public class searchService {
         return listOfCountry;
     }
     public List<String> searchCity(String countryName){
-        List<String> listOfCity=new ArrayList<String >();
-        List<Country> countries=countryMapper.selectByExample(new CountryExample());
-        List<City> cities=cityMapper.selectByExample(new CityExample());
-        String countryCode=null;
-        for (Country country : countries){
-            if(country.getCountryName().equals(countryName)){
-                countryCode=country.getCountryCode();
-            }
-        }
-        for (City city:cities){
-            if(city.getCountryCode().equals(countryCode)){
-                listOfCity.add(city.getCityName());
-            }
-            else{
-                listOfCity.add("暂未开通");
-            }
+        List<String> listOfCity=searchMapper.selectByCountry(countryName);
+        if(listOfCity.isEmpty()){
+            listOfCity.add("暂未开通");
         }
         return listOfCity;
     }
-    List<order> orderList(String userID){
-        List<OrderInfo> orderInfoList=orderInfoMapper.selectByExample(new OrderInfoExample());
-        List<HotelInfo> hotelInfoList=hotelInfoMapper.selectByExample(new HotelInfoExample());
-        List<RoomInfo> roomInfoList= roomInfoMapper.selectByExample(new RoomInfoExample());
-        List<OrderInfo> userOrders=new ArrayList<OrderInfo>();
-        for(OrderInfo orderInfo: orderInfoList){
-            if(orderInfo.getUserId().equals(userID)){
-                userOrders.add(orderInfo);
-            }
-        }
-        for(OrderInfo userOrder: userOrders){
-            order uOrder=new order();
-            for(HotelInfo hotelInfo:hotelInfoList){
-
-                if(userOrder.getHotelId().equals(hotelInfo.getHotelId())){
-                    uOrder.setHotelName(hotelInfo.getHotelName());
-                }
-            }
-            for()
-        }
+    public  List<order> orderList(String userID){
+        List<order> listOfOder=searchMapper.selectOrder(userID);
+        return listOfOder;
     }
+    public int countOrder(String userID){
+        return searchMapper.countOrder(userID);
+    }
+    public void test(String key){
+        List<HotelInfo> hotelInfos=searchMapper.selectByKey(key);
+        if(!hotelInfos.isEmpty()){
+            for(HotelInfo hotelInfo:hotelInfos){
+                System.out.println(hotelInfo.getHotelName());
+            }
+        }
+        else{
+            System.out.println("good");
+        }
+
+    }
+
 }

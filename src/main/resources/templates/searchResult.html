@@ -22,12 +22,21 @@
         }
     </style>
 </head>
-<body class="hold-transition skin-blue sidebar-mini layout-top-nav">
+<body class="hold-transition skin-blue sidebar-mini">
 
 <div class="wrapper">
-    <header class="main-header">
+    <header class="main-header ">
+        <a href="index2.html" class="logo bg-purple btn">
+            <!-- mini logo for sidebar mini 50x50 pixels -->
+            <span class="logo-mini"><b>A</b>LT</span>
+            <!-- logo for regular state and mobile devices -->
+            <span class="logo-lg"><b>Admin</b>LTE</span>
+        </a>
 
         <nav class="navbar navbar-static-top bg-purple" role="navigation">
+            <a href="#" class="sidebar-toggle bg-purple btn" data-toggle="push-menu" role="button">
+                <span class="sr-only">Toggle navigation</span>
+            </a>
 
             <div class="navbar-custom-menu">
                 <ul class="nav navbar-nav">
@@ -137,7 +146,57 @@
             </div>
         </nav>
     </header>
+    <aside class="main-sidebar">
 
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+
+            <!-- Sidebar user panel (optional) -->
+            <div class="user-panel">
+                <div class="pull-left image">
+                    <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                </div>
+                <div class="pull-left info">
+                    <p>Alexander Pierce</p>
+                    <!-- Status -->
+                    <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                </div>
+            </div>
+
+            <!-- search form (Optional) -->
+            <form action="#" method="get" class="sidebar-form">
+                <div class="input-group">
+                    <input type="text" name="q" class="form-control" placeholder="Search...">
+                    <span class="input-group-btn">
+              <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+              </button>
+            </span>
+                </div>
+            </form>
+            <!-- /.search form -->
+
+            <!-- Sidebar Menu -->
+            <ul class="sidebar-menu" data-widget="tree">
+                <li class="header">HEADER</li>
+                <!-- Optionally, you can add icons to the links -->
+                <li class="active"><a href="#"><i class="fa fa-link"></i> <span>Link</span></a></li>
+                <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
+                <li class="treeview">
+                    <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
+                        <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="#">Link in level 2</a></li>
+                        <li><a href="#">Link in level 2</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <!-- /.sidebar-menu -->
+        </section>
+        <!-- /.sidebar -->
+    </aside>
     <div class="content-wrapper -align-center" th:style="'align-content: center;background: url('+@{/img/backImg.jpg} + ') no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -150,41 +209,6 @@
             </h1>
             <span>享受全球住宿超值优惠</span>
         </section>
-        <form th:action="@{/test/post}" method="post">
-            <!-- Main content -->
-            <section class="content container-fluid">
-                <div class="row">
-                    <div class="col-md-4"></div>
-                    <div class="col-md-4 input-group">
-                        <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-                        <input name="hotelKey" class="form-control input-lg" type="text" placeholder="酒店"
-                               style="height: 80px;width:100%;margin:auto;" required="required">
-                    </div>
-                </div>
-                <div class="row" style="margin-top: 20px;padding-left: 0">
-                    <div class="col-md-4"></div>
-                    <div class="col-md-4 input-group">
-                        <div class="form-group"
-                             style="padding-left: 0px;margin-right: 0px;align: left;float:left;width: 32%">
-                            <label>国家</label>
-                            <select name="countryKey" class="form-control input-lg select2  block" id="CountrySelect">
-                                <option th:each="country: ${countryList}" th:text="${country}" th:if="${country}!='中国'"></option>
-                                <option th:each="country: ${countryList}" th:text="${country}" selected="selected" th:if="${country}=='中国'"></option>
-                            </select>
-                        </div>
-                        <div class="form-group"
-                             style="padding-left: 0px;margin-left: 0px;margin-right:0px;float:left;width: 32%">
-                            <label>城市</label>
-                            <select name="cityKey" class="form-control input-lg select2 block" id="CitySelect">
-                                <!--由JS代码生成-->
-                            </select>
-                        </div>
-                        <button type="submit" class="btn bg-purple btn-lg" id="myselect"
-                                style="float:right;width:25%;margin-top:7px">搜索</button>
-                    </div>
-                </div>
-            </section>
-        </form>
 
     </div>
 
@@ -209,54 +233,6 @@
 <script src="../adminlte/bower_components/select2/dist/js/select2.full.min.js" type="text/javascript"
         th:src="@{/adminlte/bower_components/select2/dist/js/select2.full.min.js}"></script>
 
-<script>
-    var xmlhttp;
-    if (window.XMLHttpRequest) {
-        xmlhttp = new XMLHttpRequest();
-    } else {
-        xmlhttp = new ActiveXObject();
-    }
 
-
-    $(function () {
-        xmlhttp.open("GET", "/test/city?country=" + encodeURI(encodeURI($("#CountrySelect").val())), true);
-        xmlhttp.send();
-        xmlhttp.onreadystatechange = function () {
-            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                var text;
-                text = xmlhttp.responseText;
-                var jsonData = JSON.parse(text);
-                for (x in jsonData) {
-                    $("#CitySelect").append('<option>' + jsonData[x] + '</option>');
-                }
-                $('.select2').select2();
-            }
-        }
-    })
-
-
-    $("#CountrySelect").change(function () {
-        xmlhttp.open("GET", "/test/city?country=" + encodeURI(encodeURI($("#CountrySelect").val())), true);
-        xmlhttp.send();
-        xmlhttp.onreadystatechange = function () {
-            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                var text;
-                text = xmlhttp.responseText;
-                var jsonData = JSON.parse(text);
-                $("#CitySelect").empty();
-                for (x in jsonData) {
-                    $("#CitySelect").append('<option>' + jsonData[x] + '</option>');
-                }
-                $('.select2').select2();
-            }
-        }
-    });
-
-    $("#CitySelect").change(function () {
-        console.log($("#CitySelect").val())
-    });
-
-
-</script>
 </body>
 </html>
