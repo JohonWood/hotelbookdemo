@@ -90,9 +90,9 @@
               </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="#"><i class="fa fa-map-signs"></i>国家数据管理</a></li>
-                        <li><a href="#"><i class="fa fa-map-signs"></i>城市数据管理</a></li>
-                        <li><a href="#"><i class="fa fa-map-signs"></i>酒店数据管理</a></li>
+                        <li><a href="/manage/country"><i class="fa fa-map-signs"></i>国家数据管理</a></li>
+                        <li><a href="/manage/city"><i class="fa fa-map-signs"></i>城市数据管理</a></li>
+                        <li><a href="/manage/hotel"><i class="fa fa-map-signs"></i>酒店数据管理</a></li>
                     </ul>
                 </li>
                 <li class="treeview">
@@ -134,20 +134,27 @@
                                     </select> entries</label>
                                 </div>
                             </div>-->
-                            <form th:action="@{/manage/search}" method="post">
-                                <div class="col-sm-6">
-                                    <div id="example1_filter" class="dataTables_filter">
-                                        <label>Search:<input type="text" class="form-control input-sm"
-                                                             placeholder="请输入国家名字"
-                                                             aria-controls="example1" name="countryName"></label>
+                            <div class="col-sm-12">
+                                <form th:action="@{/manage/searchCountry}" method="post">
+                                    <div class="col-sm-3">
+                                        <div id="example1_filter" class="dataTables_filter">
+                                            <label>Search:<input type="text" class="form-control input-sm"
+                                                                 placeholder="请输入国家名字"
+                                                                 aria-controls="example1" name="countryName"></label>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="col-xs-2">
-                                        <button type="submit" class="btn btn-block btn-info" style="height: 30px">查询</button>
+                                    <div class="col-sm-2">
+                                            <button type="submit" class="btn btn-block btn-info" style="height: 30px">
+                                                查询
+                                            </button>
                                     </div>
+                                </form>
+                                <div class="col-sm-2">
+                                    <a th:href="@{/manage/addCountry}" method="get"><button class="btn btn-block btn-info" style="height: 30px">
+                                        添加国家
+                                    </button></a>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-12">
@@ -174,7 +181,7 @@
                                     <tr th:each="country : ${listCountry}">
                                         <td th:text="${country.countryCode}"></td>
                                         <td th:text="${country.countryName}"></td>
-                                        <td><a>
+                                        <td><a th:href="@{/manage/editCountry(countryCode = ${country.countryCode})}">
                                             <button type="button" class="btn btn-block btn-info">编辑</button>
                                         </a></td>
                                         <td><a>

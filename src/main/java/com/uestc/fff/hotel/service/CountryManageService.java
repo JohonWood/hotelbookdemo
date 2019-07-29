@@ -5,6 +5,7 @@ import com.uestc.fff.hotel.domain.CountryExample;
 import com.uestc.fff.hotel.mapper.CountryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import sun.plugin2.gluegen.runtime.CPU;
 
 import java.util.List;
 
@@ -23,5 +24,17 @@ public class CountryManageService {
 
     public List<Country> searchCountry(String countryName){
         return countryMapper.searchCountry(countryName);
+    }
+
+    public Country findCountryByCountryCode(String code){
+        return countryMapper.selectByPrimaryKey(code);
+    }
+
+    public void updateCountry(Country country) {
+        countryMapper.updateByPrimaryKey(country);
+    }
+
+    public void saveCountry(Country country) {
+        countryMapper.insert(country);
     }
 }
