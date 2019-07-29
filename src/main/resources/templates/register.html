@@ -5,14 +5,14 @@
     <title>注册页面</title>
     <link rel="stylesheet" type="text/css" href="../adminlte/userResource/css/regist.css"
           th:href="@{../adminlte/userResource/css/regist.css}">
-    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="../js/jquery-3.4.1.min.js"></script>
 </head>
 <body>
     <div class="wrapper">
     <article>
         <h1><span>注册</span></h1>
         <div class="main">
-            <form>
+            <form th:action="@{/register}" th:object="${userInfo}" method="post">
                 <div class="userName">
                     <input type="text" name="userName" placeholder="您的姓名">
                 </div>

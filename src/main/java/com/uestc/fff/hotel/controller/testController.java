@@ -18,7 +18,7 @@ public class testController {
         return "host";
     }
 
-    @RequestMapping("/register")
+/*    @RequestMapping("/register")
     public String registerPages(Model model){
         return "register";
     }
@@ -26,6 +26,6 @@ public class testController {
     @RequestMapping("/login")
     public String loginPages(Model model){
         return "login";
-    }
+    }*/
 
 }
