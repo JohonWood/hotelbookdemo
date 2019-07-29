@@ -157,20 +157,20 @@
                         <div class="form-group"
                              style="padding-left: 0px;margin-right: 0px;align: left;float:left;width: 32%">
                             <label>国家</label>
-                            <select name="countryKey" class="form-control input-lg select2 " id="CountrySelect">
-                                <option th:each="country: ${countryList}" th:text="${country}"></option>
+                            <select name="countryKey" class="form-control input-lg select2  block" id="CountrySelect">
+                                <option th:each="country: ${countryList}" th:text="${country}" th:if="${country}!='中国'"></option>
+                                <option th:each="country: ${countryList}" th:text="${country}" selected="selected" th:if="${country}=='中国'"></option>
                             </select>
                         </div>
                         <div class="form-group"
                              style="padding-left: 0px;margin-left: 0px;margin-right:0px;float:left;width: 32%">
                             <label>城市</label>
-                            <select name="cityKey" class="form-control input-lg select2" id="CitySelect">
+                            <select name="cityKey" class="form-control input-lg select2 block" id="CitySelect">
                                 <!--由JS代码生成-->
                             </select>
                         </div>
                         <button type="submit" class="btn bg-purple btn-lg" id="myselect"
-                                style="float:right;width:25%;margin-top:7px">搜索
-                        </button>
+                                style="float:right;width:25%;margin-top:7px">搜索</button>
                     </div>
                 </div>
             </section>
@@ -209,30 +209,24 @@
 
 
     $(function () {
-        xmlhttp.open("GET", "/test/city?country=" + $("#CountrySelect").val(), true);
+        xmlhttp.open("GET", "/test/city?country=" + encodeURI(encodeURI($("#CountrySelect").val())), true);
         xmlhttp.send();
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 var text;
                 text = xmlhttp.responseText;
                 var jsonData = JSON.parse(text);
-                //$("#CitySelect").empty();
                 for (x in jsonData) {
                     $("#CitySelect").append('<option>' + jsonData[x] + '</option>');
                 }
-                $('.select2').select2()
-
+                $('.select2').select2();
             }
-            ;
         }
     })
-    // $(function () {
-    //
-    //
-    // });
+
 
     $("#CountrySelect").change(function () {
-        xmlhttp.open("GET", "/test/city?country=" + $("#CountrySelect").val(), true);
+        xmlhttp.open("GET", "/test/city?country=" + encodeURI(encodeURI($("#CountrySelect").val())), true);
         xmlhttp.send();
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -243,9 +237,8 @@
                 for (x in jsonData) {
                     $("#CitySelect").append('<option>' + jsonData[x] + '</option>');
                 }
-
+                $('.select2').select2();
             }
-            ;
         }
     });
 

@@ -2,7 +2,8 @@ package com.uestc.fff.hotel.controller;
 
 import com.uestc.fff.hotel.domain.Area;
 import com.uestc.fff.hotel.domain.order;
-import com.uestc.fff.hotel.services.searchService;
+import com.uestc.fff.hotel.service.searchService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +26,7 @@ public class searchController {
     searchService service;
     @RequestMapping("/host")
     public String hostPages(Model model){
+        //service.selectArea();
         model.addAttribute("isLogin",false);
         model.addAttribute("User_name","Quincy");
         model.addAttribute("numOfOrders",6);
@@ -46,37 +50,18 @@ public class searchController {
         orderList.add(order2);
         orderList.add(order3);
         model.addAttribute("orderList",orderList);
-
-        List<String> co=new ArrayList<String>();
-        co.add("China");
-        co.add("United Kindom");
-        model.addAttribute("countryList",co);
+        List<String> listOfCountry=service.searchCountry();
+        model.addAttribute("countryList",listOfCountry);
        return "host";
     }
 
 
     @RequestMapping("/city")
     @ResponseBody
-    public List<String> cityList(@RequestParam("country") String country, Model model, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
-        for (Area area:service.setArea()){
-            if(area.getCoutry().equals(country)){
-                List<String> city=area.getCity();
-                return city;
-            }
-        }
-        return null;
+    public List<String> cityList( Model model, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws UnsupportedEncodingException {
+        String country = URLDecoder.decode(httpServletRequest.getParameter("country"),"UTF-8");
+        return service.searchCity(country);
 
-
-//        if(country.equals("China")){
-//            service.setArea();
-//            List<String> city=new ArrayList<String>();
-//            city.add("hangzhou");
-//            city.add("chengdu");
-//            System.out.println("1");
-//            return city;
-//        }
-//
-//        return null;
     }
     @PostMapping("/post")
     public void receiveParam(String hotelKey, String countryKey,String cityKey){
