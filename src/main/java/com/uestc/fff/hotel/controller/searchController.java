@@ -1,6 +1,7 @@
 package com.uestc.fff.hotel.controller;
 
 import com.uestc.fff.hotel.domain.Area;
+import com.uestc.fff.hotel.domain.SearchResult;
 import com.uestc.fff.hotel.domain.order;
 import com.uestc.fff.hotel.service.searchService;
 
@@ -47,7 +48,7 @@ public class searchController {
     }
     @PostMapping("/post")
     public String receiveParam(String hotelKey, String countryKey,String cityKey,Model model){
-        service.test("%"+hotelKey+"%");
+        List<SearchResult> resultList=service.searchKey(hotelKey,countryKey,cityKey);
         model.addAttribute("isLogin",true);
         model.addAttribute("User_name","Quincy");
         model.addAttribute("numOfOrders",service.countOrder("1"));
@@ -55,6 +56,8 @@ public class searchController {
         model.addAttribute("orderList",orderList);
         List<String> listOfCountry=service.searchCountry();
         model.addAttribute("countryList",listOfCountry);
+        model.addAttribute("resultNum",resultList.size());
+        model.addAttribute("resultList",resultList);
         return "searchResult";
     }
 

@@ -60,5 +60,18 @@ public class searchService {
         }
 
     }
+    public List<SearchResult> searchKey(String hotelKey,String countryKey,String cityKey) {
+        Key key = new Key();
+        key.setCityKey(cityKey);
+        key.setCountryKey(countryKey);
+        key.setHotelKey("%" + hotelKey + "%");
+        List<SearchResult> searchResultList = searchMapper.selectByMutiKey(key);
+        if (!searchResultList.isEmpty()) {
+            return searchResultList;
+        }
+        else{
+            return null;
+        }
+    }
 
 }
