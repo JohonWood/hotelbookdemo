@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.uestc.fff.hotel.mapper.CityMapper">
@@ -10,4 +11,18 @@
         </where>
     </select>
 
+=======
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.uestc.fff.hotel.mapper.CityMapper">
+    <select id="searchCountry" resultType="com.uestc.fff.hotel.domain.City">
+        select * from city
+        <where>
+            <if test="cityName != null">
+                City_Name like #{cityName}
+            </if>
+        </where>
+    </select>
+
+>>>>>>> 2b0298d56bc9aac760a69e2d6eae44e806f4fc9b
 </mapper>
