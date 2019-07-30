@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <title>后台管理</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" type="text/css" media="all" href="../bower_components/bootstrap/dist/css/bootstrap.min.css"
+          th:href="@{/adminlte/bower_components/bootstrap/dist/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" media="all" href="../bower_components/font-awesome/css/font-awesome.min.css"
+          th:href="@{/adminlte/bower_components/font-awesome/css/font-awesome.min.css}"/>
+    <link rel="stylesheet" type="text/css" media="all" href="../bower_components/Ionicons/css/ionicons.min.css"
+          th:href="@{/adminlte/bower_components/Ionicons/css/ionicons.min.css}"/>
+    <link rel="stylesheet" href="../../bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css"
+          th:href="@{/adminlte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css}">
+    <link rel="stylesheet" type="text/css" media="all" href="../dist/css/AdminLTE.min.css"
+          th:href="@{/adminlte/dist/css/AdminLTE.min.css}"/>
+    <link rel="stylesheet" type="text/css" media="all" href="../dist/css/skins/skin-blue.min.css"
+          th:href="@{/adminlte/dist/css/skins/skin-blue.min.css}"/>
+    <link rel="stylesheet" type="text/css" media="all"
+          th:href="@{/adminlte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css}"/>
+    <script th:src="@{/js/jquery-3.4.1.min.js}"></script>
+</head>
+</head>
+
+<body class="hold-transition skin-yellow sidebar-mini">
+<div class="wrapper">
+
+    <!-- Main Header -->
+    <header class="main-header">
+
+        <!-- Logo -->
+        <a class="logo">
+            <!-- mini logo for sidebar mini 50x50 pixels -->
+            <span class="logo-mini"><b>后台管理</b></span>
+            <!-- logo for regular state and mobile devices -->
+            <span class="logo-lg"><b>酒店订购后台管理系统</b></span>
+        </a>
+
+        <!-- Header Navbar -->
+        <nav class="navbar navbar-static-top" role="navigation">
+            <!-- Sidebar toggle button-->
+            <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                <span class="sr-only">Toggle navigation</span>
+            </a>
+            <!-- Navbar Right Menu -->
+            <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
+                    <!-- User Account Menu -->
+                    <li class="dropdown user user-menu">
+                        <!-- Menu Toggle Button -->
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <!-- The user image in the navbar-->
+                            <img th:src="@{/picture/test.jpg}" class="user-image" alt="User Image">
+                            <!-- hidden-xs hides the username on small devices so only the image appears. -->
+                            <span class="hidden-xs">彭业鉴</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <!-- The user image in the menu -->
+                            <li class="user-header">
+                                <img th:src="@{/picture/test.jpg}" class="img-circle" alt="User Image">
+                            </li>
+
+                            <!-- Menu Footer-->
+                            <li class="user-footer">
+                                <div class="pull-left">
+                                    <a href="#" class="btn btn-default btn-flat">简况</a>
+                                </div>
+                                <div class="pull-right">
+                                    <a href="#" class="btn btn-default btn-flat">退出</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <!-- Left side column. contains the logo and sidebar -->
+    <aside class="main-sidebar">
+
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+
+            <!-- Sidebar Menu -->
+            <ul class="sidebar-menu" data-widget="tree">
+                <li class="treeview active">
+                    <a href="#"><i class="fa fa-link"></i> <span>资源库管理</span>
+                        <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="/manage/country"><i class="fa fa-map-signs"></i>国家数据管理</a></li>
+                        <li><a href="/manage/city"><i class="fa fa-map-signs"></i>城市数据管理</a></li>
+                        <li><a href="/manage/hotel"><i class="fa fa-map-signs"></i>酒店数据管理</a></li>
+                    </ul>
+                </li>
+                <li class="treeview">
+                    <a href="#"><i class="fa fa-link"></i> <span>订单管理</span>
+                        <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="#"><i class="fa fa-map-signs"></i> 菜单一</a></li>
+                        <li><a href="#"><i class="fa fa-map-signs"></i> 菜单二</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <!-- /.sidebar-menu -->
+        </section>
+        <!-- /.sidebar -->
+    </aside>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <section class="content container-fluid">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">国家数据</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                        <div class="row">
+                            <!--<div class="col-sm-6">
+                                <div class="dataTables_length" id="example1_length">
+                                    <label>Show <select name="example1_length" aria-controls="example1"
+                                                        class="form-control input-sm">
+                                        <option value="10">10</option>
+                                        <option value="25">25</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                    </select> entries</label>
+                                </div>
+                            </div>-->
+                            <div class="col-sm-12">
+                                <form th:action="@{/manage/searchCountry}" method="post">
+                                    <div class="col-sm-3">
+                                        <div id="example1_filter" class="dataTables_filter">
+                                            <label>Search:<input type="text" class="form-control input-sm"
+                                                                 placeholder="请输入国家名字"
+                                                                 aria-controls="example1" name="countryName"></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                            <button type="submit" class="btn btn-block btn-info" style="height: 30px">
+                                                查询
+                                            </button>
+                                    </div>
+                                </form>
+                                <div class="col-sm-2">
+                                    <a th:href="@{/manage/addCountry}" method="get"><button class="btn btn-block btn-info" style="height: 30px">
+                                        添加国家
+                                    </button></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+
+                                <table id="example1" class="table table-bordered table-striped dataTable" role="grid"
+                                       aria-describedby="example1_info">
+                                    <thead>
+                                    <tr role="row">
+                                        <th style="width: 266.6px;">
+                                            国家代码
+                                        </th>
+                                        <th style="width: 266.6px;">
+                                            国家名字
+                                        </th>
+                                        <th style="width: 66.6px;">
+                                            编辑
+                                        </th>
+                                        <th style="width: 66.6px;">
+                                            删除
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="country : ${listCountry}">
+                                        <td th:text="${country.countryCode}"></td>
+                                        <td th:text="${country.countryName}"></td>
+                                        <td><a th:href="@{/manage/editCountry(countryCode = ${country.countryCode})}">
+                                            <button type="button" class="btn btn-block btn-info">编辑</button>
+                                        </a></td>
+                                        <td><a>
+                                            <button type="button" class="btn btn-block btn-info"
+                                                    data-th-attr="onclick='deleteCountry(this, \'' + ${country.countryCode} + '\')'">
+                                                删除
+                                            </button>
+                                        </a></td>
+                                    </tr>
+                                    </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <th rowspan="1" colspan="1">国家代码</th>
+                                        <th rowspan="1" colspan="1">国家名字</th>
+
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="row">
+                         <div class="col-sm-5">
+                         </div>
+                         <div class="col-sm-7">
+                             <div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">
+                                 <ul class="pagination">
+                                     <li class="paginate_button previous disabled" id="example1_previous"><a href="#"
+                                                                                                             aria-controls="example1"
+                                                                                                             data-dt-idx="0"
+                                                                                                             tabindex="0">Previous</a>
+                                     </li>
+                                     <li class="paginate_button active"><a href="#" aria-controls="example1"
+                                                                           data-dt-idx="1" tabindex="0">1</a></li>
+                                     <li class="paginate_button "><a href="#" aria-controls="example1"
+                                                                     data-dt-idx="2" tabindex="0">2</a></li>
+                                     <li class="paginate_button "><a href="#" aria-controls="example1"
+                                                                     data-dt-idx="3" tabindex="0">3</a></li>
+                                     <li class="paginate_button "><a href="#" aria-controls="example1"
+                                                                     data-dt-idx="4" tabindex="0">4</a></li>
+                                     <li class="paginate_button "><a href="#" aria-controls="example1"
+                                                                     data-dt-idx="5" tabindex="0">5</a></li>
+                                     <li class="paginate_button "><a href="#" aria-controls="example1"
+                                                                     data-dt-idx="6" tabindex="0">6</a></li>
+                                     <li class="paginate_button next" id="example1_next"><a href="#"
+                                                                                            aria-controls="example1"
+                                                                                            data-dt-idx="7"
+                                                                                            tabindex="0">Next</a>
+                                     </li>
+                                 </ul>
+                             </div>
+                         </div>
+                     </div>-->
+                </div>
+            </div>
+            <!-- /.box-body -->
+        </section>
+        <!-- /.content -->
+    </div>
+
+
+</div>
+<!-- ./wrapper -->
+
+
+<script type="text/javascript" th:src="@{/adminlte/bower_components/jquery/dist/jquery.min.js}"
+        src="../bower_components/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" th:src="@{/adminlte/bower_components/bootstrap/dist/js/bootstrap.min.js}"
+        src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" th:src="@{/adminlte/dist/js/adminlte.min.js}"
+        src="../dist/js/adminlte.min.js"></script>
+
+</body>
+<script>
+    function deleteCountry(elem, code) {
+        $.ajax({
+            url: '/manage/deleteCountry?countryCode=' + code,
+            type: 'get',
+            success: function (data) {
+                $(elem).parent().parent().parent().remove();
+            },
+            fail: function (data) {
+                console.log('fial delete country')
+            }
+        })
+    }
+</script>
+</html>

@@ -152,9 +152,9 @@ public class City {
         }
         City other = (City) that;
         return (this.getCityId() == null ? other.getCityId() == null : this.getCityId().equals(other.getCityId()))
-            && (this.getCityName() == null ? other.getCityName() == null : this.getCityName().equals(other.getCityName()))
-            && (this.getCityState() == null ? other.getCityState() == null : this.getCityState().equals(other.getCityState()))
-            && (this.getCountryCode() == null ? other.getCountryCode() == null : this.getCountryCode().equals(other.getCountryCode()));
+                && (this.getCityName() == null ? other.getCityName() == null : this.getCityName().equals(other.getCityName()))
+                && (this.getCityState() == null ? other.getCityState() == null : this.getCityState().equals(other.getCityState()))
+                && (this.getCountryCode() == null ? other.getCountryCode() == null : this.getCountryCode().equals(other.getCountryCode()));
     }
 
     /**
