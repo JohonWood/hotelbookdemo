@@ -12,20 +12,10 @@ public class testController {
     @Autowired
     private ServiceTest serviceTest;
 
-    @RequestMapping("/host")
+    //@RequestMapping("/host")
     public String hostPages(Model model){
         model.addAttribute("Hotels",serviceTest.listHotel());
-        return "host";
+        return "CountryTable";
     }
-
-/*    @RequestMapping("/register")
-    public String registerPages(Model model){
-        return "register";
-    }
-
-    @RequestMapping("/login")
-    public String loginPages(Model model){
-        return "login";
-    }*/
 
 }
