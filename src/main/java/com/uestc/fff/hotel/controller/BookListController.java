@@ -17,16 +17,16 @@ public class BookListController {
 
     @RequestMapping("/booklist")
     public String BookListPages(Model model){
-        model.addAttribute("OrderWithHotel",serviceBook.MyListOrder("510105199907131778"));
+        model.addAttribute("OrderWithHotel",serviceBook.MyListOrder("1"));
         return "BookList";
     }
 
     @RequestMapping("/bookinfo")
     public String BookInfoPages(Model model){
         model.addAttribute("Hotels",serviceBook.HotelInfomation("103872"));
-        model.addAttribute("Rooms",serviceBook.RoomInfomation("01"));
-        model.addAttribute("Orders",serviceBook.OrderInfomation("1515626"));
-        model.addAttribute("Users", serviceBook.UserInfomation("510105199907131778"));
+        model.addAttribute("Rooms",serviceBook.RoomInfomation("170"));
+        model.addAttribute("Orders",serviceBook.OrderInfomation("1"));
+        model.addAttribute("Users", serviceBook.UserInfomation("1"));
         return "BookInfo";
     }
 

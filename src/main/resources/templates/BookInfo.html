@@ -243,15 +243,14 @@
                     $.ajax({
                         url: '/mybook/checkout?oid=' + orderID,
                         type: 'get',
-                        // success: function (data) {
-                        //     $(elem).parent().parent().parent().remove();
-                        // },
+                        success: function (data) {
+                            open("booklist");
+                            close();
+                        },
                         fail: function (data) {
                             console.log('fail to checkout')
                         }
                     })
-                    open("booklist");
-                    close();
                 }
             }
         }
