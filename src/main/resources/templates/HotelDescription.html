@@ -114,97 +114,46 @@
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        <section class="content container-fluid">
-            <div class="box">
-                <div class="box-header">
-                    <h3 class="box-title">城市数据</h3>
-                </div>
-                <!-- /.box-header -->
-                <div class="box-body">
-                    <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <form th:action="@{/manage/searchCity}" method="post">
-                                    <div class="col-sm-3">
-                                        <div id="example1_filter" class="dataTables_filter">
-                                            <label>Search:<input type="text" class="form-control input-sm"
-                                                                 placeholder="请输入城市名字"
-                                                                 aria-controls="example1" name="cityName"></label>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-2">
-                                        <button type="submit" class="btn btn-block btn-info" style="height: 30px">
-                                            查询
-                                        </button>
-                                    </div>
-                                </form>
-                                <div class="col-sm-2">
-                                    <a th:href="@{/manage/addCity}" method="get"><button class="btn btn-block btn-info" style="height: 30px">
-                                        添加城市
-                                    </button></a>
+        <section class="content">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box box-solid" th:object="${hotel}">
+                        <div class="box-header with-border">
+                            <i class="fa fa-bed"></i>
+                            <h3 class="box-title" th:text="(*{hotelName}) + ' '+(*{hotelNameEn}) + ' (' + (*{hotelGrade})+ '星级酒店)'"></h3>
+                        </div>
+                        <!-- /.box-header -->
+                            <div class="box-body">
+                                <div class="col-md-8">
+                                    <dl>
+                                <dt>酒店概括</dt>
+                                <dd th:text="*{hotelOverview}"></dd>
+                                <dt>酒店地址</dt>
+                                <dd th:text="*{hotelAddress}"></dd>
+                                <dt>入住时间</dt>
+                                <dd th:text="*{hotelCheckin}"></dd>
+                                <dt>退房时间</dt>
+                                <dd th:text="*{hotelCheckout}"></dd>
+                                <dt>房间数量</dt>
+                                <dd th:text="*{hotelRoomnum}"></dd>
+                                <dt>酒店评分</dt>
+                                <dd th:text="(*{hotelRating}) + '(共' + (*{hotelReviewnum}) + '人评价' + ')'"></dd>
+                                <dt>其他信息</dt>
+                                <dd th:text="'币种：'+(*{hotelCurrency})"></dd>
+                                <dd th:text="'最低价：'+(*{hotelRatesfrom})"></dd>
+                                <dd th:text="'邮政编码：'+(*{hotelZipcode})"></dd>
+                                <dd th:text="'联系电话：'+(*{hotelPhone})"></dd>
+                            </dl>
                                 </div>
+                                <div class="col-md-3" style=""><img th:src="*{hotelPhoto1}"></div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-12">
 
-                                <table id="example1" class="table table-bordered table-striped dataTable" role="grid"
-                                       aria-describedby="example1_info">
-                                    <thead>
-                                    <tr role="row">
-                                        <th style="width: 266.6px;">
-                                            城市代码
-                                        </th>
-                                        <th style="width: 266.6px;">
-                                            城市名字
-                                        </th>
-                                        <th style="width: 266.6px;">
-                                            所在省份
-                                        </th>
-                                        <th style="width: 166.6px;">
-                                            酒店
-                                        </th>
-                                        <th style="width: 66.6px;">
-                                            编辑
-                                        </th>
-                                        <th style="width: 66.6px;">
-                                            删除
-                                        </th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr th:each="city : ${listCity}">
-                                        <td th:text="${city.cityId}"></td>
-                                        <td th:text="${city.cityName}"></td>
-                                        <td th:text="${city.cityState}"></td>
-                                        <td><a th:href="@{/manage/CityHotel(cityID = ${city.cityId})}">
-                                            <button type="button" class="btn btn-block btn-info">查看酒店</button>
-                                        </a></td>
-                                        <td><a th:href="@{/manage/editCity(cityID = ${city.cityId})}">
-                                            <button type="button" class="btn btn-block btn-info">编辑</button>
-                                        </a></td>
-                                        <td><a>
-                                            <button type="button" class="btn btn-block btn-info"
-                                                    data-th-attr="onclick='deleteCity(this, \'' + ${city.cityId} + '\')'">
-                                                删除
-                                            </button>
-                                        </a></td>
-                                    </tr>
-                                    </tbody>
-                                    <tfoot>
-                                    <tr>
-                                        <th rowspan="1" colspan="1">城市代码</th>
-                                        <th rowspan="1" colspan="1">城市名字</th>
-                                        <th rowspan="1" colspan="1">所属省份</th>
-                                    </tr>
-                                    </tfoot>
-                                </table>
-                            </div>
-                        </div>
+                        <!-- /.box-body -->
                     </div>
+                    <!-- /.box -->
                 </div>
             </div>
-            <!-- /.box-body -->
+            <!-- /.row -->
         </section>
         <!-- /.content -->
     </div>
@@ -222,18 +171,5 @@
         src="../dist/js/adminlte.min.js"></script>
 
 </body>
-<script>
-    function deleteCity(elem, cityID) {
-        $.ajax({
-            url: '/manage/deleteCity?cityID=' + cityID,
-            type: 'get',
-            success: function (data) {
-                $(elem).parent().parent().parent().remove();
-            },
-            fail: function (data) {
-                console.log('fial delete city')
-            }
-        })
-    }
-</script>
+
 </html>

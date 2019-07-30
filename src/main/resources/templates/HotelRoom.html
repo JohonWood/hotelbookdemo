@@ -117,19 +117,19 @@
         <section class="content container-fluid">
             <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title">城市数据</h3>
+                    <h3 class="box-title" th:text="${hotelName}"></h3>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
                     <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
                         <div class="row">
                             <div class="col-sm-12">
-                                <form th:action="@{/manage/searchCity}" method="post">
+                                <!--<form th:action="@{/manage/searchHotel}" method="post">
                                     <div class="col-sm-3">
                                         <div id="example1_filter" class="dataTables_filter">
                                             <label>Search:<input type="text" class="form-control input-sm"
-                                                                 placeholder="请输入城市名字"
-                                                                 aria-controls="example1" name="cityName"></label>
+                                                                 placeholder="请输入酒店名字"
+                                                                 aria-controls="example1" name="hotelName"></label>
                                         </div>
                                     </div>
                                     <div class="col-sm-2">
@@ -137,10 +137,10 @@
                                             查询
                                         </button>
                                     </div>
-                                </form>
+                                </form>-->
                                 <div class="col-sm-2">
-                                    <a th:href="@{/manage/addCity}" method="get"><button class="btn btn-block btn-info" style="height: 30px">
-                                        添加城市
+                                    <a th:href="@{/manage/addRoom(hotelName = ${hotelName},hotelID = ${hotelID})}" method="get"><button class="btn btn-block btn-info" style="height: 30px">
+                                        添加房间
                                     </button></a>
                                 </div>
                             </div>
@@ -153,16 +153,19 @@
                                     <thead>
                                     <tr role="row">
                                         <th style="width: 266.6px;">
-                                            城市代码
+                                            房间代码
                                         </th>
                                         <th style="width: 266.6px;">
-                                            城市名字
-                                        </th>
-                                        <th style="width: 266.6px;">
-                                            所在省份
+                                            房间类型
                                         </th>
                                         <th style="width: 166.6px;">
-                                            酒店
+                                            房间价格
+                                        </th>
+                                        <th style="width: 166.6px;">
+                                           早餐信息
+                                        </th>
+                                        <th style="width: 166.6px;">
+                                            房间状态
                                         </th>
                                         <th style="width: 66.6px;">
                                             编辑
@@ -173,19 +176,18 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr th:each="city : ${listCity}">
-                                        <td th:text="${city.cityId}"></td>
-                                        <td th:text="${city.cityName}"></td>
-                                        <td th:text="${city.cityState}"></td>
-                                        <td><a th:href="@{/manage/CityHotel(cityID = ${city.cityId})}">
-                                            <button type="button" class="btn btn-block btn-info">查看酒店</button>
-                                        </a></td>
-                                        <td><a th:href="@{/manage/editCity(cityID = ${city.cityId})}">
+                                    <tr th:each="Room : ${listRoom}">
+                                        <td th:text="${Room.roomid}"></td>
+                                        <td th:text="${Room.roomType}"></td>
+                                        <td th:text="${Room.roomFee}"></td>
+                                        <td th:text="${Room.roomBreakfirst}"></td>
+                                        <td th:text="${Room.roomStatus}?'已被订':'空闲'"></td>
+                                        <td><a th:href="@{/manage/room(roomID = ${Room.hotelId})}">
                                             <button type="button" class="btn btn-block btn-info">编辑</button>
                                         </a></td>
                                         <td><a>
                                             <button type="button" class="btn btn-block btn-info"
-                                                    data-th-attr="onclick='deleteCity(this, \'' + ${city.cityId} + '\')'">
+                                                    data-th-attr="onclick='deleteHotel(this, \'' + ${Room.roomid} + '\')'">
                                                 删除
                                             </button>
                                         </a></td>
@@ -193,9 +195,11 @@
                                     </tbody>
                                     <tfoot>
                                     <tr>
-                                        <th rowspan="1" colspan="1">城市代码</th>
-                                        <th rowspan="1" colspan="1">城市名字</th>
-                                        <th rowspan="1" colspan="1">所属省份</th>
+                                        <th rowspan="1" colspan="1">房间代码</th>
+                                        <th rowspan="1" colspan="1">房间类型</th>
+                                        <th rowspan="1" colspan="1">房间价格</th>
+                                        <th rowspan="1" colspan="1">早餐信息</th>
+                                        <th rowspan="1" colspan="1">房间状态</th>
                                     </tr>
                                     </tfoot>
                                 </table>
@@ -223,15 +227,15 @@
 
 </body>
 <script>
-    function deleteCity(elem, cityID) {
+    function deleteHotel(elem, HotelID) {
         $.ajax({
-            url: '/manage/deleteCity?cityID=' + cityID,
+            url: '/manage/deleteHotel?hotelID=' + HotelID,
             type: 'get',
             success: function (data) {
                 $(elem).parent().parent().parent().remove();
             },
             fail: function (data) {
-                console.log('fial delete city')
+                console.log('fail delete hotel')
             }
         })
     }

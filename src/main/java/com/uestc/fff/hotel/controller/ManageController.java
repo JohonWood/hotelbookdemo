@@ -1,8 +1,6 @@
 package com.uestc.fff.hotel.controller;
 
-import com.uestc.fff.hotel.domain.City;
-import com.uestc.fff.hotel.domain.CityExample;
-import com.uestc.fff.hotel.domain.Country;
+import com.uestc.fff.hotel.domain.*;
 import com.uestc.fff.hotel.service.CityManageService;
 import com.uestc.fff.hotel.service.CountryManageService;
 import com.uestc.fff.hotel.service.HotelManageService;
@@ -22,7 +20,9 @@ public class ManageController {
     @Autowired
     private HotelManageService hotelManageService;
 
-    /**********CountryManagement**********/
+    /************************************/
+    /**********CountryManagement*********/
+    /************************************/
     @RequestMapping("/country")
     public String findCountry(Model model){
         model.addAttribute("listCountry",countryManageService.listCountry());
@@ -38,7 +38,6 @@ public class ManageController {
 
     @PostMapping("/searchCountry")
     public String searchCountry(@RequestParam("countryName") String countryName,Model model){
-        countryName = "%" + countryName + "%";
         model.addAttribute("listCountry",countryManageService.searchCountry(countryName));
         return "CountryTable";
     }
@@ -69,8 +68,9 @@ public class ManageController {
     }
 
 
-
-    /**********CityManagement**********/
+    /************************************/
+    /**********CityManagement************/
+    /************************************/
     @RequestMapping("/city")
     public String listCity(Model model){
         model.addAttribute("listCity", cityManageService.listCity());
@@ -86,7 +86,6 @@ public class ManageController {
 
     @PostMapping("/searchCity")
     public String searchCity(@RequestParam("cityName") String cityName, Model model){
-        cityName = "%" + cityName + "%";
         model.addAttribute("listCity",cityManageService.searchCity(cityName));
         return "CityTable";
     }
@@ -116,17 +115,52 @@ public class ManageController {
         return "redirect:/manage/city";
     }
 
+    @GetMapping("/CityHotel")
+    public String cityListHotel(@RequestParam("cityID") String cityID, Model model) {
+        HotelInfoExample hotelInfoExample = new HotelInfoExample();
+        hotelInfoExample.createCriteria().andCityIdEqualTo(cityID);
+        model.addAttribute("listHotel", hotelManageService.listHotel(hotelInfoExample));
+        return "HotelTable";
+    }
+
+    /************************************/
     /**********HotelManagement**********/
+    /************************************/
     @RequestMapping("/hotel")
     public String listHotel(Model model){
-        model.addAttribute("listHotel", hotelManageService.listHotel());
+        model.addAttribute("listHotel", hotelManageService.listHotel(new HotelInfoExample()));
         return "HotelTable";
     }
 
     @PostMapping("/searchHotel")
     public String searchHotel(@RequestParam("hotelName") String hotelName,Model model) {
-        hotelName = "%" + hotelName + "%";
         model.addAttribute("listHotel", hotelManageService.searchHotel(hotelName));
         return "HotelTable";
+    }
+
+    @GetMapping("/descriptionCity")
+    public String descriptionCity(@RequestParam("hotelID") String hotelID, Model model) {
+        model.addAttribute("hotel",hotelManageService.searchAHotel(hotelID));
+        return "HotelDescription";
+    }
+
+    @GetMapping("/room")
+    public String roomManagement(@RequestParam("hotelID") String hotelID, @RequestParam("hotelName") String hotelName, Model model) {
+        RoomInfoExample roomInfoExample = new RoomInfoExample();
+        roomInfoExample.createCriteria().andHotelIdEqualTo(hotelID);
+        model.addAttribute("listRoom", hotelManageService.listRoom(roomInfoExample));
+        model.addAttribute("hotelName", hotelName);
+        model.addAttribute("hotelID", hotelID);
+        return "HotelRoom";
+    }
+
+    @GetMapping("/addRoom")
+    public String addRoom(@RequestParam("hotelName") String hotelName,@RequestParam("hotelID") String hotelID,Model model){
+        RoomInfo roomInfo = new RoomInfo();
+        roomInfo.setHotelId(hotelID);
+        roomInfo.setRoomStatus(false);
+        model.addAttribute("room",roomInfo);
+        model.addAttribute("hotelName", hotelName);
+        return "HotelAddRoom";
     }
 }

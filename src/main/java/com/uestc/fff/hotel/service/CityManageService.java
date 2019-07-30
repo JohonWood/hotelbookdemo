@@ -24,7 +24,9 @@ public class CityManageService {
 
 
     public List<City> searchCity(String cityName) {
-        return cityMapper.searchCountry(cityName);
+        CityExample cityExample = new CityExample();
+        cityExample.createCriteria().andCityNameLike("%" + cityName + "%");
+        return cityMapper.selectByExample(cityExample);
     }
 
     public void updateCountry(City city) {

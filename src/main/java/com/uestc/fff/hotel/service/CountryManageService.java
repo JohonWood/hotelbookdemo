@@ -23,7 +23,9 @@ public class CountryManageService {
     }
 
     public List<Country> searchCountry(String countryName){
-        return countryMapper.searchCountry(countryName);
+        CountryExample countryExample = new CountryExample();
+        countryExample.createCriteria().andCountryNameLike("%" + countryName + "%");
+        return countryMapper.selectByExample(countryExample);
     }
 
     public Country findCountryByCountryCode(String code){

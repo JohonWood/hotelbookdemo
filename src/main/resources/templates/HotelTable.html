@@ -165,7 +165,7 @@
                                             详细信息
                                         </th>
                                         <th style="width: 66.6px;">
-                                            编辑
+                                            操作
                                         </th>
                                         <th style="width: 66.6px;">
                                             删除
@@ -177,11 +177,11 @@
                                         <td th:text="${hotel.hotelId}"></td>
                                         <td th:text="${hotel.hotelName}"></td>
                                         <td th:text="${hotel.hotelPhone}"></td>
-                                        <td><a th:href="@{/manage/editCity(hotelID = ${hotel.hotelId})}">
+                                        <td><a th:href="@{/manage/descriptionCity(hotelID = ${hotel.hotelId})}">
                                             <button type="button" class="btn btn-block btn-info">详细信息</button>
                                         </a></td>
-                                        <td><a th:href="@{/manage/editCity(hotelID = ${hotel.hotelId})}">
-                                            <button type="button" class="btn btn-block btn-info">编辑</button>
+                                        <td><a th:href="@{/manage/room(hotelID = ${hotel.hotelId},hotelName = ${hotel.hotelName})}">
+                                            <button type="button" class="btn btn-block btn-info">房间管理</button>
                                         </a></td>
                                         <td><a>
                                             <button type="button" class="btn btn-block btn-info"
