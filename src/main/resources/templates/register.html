@@ -12,28 +12,34 @@
     <article>
         <h1><span>注册</span></h1>
         <div class="main">
-            <form th:action="@{/register}" th:object="${userInfo}" method="post">
-                <div class="userName">
-                    <input type="text" name="userName" placeholder="您的姓名">
-                </div>
-                <div class="userPhone">
-                    <input type="tel" name="userPhone" placeholder="手机号">
-                </div>
+            <form th:action="@{/user/registerAction}" <!--th:object="${userRegister}"--> method="post">
                 <div class="userID">
-                    <input type="text" name="userID" placeholder="您的账号">
+                    <input type="text" name="userID" id="userID" placeholder="您的账号">
                     <em>不超过20位</em>
                 </div>
-                <div class="loginName">
-                    <input type="text" name="loginName" placeholder="昵称">
+
+                <div class="userName">
+                    <input type="text" name="userName" id="userName" placeholder="您的姓名">
                 </div>
+
+                <div class="userPhone">
+                    <input type="tel" name="userPhone" id="userPhone" placeholder="手机号">
+                </div>
+
+
+                <div class="loginName">
+                    <input type="text" name="loginName" id= "loginName" placeholder="昵称">
+                </div>
+
                 <div class="loginPassword">
-                    <input type="password" name="loginPassword" placeholder="密码">
+                    <input type="password" name="loginPassword" id="loginPassword" placeholder="密码">
                     <em>不超过18位</em>
                 </div>
-                <div class="loginPasswordAgain">
+
+<!--                <div class="loginPasswordAgain">
                     <input type="password" name="loginPasswordAgain" placeholder="再次输入密码">
                     <em>不超过18位</em>
-                </div>
+                </div>-->
                 <button>注册</button>
             </form>
         </div>

@@ -10,10 +10,20 @@ public class UserService {
     @Autowired
     private UserInfoMapper userInfoMapper;
 
+    public void insertUserInfo(UserInfo userInfo)
+    {
+        userInfoMapper.insert(userInfo);
+    }
 
-    public boolean register(UserInfo userInfo){
+    public UserInfo findUserByUserID(String userID)
+    {
+        return userInfoMapper.selectByPrimaryKey(userID);
+    }
+}
+/*
+    public boolean register(){
 
-        UserInfo testid = userInfoMapper.selectByPrimaryKey(userInfo.getUserId());
+        UserInfo testid = findUserByUserID();
         if (testid == null )
         {
             userInfoMapper.insert(userInfo);
@@ -44,5 +54,5 @@ public class UserService {
             System.out.println("登录成功");
             return true;
         }
-    }
-}
+    }*/
+
