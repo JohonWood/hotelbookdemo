@@ -148,9 +148,14 @@
                                             <td th:text="${'真实姓名: '+User.userName}"></td>
                                             <td th:text="${'客户电话: '+User.userPhone}"></td>
                                             <td th:text="${'身份证号: '+User.userId}"></td>
-                                            <td><button type="button" class="btn btn-block btn-danger checkout">退房</button></td>
+                                            <td th:each="Order : ${Orders}">
+                                                <button type="button" class="btn btn-block btn-danger"
+                                                         data-th-attr="onclick='CheckOut(\'' + ${Order.orderId} + '\')'">
+                                                    退房
+                                                </button>
+                                            </td>
                                         </tr>
-                                        <tr  th:each="Order : ${Orders}">
+                                        <tr th:each="Order : ${Orders}">
                                             <td th:text="${'订单编号: '+Order.orderId }"></td>
                                             <td th:text="${'订单创建时间:'+#dates.format(Order.createTime, 'yyyy-MM-dd hh:mm:ss')}"></td>
                                             <td th:text="${'入住时间: '+#dates.format(Order.checkinTime, 'yyyy-MM-dd')}"></td>
@@ -221,22 +226,35 @@
     <script src="../adminlte/plugins/iCheck/icheck.min.js"></script>
     <!-- Page Script -->
     <script>
-        $(".checkout").click(function () {
-            var clicks = $(this).data('clicks');
-            if (!clicks) {
-                alert("hi");
-            }
-        });
-        // $(".checkout").confirm({
-        //     title: 'Confirm!',
-        //     content: 'Simple confirm!',
-        //     confirm: function(){
-        //         $.alert('Confirmed!');
-        //     },
-        //     cancel: function(){
-        //         $.alert('Canceled!')
+        // $(".checkout").click(function (oid) {
+        //     var clicks = $(this).data('clicks');
+        //     if (!clicks) {
+        //         if(confirm("确定要退房？")){
+        //             url: '/mybook/checkout?oid=' + oid,
+        //             open("booklist");
+        //             close();
+        //         }
         //     }
         // });
+        function CheckOut(orderID) {
+            var clicks = $(this).data('clicks');
+            if (!clicks) {
+                if(confirm("确定要退房？")){
+                    $.ajax({
+                        url: '/mybook/checkout?oid=' + orderID,
+                        type: 'get',
+                        // success: function (data) {
+                        //     $(elem).parent().parent().parent().remove();
+                        // },
+                        fail: function (data) {
+                            console.log('fail to checkout')
+                        }
+                    })
+                    open("booklist");
+                    close();
+                }
+            }
+        }
     </script>
     <!-- AdminLTE for demo purposes -->
     <script src="../adminlte/dist/js/demo.js"></script>

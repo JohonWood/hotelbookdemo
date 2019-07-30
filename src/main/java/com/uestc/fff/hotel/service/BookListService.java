@@ -35,5 +35,7 @@ public class BookListService {
     }
 
     public UserInfo UserInfomation(String uid)  { return userInfoMapper.selectByPrimaryKey(uid); }
+
+    public void DeleteOrder(String oid){ orderInfoMapper.deleteByPrimaryKey(oid); }
 }
 

@@ -4,10 +4,13 @@ import com.uestc.fff.hotel.service.BookListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping("")
+@RequestMapping("/mybook")
 public class BookListController {
     @Autowired
     private BookListService serviceBook;
@@ -25,6 +28,13 @@ public class BookListController {
         model.addAttribute("Orders",serviceBook.OrderInfomation("1515626"));
         model.addAttribute("Users", serviceBook.UserInfomation("510105199907131778"));
         return "BookInfo";
+    }
+
+    @GetMapping("/checkout")
+    @ResponseBody
+    public Boolean CheckOut(@RequestParam("oid") String oid){
+        serviceBook.DeleteOrder(oid);
+        return true;
     }
 
 }

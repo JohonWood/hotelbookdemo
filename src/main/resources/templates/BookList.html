@@ -61,17 +61,17 @@
                             </li>
                             <!-- Menu Body -->
                             <li class="user-body">
-                                <div class="row">
-                                    <div class="col-xs-4 text-center">
-                                        <a href="#">Followers</a>
-                                    </div>
-                                    <div class="col-xs-4 text-center">
-                                        <a href="#">Sales</a>
-                                    </div>
-                                    <div class="col-xs-4 text-center">
-                                        <a href="#">Friends</a>
-                                    </div>
-                                </div>
+                                <!--<div class="row">-->
+                                    <!--<div class="col-xs-4 text-center">-->
+                                        <!--<a href="#">Followers</a>-->
+                                    <!--</div>-->
+                                    <!--<div class="col-xs-4 text-center">-->
+                                        <!--<a href="#">Sales</a>-->
+                                    <!--</div>-->
+                                    <!--<div class="col-xs-4 text-center">-->
+                                        <!--<a href="#">Friends</a>-->
+                                    <!--</div>-->
+                                <!--</div>-->
                                 <!-- /.row -->
                             </li>
                             <!-- Menu Footer-->
@@ -220,26 +220,6 @@
             var clicks = $(this).data('clicks');
             if (!clicks) {
                 open("bookinfo");
-            }
-        });
-
-        //Handle starring for glyphicon and font awesome
-        $(".BookListBox-star").click(function (e) {
-            e.preventDefault();
-            //detect type
-            var $this = $(this).find("a > i");
-            var glyph = $this.hasClass("glyphicon");
-            var fa = $this.hasClass("fa");
-
-            //Switch states
-            if (glyph) {
-                $this.toggleClass("glyphicon-star");
-                $this.toggleClass("glyphicon-star-empty");
-            }
-
-            if (fa) {
-                $this.toggleClass("fa-star");
-                $this.toggleClass("fa-star-o");
             }
         });
     });
