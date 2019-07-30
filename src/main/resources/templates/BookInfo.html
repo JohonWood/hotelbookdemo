@@ -19,6 +19,12 @@
     <link rel="stylesheet" href="../adminlte/plugins/iCheck/flat/blue.css">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <style>
+        .picture1{float:right;}
+        .word1{float:left;}
+        /*.word2{font-size: 16px}*/
+        /*.word3{font-size: 16px}*/
+    </style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -106,8 +112,8 @@
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu" data-widget="tree">
                 <li class="header">主要功能</li>
-                <li class="treeview">
-                    <a href="BookList.html">
+                <li>
+                    <a href="booklist">
                         <i class="fa fa-shopping-cart"></i> <span>我的订单</span>
                     </a>
                 </li>
@@ -120,11 +126,9 @@
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
-            <h1>
-                订单详情
-            </h1>
-        </section>
+            <h1>订单详情</h1>
 
+        </section>
         <!-- Main content -->
         <section class="content">
             <div class="row">
@@ -134,48 +138,63 @@
                         <!-- /.box-header -->
                         <div class="box-body no-padding">
                             <div id = "div1" class="table-responsive BookListBox-messages">
-                                <table class="table table-hover table-striped">
-                                    <thead>
-                                    <tr>
-                                        <h3>酒店信息</h3>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <!--<tr th:each="Order : ${Orders}">-->
-                                        <!--<td><i class="fa fa-book"></i></td>-->
-                                        <!--<td th:text="${#dates.format(Order.createTime, 'yyyy-MM-dd hh:mm:ss')}"></td>-->
-                                        <!--<td th:text="${Order.orderId }"></td>-->
-                                        <!--<td th:text="${Order.hotelName}"></td>-->
-                                        <!--<td th:text="${#dates.format(Order.checkinTime, 'yyyy-MM-dd')}"></td>-->
-                                        <!--<td th:text="${'￥'+Order.orderTotalFee}"></td>-->
-                                        <!--<td><button type="button" class="btn btn-info btn-sm see-info">查看详细</button></td>-->
-                                    <!--</tr>-->
-                                    </tbody>
-                                </table>
-                                <!-- /.table -->
+                                <h4></h4>
+                                <div class="word3 col-md-12">
+                                    <table class="table table-hover table-striped">
+                                        <h4>&nbsp;&nbsp;&nbsp;订单信息</h4>
+                                        <tbody>
+                                        <tr th:each="User : ${Users}">
+                                            <td th:text="${'下单用户: '+User.loginName}"></td>
+                                            <td th:text="${'真实姓名: '+User.userName}"></td>
+                                            <td th:text="${'客户电话: '+User.userPhone}"></td>
+                                            <td th:text="${'身份证号: '+User.userId}"></td>
+                                            <td><button type="button" class="btn btn-block btn-danger checkout">退房</button></td>
+                                        </tr>
+                                        <tr  th:each="Order : ${Orders}">
+                                            <td th:text="${'订单编号: '+Order.orderId }"></td>
+                                            <td th:text="${'订单创建时间:'+#dates.format(Order.createTime, 'yyyy-MM-dd hh:mm:ss')}"></td>
+                                            <td th:text="${'入住时间: '+#dates.format(Order.checkinTime, 'yyyy-MM-dd')}"></td>
+                                            <td th:text="${'入住人数: '+Order.customNum}"></td>
+                                            <td th:text="${'总价: ￥'+Order.orderTotalFee}"></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <HR align=center color=#987cb9 SIZE=5 class="col-md-12">
+                                </div>
+                                <div class="word2 col-md-12">
+                                    <table class="table table-hover table-striped">
+                                        <h4>&nbsp;&nbsp;&nbsp;房间信息</h4>
+                                        <tbody>
+                                        <tr  th:each="Room : ${Rooms}">
+                                            <td th:text="${'房间编号: '+Room.roomid}"></td>
+                                            <td th:text="${'房间名称: '+Room.roomName}"></td>
+                                            <td th:text="${'房间类型: '+Room.roomType}"></td>
+                                            <td th:text="${'有无早餐: '+Room.roomBreakfirst}"></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <HR align=center color=#987cb9 SIZE=5 class="col-md-12">
+                                </div>
+                                <div th:each="Hotel : ${Hotels}">
+                                    <img class="picture1 col-md-3" th:src="${Hotel.hotelPhoto1}" alt="photo1">
+                                </div>
+                                <div class="word1 col-md-9">
+
+                                    <table class="table table-hover table-striped">
+                                        <h4>&nbsp;&nbsp;&nbsp;酒店信息</h4>
+                                        <tbody th:each="Hotel : ${Hotels}">
+                                            <tr><td th:text="${'酒店名称: '+Hotel.hotelName}"></td></tr>
+                                            <tr><td th:text="${'酒店地址: '+Hotel.hotelAddress}"></td></tr>
+                                            <tr><td th:text="${'Tel: '+Hotel.hotelPhone}"></td></tr>
+                                            <tr><td>酒店简介:</td></tr>
+                                            <tr><td th:text="${'&nbsp;&nbsp;&nbsp;&nbsp'+Hotel.hotelOverview}"></td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                             <!-- /.mail-box-messages -->
                         </div>
                         <!-- /.box-body -->
-                        <div class="box-footer no-padding">
-                            <div class="BookListBox-controls">
-                                <div class="btn-group">
-                                </div>
-                                <div class="pull-right">
-                                    <ul class="pagination">
-                                        <li><a href="#">&laquo;</a></li>
-                                        <li class="active"><a href="#">1</a></li>
-                                        <li><a href="#">2</a></li>
-                                        <li><a href="#">3</a></li>
-                                        <li><a href="#">4</a></li>
-                                        <li><a href="#">5</a></li>
-                                        <li><a href="#">&raquo;</a></li>
-                                    </ul>
-                                    <!-- /.btn-group -->
-                                </div>
-                                <!-- /.pull-right -->
-                            </div>
-                        </div>
                     </div>
                     <!-- /. box -->
                 </div>
@@ -202,41 +221,22 @@
     <script src="../adminlte/plugins/iCheck/icheck.min.js"></script>
     <!-- Page Script -->
     <script>
-        // var para=document.createElement("td");
-        // var node=document.createTextNode("");
-        // para.appendChild(node);
-        //
-        // var element=document.getElementById("div1");
-        // element.appendChild(para);
-
-        // $(function () {
-        //     $(".see-info").click(function () {
-        //         var clicks = $(this).data('clicks');
-        //         if (!clicks) {
-        //             open("bookinfo")
-        //         }
-        //     });
-
-            //Handle starring for glyphicon and font awesome
-            $(".BookListBox-star").click(function (e) {
-                e.preventDefault();
-                //detect type
-                var $this = $(this).find("a > i");
-                var glyph = $this.hasClass("glyphicon");
-                var fa = $this.hasClass("fa");
-
-                //Switch states
-                if (glyph) {
-                    $this.toggleClass("glyphicon-star");
-                    $this.toggleClass("glyphicon-star-empty");
-                }
-
-                if (fa) {
-                    $this.toggleClass("fa-star");
-                    $this.toggleClass("fa-star-o");
-                }
-            });
+        $(".checkout").click(function () {
+            var clicks = $(this).data('clicks');
+            if (!clicks) {
+                alert("hi");
+            }
         });
+        // $(".checkout").confirm({
+        //     title: 'Confirm!',
+        //     content: 'Simple confirm!',
+        //     confirm: function(){
+        //         $.alert('Confirmed!');
+        //     },
+        //     cancel: function(){
+        //         $.alert('Canceled!')
+        //     }
+        // });
     </script>
     <!-- AdminLTE for demo purposes -->
     <script src="../adminlte/dist/js/demo.js"></script>

@@ -2,7 +2,7 @@ package com.uestc.fff.hotel.domain;
 
 import java.util.Date;
 
-public class OrderInfoByP {
+public class OrderInfoWithHotel {
     private String orderId;
 
     /**

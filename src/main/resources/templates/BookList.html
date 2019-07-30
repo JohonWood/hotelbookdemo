@@ -147,7 +147,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr th:each="Order : ${Orders}">
+                                        <tr th:each="Order : ${OrderWithHotel}">
                                             <td><i class="fa fa-book"></i></td>
                                             <td th:text="${#dates.format(Order.createTime, 'yyyy-MM-dd hh:mm:ss')}"></td>
                                             <td th:text="${Order.orderId }"></td>
@@ -219,7 +219,7 @@
         $(".see-info").click(function () {
             var clicks = $(this).data('clicks');
             if (!clicks) {
-                open("bookinfo")
+                open("bookinfo");
             }
         });
 
