@@ -109,7 +109,6 @@ public class UserController {
                 cookie.setMaxAge(86400);//保存一天
                 response.addCookie(cookie);
 
-                System.out.println(dbUser.getUserId());
                 if ( "admin".equals(dbUser.getUserId())){
                     writer.write("<script> alert('登录成功'); location.href='/manage/country';</script>");
                 }

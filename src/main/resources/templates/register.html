@@ -6,11 +6,28 @@
     <link rel="stylesheet" type="text/css" href="../adminlte/userResource/css/regist.css"
           th:href="@{../adminlte/userResource/css/regist.css}">
     <script src="../js/jquery-3.4.1.min.js"></script>
+    <style>
+        div.transbox
+        {
+            width: 420px;
+            height: 520px;
+            margin:30px;
+            padding:0;
+            background-color: #ffffff;
+
+            /* for IE */
+            filter:alpha(opacity=60);
+            /* CSS3 standard */
+            opacity:0.75;
+        }
+    </style>
 </head>
 <body>
     <div class="wrapper">
     <article>
-        <h1><span>注册</span></h1>
+        <div class="transbox">
+            <br>
+        <h1 style="color: #AF0000"><span>注册</span></h1>
         <div class="main">
             <form th:action="@{/user/registerAction}" method="post">
                 <div class="userID">
@@ -42,6 +59,7 @@
                 </div>-->
                 <button>注册</button>
             </form>
+        </div>
         </div>
     </article>
     </div>
