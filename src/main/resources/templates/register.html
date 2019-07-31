@@ -10,7 +10,7 @@
         div.transbox
         {
             width: 420px;
-            height: 520px;
+            height: 580px;
             margin:30px;
             padding:0;
             background-color: #ffffff;
@@ -31,24 +31,28 @@
         <div class="main">
             <form th:action="@{/user/registerAction}" method="post">
                 <div class="userID">
-                    <input type="text" name="userID" id="userID" placeholder="您的账号">
-                    <em>不超过20位</em>
+                    <label for="userID">身份证号：</label>
+                    <input type="text" name="userID" id="userID" placeholder="您的身份证号">
                 </div>
 
                 <div class="userName">
-                    <input type="text" name="userName" id="userName" placeholder="您的姓名">
+                    <label for="userID">真实姓名：</label>
+                    <input type="text" name="userName" id="userName" placeholder="真实姓名">
                 </div>
 
                 <div class="userPhone">
+                    <label for="userID">手机号：</label>
                     <input type="tel" name="userPhone" id="userPhone" placeholder="手机号">
                 </div>
 
 
                 <div class="loginName">
-                    <input type="text" name="loginName" id= "loginName" placeholder="昵称">
+                    <label for="userID">用户名：</label>
+                    <input type="text" name="loginName" id= "loginName" placeholder="用户名">
                 </div>
 
                 <div class="loginPassword">
+                    <label for="userID">密码：</label>
                     <input type="password" name="loginPassword" id="loginPassword" placeholder="密码">
                     <em>不超过18位</em>
                 </div>
