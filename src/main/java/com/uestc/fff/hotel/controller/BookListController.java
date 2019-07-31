@@ -92,4 +92,16 @@ public class BookListController {
         return true;
     }
 
+    @RequestMapping("/book")
+    public String BookPages(Model model){
+        model.addAttribute("isLogin",true);
+        model.addAttribute("User_name","Quincy");
+        model.addAttribute("numOfOrders",serviceSearch.countOrder("1"));
+        List<order> orderList=serviceSearch.orderList("1");
+        model.addAttribute("orderList",orderList);
+        List<String> listOfCountry=serviceSearch.searchCountry();
+        model.addAttribute("countryList",listOfCountry);
+        model.addAttribute("Hotels",serviceBook.HotelInfomation("108573"));
+        return "Book";
+    }
 }
