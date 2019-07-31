@@ -36,4 +36,20 @@ public class HotelManageService {
     public List<RoomInfo> listRoom(RoomInfoExample roomInfoExample) {
         return roomInfoMapper.selectByExample(roomInfoExample);
     }
+
+    public void saveRoom(RoomInfo roomInfo) {
+        roomInfoMapper.insert(roomInfo);
+    }
+
+    public RoomInfo findRoomByPrimaryKey(String roomID) {
+       return roomInfoMapper.selectByPrimaryKey(roomID);
+    }
+
+    public void updateRoom(RoomInfo roomInfo) {
+        roomInfoMapper.updateByPrimaryKey(roomInfo);
+    }
+
+    public void deleteRoomByID(String roomID) {
+        roomInfoMapper.deleteByPrimaryKey(roomID);
+    }
 }

@@ -125,8 +125,14 @@
                         </div>
                         <!-- /.box-header -->
                         <!-- form start -->
-                        <form th:action="@{/manage/addCountry}" method="post"  th:object="${room}" role="form">
+                        <form th:action="@{/manage/addRoom(hotelName = ${hotelName})}" method="post"  th:object="${room}" role="form">
                             <div class="box-body">
+                                <div class="form-group">
+                                    <input type="hidden" class="form-control" th:field="*{hotelId}">
+                                </div>
+                                <div class="form-group">
+                                    <input type="hidden" class="form-control" th:field="*{roomStatus}">
+                                </div>
                                 <div class="form-group">
                                     <label for="code">房间代码</label>
                                     <input type="text" class="form-control" id="code" name="code" th:field="*{roomid}" placeholder="输入房间代码">

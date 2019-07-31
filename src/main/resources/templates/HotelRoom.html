@@ -182,12 +182,12 @@
                                         <td th:text="${Room.roomFee}"></td>
                                         <td th:text="${Room.roomBreakfirst}"></td>
                                         <td th:text="${Room.roomStatus}?'已被订':'空闲'"></td>
-                                        <td><a th:href="@{/manage/room(roomID = ${Room.hotelId})}">
+                                        <td><a th:href="@{/manage/editRoom(roomID = ${Room.roomid},hotelName = ${hotelName})}">
                                             <button type="button" class="btn btn-block btn-info">编辑</button>
                                         </a></td>
                                         <td><a>
                                             <button type="button" class="btn btn-block btn-info"
-                                                    data-th-attr="onclick='deleteHotel(this, \'' + ${Room.roomid} + '\')'">
+                                                    data-th-attr="onclick='deleteRoom(this, \'' + ${Room.roomid} + '\')'">
                                                 删除
                                             </button>
                                         </a></td>
@@ -227,15 +227,15 @@
 
 </body>
 <script>
-    function deleteHotel(elem, HotelID) {
+    function deleteRoom(elem, roomID) {
         $.ajax({
-            url: '/manage/deleteHotel?hotelID=' + HotelID,
+            url: '/manage/deleteRoom?roomID=' + roomID,
             type: 'get',
             success: function (data) {
                 $(elem).parent().parent().parent().remove();
             },
             fail: function (data) {
-                console.log('fail delete hotel')
+                console.log('fail delete room')
             }
         })
     }

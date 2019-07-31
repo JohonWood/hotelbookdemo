@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" href="../adminlte/userResource/css/login.css"
           th:href="@{../adminlte/userResource/css/login.css}">
     <script src="../js/jquery-3.4.1.min.js"></script>
-    <script type="text/javascript">
+    <!--<script type="text/javascript">
         $(function(){
             $(".id input").focus(function(){
                 $(this).prev("i").css({"background-image":"url(img/user2.png)"});
@@ -21,15 +21,31 @@
                 $(this).prev("i").css({"background-image":"url(img/password1.png)"});
             });
         });
-    </script>
+    </script>-->
+    <style>
+        div.transbox
+        {
+            width: 412px;
+            height: 400px;
+            margin:30px;
+            padding:0;
+            background-color: #ffffff;
+
+            /* for IE */
+            filter:alpha(opacity=60);
+            /* CSS3 standard */
+            opacity:0.75;
+        }
+    </style>
 </head>
 <body>
 <div class="wrapper">
     <article>
-        <div class="main">
-            <h1><span>登录</span></h1>
+        <div class="transbox">
+            <h1 style="color: #AF0000"><span>登录</span></h1>
+            <p> </p>
             <form th:action="@{/user/loginAction}"  method="post">
-                <p class="id"><i></i><input type="text" name="id" id="id" placeholder="请输入帐号"></p>
+                <p class="id"><i></i><input type="text" name="id" id="id" placeholder="请输入身份证号"></p>
                 <p class="password"><i></i><input type="password" name="password" id="password" placeholder="请输入密码"></p>
 <!--                <p class="select">
                     <i></i>
