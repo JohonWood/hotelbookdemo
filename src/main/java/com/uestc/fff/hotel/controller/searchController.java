@@ -2,6 +2,7 @@ package com.uestc.fff.hotel.controller;
 
 import com.uestc.fff.hotel.domain.Area;
 import com.uestc.fff.hotel.domain.SearchResult;
+import com.uestc.fff.hotel.domain.UserInfo;
 import com.uestc.fff.hotel.domain.order;
 import com.uestc.fff.hotel.service.searchService;
 
@@ -15,20 +16,25 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping("/test")
+@RequestMapping("/504")
 public class searchController {
     @Autowired
     searchService service;
     @RequestMapping("/host")
-    public String hostPages(Model model){
+    public String hostPages(Model model, HttpSession session){
         //service.selectArea();
-        model.addAttribute("isLogin",true);
+        boolean islogin;
+        UserInfo userInfotest = (UserInfo) session.getAttribute("user");
+        if (userInfotest == null) { islogin = false; }
+        else  { islogin = true; }
+        model.addAttribute("isLogin",islogin);
         model.addAttribute("User_name","Quincy");
         model.addAttribute("numOfOrders",service.countOrder("1"));
         List<order> orderList=service.orderList("1");

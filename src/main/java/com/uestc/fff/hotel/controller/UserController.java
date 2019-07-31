@@ -105,7 +105,7 @@ public class UserController {
                 Cookie cookie = new Cookie("jessionid",session.getId());
                 cookie.setMaxAge(86400);//保存一天
                 response.addCookie(cookie);
-                writer.write("<script> alert('登录成功'); location.href='testlogin';</script>");
+                writer.write("<script> alert('登录成功'); location.href='/504/host?islogin=true&tr';</script>");
                 //System.out.println("登录成功");
                 //return "testlogin";
             }
