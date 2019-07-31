@@ -1,9 +1,6 @@
 package com.uestc.fff.hotel.controller;
 
-import com.uestc.fff.hotel.domain.Area;
-import com.uestc.fff.hotel.domain.SearchResult;
-import com.uestc.fff.hotel.domain.UserInfo;
-import com.uestc.fff.hotel.domain.order;
+import com.uestc.fff.hotel.domain.*;
 import com.uestc.fff.hotel.service.searchService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +17,9 @@ import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/504")
@@ -33,12 +32,15 @@ public class searchController {
         boolean islogin;
         UserInfo userInfotest = (UserInfo) session.getAttribute("user");
         if (userInfotest == null) { islogin = false; }
-        else  { islogin = true; }
+        else  {
+            islogin = true;
+            model.addAttribute("User_name",userInfotest.getLoginName());
+            model.addAttribute("numOfOrders",service.countOrder(userInfotest.getUserId()));
+            List<order> orderList=service.orderList(userInfotest.getUserId());
+            model.addAttribute("orderList",orderList);
+        }
         model.addAttribute("isLogin",islogin);
-        model.addAttribute("User_name","Quincy");
-        model.addAttribute("numOfOrders",service.countOrder("1"));
-        List<order> orderList=service.orderList("1");
-        model.addAttribute("orderList",orderList);
+
         List<String> listOfCountry=service.searchCountry();
         model.addAttribute("countryList",listOfCountry);
        return "host";
@@ -53,19 +55,43 @@ public class searchController {
 
     }
     @PostMapping("/post")
-    public String receiveParam(String hotelKey, String countryKey,String cityKey,Model model){
-        List<SearchResult> resultList=service.searchKey(hotelKey,countryKey,cityKey);
-        model.addAttribute("isLogin",true);
-        model.addAttribute("User_name","Quincy");
-        model.addAttribute("numOfOrders",service.countOrder("1"));
-        List<order> orderList=service.orderList("1");
-        model.addAttribute("orderList",orderList);
+    public String receiveParam(String hotelKey, String countryKey,String cityKey,Model model, HttpSession session){
+        List<FullSearResult> resultList=service.fullSearch(hotelKey,countryKey,cityKey);
+        boolean islogin;
+        UserInfo userInfotest = (UserInfo) session.getAttribute("user");
+        if (userInfotest == null) { islogin = false; }
+        else  {
+            islogin = true;
+            model.addAttribute("User_name",userInfotest.getLoginName());
+            model.addAttribute("numOfOrders",service.countOrder(userInfotest.getUserId()));
+            List<order> orderList=service.orderList(userInfotest.getUserId());
+            model.addAttribute("orderList",orderList);
+        }
+        model.addAttribute("isLogin",islogin);
         List<String> listOfCountry=service.searchCountry();
         model.addAttribute("countryList",listOfCountry);
-        model.addAttribute("resultNum",resultList.size());
-        model.addAttribute("resultPresent",10);
-        model.addAttribute("resultList",resultList);
+        if(resultList==null){
+            model.addAttribute("resultNum",0);
+        }
+        else{
+            model.addAttribute("resultNum",resultList.size());
+            model.addAttribute("resultList",resultList);
+        }
+
         return "searchResult";
+    }
+    @RequestMapping("/test")
+    @ResponseBody
+    public List<FullSearResult>  resultMap( Model model, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws UnsupportedEncodingException {
+        List<FullSearResult> tets=service.fullSearch("香格里拉","中国","成都");
+//        for(FullSearResult fullSearResult :tets){
+//            System.out.println(fullSearResult.getHotelName());
+//        }
+//        Map text=new HashMap();
+//        text.put("text1","sdadasdasd");
+//        text.put("text2","asddfdqwere");
+        return tets;
+
     }
 
 

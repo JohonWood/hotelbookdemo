@@ -169,33 +169,35 @@
 
         <!-- sidebar: style can be found in sidebar.less -->
         <section class="sidebar">
-            <!-- Sidebar Menu -->
-            <ul class="sidebar-menu" data-widget="tree">
-                <li class="header">HEADER</li>
-                <!-- Optionally, you can add icons to the links -->
-                <li class="active"><a href="#"><i class="fa fa-link"></i> <span>Link</span></a></li>
-                <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
-                <li class="treeview">
-                    <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
-                        <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="#">Link in level 2</a></li>
-                        <li><a href="#">Link in level 2</a></li>
-                    </ul>
-                </li>
-            </ul>
+
           <!-- search form (Optional) -->
             <form action="/504/post" method="post" class="sidebar-menu">
-                    <div class="input-group sidebar-form">
-                        <input type="text" name="hotelKey" class="form-control" placeholder="Search...">
-                        <span class="input-group-btn">
-              <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-              </button>
-            </span>
-                    </div>
+                <ul class="sidebar-menu tree">
+                <li class="header"><p style="color: darkgrey;margin-top: 10px;margin-left:0px;font-size: 16px;">筛选条件:</p></li></ul>
+                <!--最低房间价格和最高房间价格-->
+                <div class="input-group sidebar-form pull-left" style="width: 80px;">
+                    <input id="lowText" type="text" name="lowPrice" class="form-control" placeholder="最低价">
+                </div>
+
+                <i class="fa fa-arrows-h fa-2x fa-inverse sidebar-form" aria-hidden="true" style="margin-top: 12px;margin-left: 0px;margin-right: 0px"></i>
+
+                <div class="input-group sidebar-form pull-right" style="width: 80px;">
+
+                    <input id="highText" type="text" name="highPrice" class="form-control" placeholder="最高价">
+                </div>
+                <div class="input-group sidebar-form" style="width: 80px;">
+
+                    <button id="filterBtn" type="button" class="btn btn-block btn-default btn-sm">筛选</button>
+                </div>
+
+                <div class="input-group sidebar-form">
+                    <input type="text" name="hotelKey" class="form-control" placeholder="Search...">
+                    <span class="input-group-btn">
+                        <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+                        </button>
+                    </span>
+                </div>
+
                 <div class="input-group sidebar-form col-xs-10">
                     <select name="countryKey" class="form-control select2 " id="CountrySelect">
                         <option th:each="country: ${countryList}" th:text="${country}" th:if="${country}!='中国'"></option>
@@ -208,12 +210,7 @@
                     </select>
                 </div>
             </form>
-            <!-- /.search form -->
-
-
-            <!-- /.sidebar-menu -->
         </section>
-        <!-- /.sidebar -->
     </aside>
     <div class="content-wrapper -align-center" th:style="'align-content: center;background: url('+@{/picture/backImg.jpg} + ') no-repeat center center fixed;
     -webkit-background-size: cover;
@@ -237,6 +234,7 @@
 
             <!-- Main content -->
             <section class="content">
+                <div class="text-center" th:if="${resultNum==0}"><h3>无搜索结果</h3></div>
 
                 <div th:id="'resultList'+${resultStat.count}" class="box box-default " style="margin: 5px auto;" th:each="result,resultStat: ${resultList}" th:if="${resultNum!=0}">
                     <!--<div class="box-header with-border">-->
@@ -251,7 +249,7 @@
                         <div class="product-info" style="margin-right: 10px;overflow: hidden">
                             <h3><i class="fa fa-fw fa-bed"></i>
                             <a href="javascript:void(0)" class="product-title"><span th:text="${result.hotelName}"></span> </a>
-                                <span class="pull-right text-red"><i class="fa fa-fw fa-cny"></i>1800起</span></h3>
+                                <span class="pull-right text-red"><i class="fa fa-fw fa-cny"></i><span class="hotelFee" th:text="${result.leastPrice}"></span>起</span></h3>
 
 
                             <p id="hotelStar"><span  class="label label-warning">品质保证</span>
@@ -263,7 +261,7 @@
                             <small><span th:text="${result.hotelAddress}"></span> </small>
 
                             <span class="product-description block">
-                                <p><br>&emsp;&emsp;<span th:text="${result.hotelOverview}"></span></p>
+                                <p><br>&emsp;&emsp;<span th:text="${result.getHotelOverview()}"></span></p>
                             </span>
                             <a class="btn bg-purple btn-lg pull-right" href="#">查看详情</a>
                         </div>
@@ -273,7 +271,6 @@
                 <div class="text-center btn bg-purple center-block" title="加载10项" id="downList" th:if="${resultNum > 11}">
                     <span ><i class="fa fa-fw fa-chevron-down"></i></span>
                 </div>
-
                 <!-- /.box -->
             </section>
             <!-- /.content -->
@@ -283,8 +280,6 @@
     <div class="top text-center btn bg-purple" id="topArrow" title="回到顶部">
         <span  ><i id="TopArraow" class="fa fa-fw fa-chevron-up"></i></span>
     </div>
-
-
         <footer class="main-footer fixed">
         <!-- To the right -->
         <div class="pull-right hidden-xs">
@@ -324,6 +319,7 @@
     $("#topArrow").click(function(){
         $(document).scrollTop(0);
     })
+
     var xmlhttp;
     var countResult =10;
     if (window.XMLHttpRequest) {
@@ -333,15 +329,12 @@
     }
 
 
+
     $(function () {
-<<<<<<< HEAD
         for (var i=11;i<=[[${resultNum}]];i++){
             $('#resultList'+i).hide();
         }
-        xmlhttp.open("GET", "/test/city?country=" + encodeURI(encodeURI($("#CountrySelect").val())), true);
-=======
         xmlhttp.open("GET", "/504/city?country=" + encodeURI(encodeURI($("#CountrySelect").val())), true);
->>>>>>> ff503d5b31e58f06246be7cbc1579aace097830d
         xmlhttp.send();
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -373,18 +366,95 @@
             }
         }
     });
-    $('#downList').click(function () {
-        if(countResult+10>[[${resultNum}]]){
-            $('#downList').attr("title","已全部加载")
+    $('#downList').click(function (){
+        xmlhttp.open("GET","/504/test",true);
+        xmlhttp.send();
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                var text;
+                text = xmlhttp.responseText;
+                text=JSON.parse(text)
+                for (x in text) {
+                    console.log(text[x])
+                }
+            }
         }
-        else{
-        for (var i=countResult+1;i<=countResult+10;i++) {
-            $('#resultList'+i).show();
-        }
-        countResult=countResult+10;}
-
-
     })
+    // $('#downList').click(function () {
+    //     if(countResult+10>[[${resultNum}]]){
+    //         $('#downList').attr("title","已全部加载")
+    //         countResult=[[${resultNum}]];
+    //     }
+    //     else{
+    //
+    //         var lowPrice=$('#lowText').val();
+    //         var highPrice=$('#highText').val();
+    //         if (lowPrice!=""){
+    //             if (isNumber(lowPrice)){
+    //                 for (var i=countResult+1;i<=countResult+10;i++) {
+    //                     if ($('#resultList' + i).find(".hotelFee").text() >= lowPrice) {
+    //                         $('#resultList' + i).show();
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //         if (highPrice!=""){
+    //             if (isNumber(highPrice)){
+    //                 for (var i=countResult+1;i<=countResult+10;i++) {
+    //                     if ($('#resultList' + i).find(".hotelFee").text() > lowPrice) {
+    //                         $('#resultList' + i).hide();
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //         countResult=countResult+10;
+    //     }
+    //
+    //
+    // })
+    // $("#filterBtn").click(function () {
+    //     var lowPrice=$('#lowText').val();
+    //     var highPrice=$('#highText').val();
+    //     if (lowPrice!=""){
+    //         if (!isNumber(lowPrice)){
+    //             alert('最低价输入不是有效的数字');
+    //         }
+    //         else{
+    //             for (var i=1;i<=countResult;i++){
+    //                 if($('#resultList'+i).find(".hotelFee").text()<lowPrice){
+    //                     $('#resultList'+i).hide();
+    //                 }
+    //                 else{
+    //                     $('#resultList'+i).show();
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     if (highPrice!=""){
+    //         if (!isNumber(highPrice)){
+    //             alert('最高价输入不是有效的数字');
+    //         }
+    //         else{
+    //             for (var i=1;i<=countResult;i++){
+    //                 if($('#resultList'+i).find(".hotelFee").text()>highPrice){
+    //                     $('#resultList'+i).hide();
+    //                 }
+    //             }
+    //
+    //         }
+    //     }
+    //
+    //
+    // })
+
+    function isNumber(value) {         //验证是否为数字
+        var patrn = /^(-)?\d+(\.\d+)?$/;
+        if (patrn.exec(value) == null || value == "") {
+            return false
+        } else {
+            return true
+        }
+    }
 
 </script>
 
