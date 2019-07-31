@@ -37,6 +37,7 @@ public class UserController {
                               HttpServletResponse response) {
         response.setContentType("text/html;charset=utf-8");//操作返回消息提示
         try (PrintWriter writer = response.getWriter()) {
+
             UserInfo testid = userService.findUserByUserID(userID);
             if (testid == null) {
                 UserInfo dbUser = new UserInfo();
@@ -57,6 +58,7 @@ public class UserController {
         }
     }
 
+
     /*************登录***************/
     @RequestMapping(value = "/login")
     public String loginPages() {
@@ -68,6 +70,7 @@ public class UserController {
                            @RequestParam("password") String userPassword,
                            HttpServletResponse response,
                            HttpSession session) {
+
         response.setContentType("text/html;charset=utf-8");//操作返回消息提示
         try (PrintWriter writer = response.getWriter()) {
             UserInfo dbUser = userService.findUserByUserID(userID);
@@ -97,7 +100,6 @@ public class UserController {
 
     }
 
-
     @RequestMapping(value = "/logoutAction")
     public void logOut(HttpSession session,
                        HttpServletResponse response,
@@ -116,7 +118,7 @@ public class UserController {
             }
             //从session中删除user
             session.removeAttribute("user");
-            writer.write("<script> alert('成功登出'); location.href='history.go(-1)';</script>");
+            writer.write("<script> alert('成功登出'); location.href='/504/host';</script>");
         } catch (IOException e) {
             e.printStackTrace();
         }
