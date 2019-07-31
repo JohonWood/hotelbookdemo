@@ -38,6 +38,7 @@ public class CityManageService {
     }
 
     public void saveCity(City city) {
+        city.setCountryCode("CN");
         cityMapper.insert(city);
     }
 }

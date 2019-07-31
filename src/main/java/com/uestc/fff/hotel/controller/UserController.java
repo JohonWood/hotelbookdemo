@@ -98,14 +98,25 @@ public class UserController {
             }
             else
             {
+
                 //用session保存用户登录信息
                 session.setAttribute("user", dbUser);
+
+
 
                 //创建cookie对象来保存session的id
                 Cookie cookie = new Cookie("jessionid",session.getId());
                 cookie.setMaxAge(86400);//保存一天
                 response.addCookie(cookie);
-                writer.write("<script> alert('登录成功'); location.href='/504/host?islogin=true&tr';</script>");
+
+                System.out.println(dbUser.getUserId());
+                if ( "admin".equals(dbUser.getUserId())){
+                    writer.write("<script> alert('登录成功'); location.href='/manage/country';</script>");
+                }
+                else{
+                    writer.write("<script> alert('登录成功'); location.href='/504/host?islogin=true';</script>");
+                }
+
                 //System.out.println("登录成功");
                 //return "testlogin";
             }
