@@ -190,7 +190,6 @@ public class ManageController {
     public String updateRoom(@RequestParam String hotelName, RoomInfo room, Model model) {
         hotelManageService.updateRoom(room);
         String hotelID = room.getHotelId();
-        System.out.println(room.getRoomid());
         RoomInfoExample roomInfoExample = new RoomInfoExample();
         roomInfoExample.createCriteria().andHotelIdEqualTo(hotelID);
         model.addAttribute("listRoom", hotelManageService.listRoom(roomInfoExample));
