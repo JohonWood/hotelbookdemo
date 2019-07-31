@@ -164,4 +164,45 @@ public class ManageController {
         model.addAttribute("hotelName", hotelName);
         return "HotelAddRoom";
     }
+
+    @PostMapping("/addRoom")
+    public String saveRoom(RoomInfo roomInfo,@RequestParam("hotelName") String hotelName,Model model) {
+        String hotelID = roomInfo.getHotelId();
+        RoomInfoExample roomInfoExample = new RoomInfoExample();
+        roomInfoExample.createCriteria().andHotelIdEqualTo(hotelID);
+        hotelManageService.saveRoom(roomInfo);
+        model.addAttribute("listRoom", hotelManageService.listRoom(roomInfoExample));
+        model.addAttribute("hotelName", hotelName);
+        model.addAttribute("hotelID", hotelID);
+        return "HotelRoom";
+    }
+
+    @GetMapping("/editRoom")
+    public String editRoom(@RequestParam String roomID,
+                           @RequestParam String hotelName,
+                           Model model) {
+        model.addAttribute("hotelName", hotelName);
+        model.addAttribute("room", hotelManageService.findRoomByPrimaryKey(roomID));
+        return "HotelEditRoom";
+    }
+
+    @PostMapping("/editRoom")
+    public String updateRoom(@RequestParam String hotelName, RoomInfo room, Model model) {
+        hotelManageService.updateRoom(room);
+        String hotelID = room.getHotelId();
+        System.out.println(room.getRoomid());
+        RoomInfoExample roomInfoExample = new RoomInfoExample();
+        roomInfoExample.createCriteria().andHotelIdEqualTo(hotelID);
+        model.addAttribute("listRoom", hotelManageService.listRoom(roomInfoExample));
+        model.addAttribute("hotelName", hotelName);
+        model.addAttribute("hotelID", hotelID);
+        return "HotelRoom";
+    }
+
+    @GetMapping("/deleteRoom")
+    @ResponseBody
+    public Boolean deleteRoom(@RequestParam String roomID){
+        hotelManageService.deleteRoomByID(roomID);
+        return true;
+    }
 }
