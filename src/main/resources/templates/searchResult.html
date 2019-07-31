@@ -238,11 +238,12 @@
             <!-- Main content -->
             <section class="content">
 
-                <div class="box box-default " style="margin: 5px auto;" th:each="result,resultStat: ${resultList}" th:if="${resultStat.count lt 10 && resultNum!=0}">
+                <div th:id="'resultList'+${resultStat.count}" class="box box-default " style="margin: 5px auto;" th:each="result,resultStat: ${resultList}" th:if="${resultNum!=0}">
                     <!--<div class="box-header with-border">-->
                         <!--<h3 class="box-title">Blank Box</h3>-->
                     <!--</div>-->
                     <div class="box-body" style="padding-left: 10px;position: relative;">
+
 
                         <div class="product-img sidebar-menu" style="float: left;margin-right: 20px;margin-top: 30px">
                             <img th:src="${result.hotelPhoto1}" alt="Product Image">
@@ -268,6 +269,9 @@
                         </div>
                     </div>
                     <!-- /.box-body -->
+                </div>
+                <div class="text-center btn bg-purple center-block" title="加载10项" id="downList" th:if="${resultNum > 11}">
+                    <span ><i class="fa fa-fw fa-chevron-down"></i></span>
                 </div>
 
                 <!-- /.box -->
@@ -315,12 +319,13 @@
 <script src="../adminlte/dist/js/demo.js" type="text/javascript"
         th:src="@{/adminlte/dist/js/demo.js}"></script>
 
-<script>
+<script th:inline="javascript">
 
     $("#topArrow").click(function(){
         $(document).scrollTop(0);
     })
     var xmlhttp;
+    var countResult =10;
     if (window.XMLHttpRequest) {
         xmlhttp = new XMLHttpRequest();
     } else {
@@ -329,6 +334,9 @@
 
 
     $(function () {
+        for (var i=11;i<=[[${resultNum}]];i++){
+            $('#resultList'+i).hide();
+        }
         xmlhttp.open("GET", "/test/city?country=" + encodeURI(encodeURI($("#CountrySelect").val())), true);
         xmlhttp.send();
         xmlhttp.onreadystatechange = function () {
@@ -361,10 +369,19 @@
             }
         }
     });
+    $('#downList').click(function () {
+        if(countResult+10>[[${resultNum}]]){
+            $('#downList').attr("title","已全部加载")
+        }
+        else{
+        for (var i=countResult+1;i<=countResult+10;i++) {
+            $('#resultList'+i).show();
+        }
+        countResult=countResult+10;}
 
-    $("#CitySelect").change(function () {
-        console.log($("#CitySelect").val())
-    });
+
+    })
+
 </script>
 
 

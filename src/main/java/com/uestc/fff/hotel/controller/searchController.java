@@ -57,6 +57,7 @@ public class searchController {
         List<String> listOfCountry=service.searchCountry();
         model.addAttribute("countryList",listOfCountry);
         model.addAttribute("resultNum",resultList.size());
+        model.addAttribute("resultPresent",10);
         model.addAttribute("resultList",resultList);
         return "searchResult";
     }
