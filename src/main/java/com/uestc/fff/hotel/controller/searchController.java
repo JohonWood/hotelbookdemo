@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -55,8 +56,14 @@ public class searchController {
 
     }
     @PostMapping("/post")
-    public String receiveParam(String hotelKey, String countryKey,String cityKey,Model model, HttpSession session){
+    public String receiveParam(String hotelKey, String countryKey,String cityKey,Model model, HttpSession session,HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
         List<FullSearResult> resultList=service.fullSearch(hotelKey,countryKey,cityKey);
+        session.setAttribute("resultList", resultList);
+        //创建cookie对象来保存session的id
+        Cookie cookie = new Cookie("resultSession", session.getId());
+        cookie.setMaxAge(86400);//保存一天
+        httpServletResponse.addCookie(cookie);
+        List<FullSearResult> fullSearResultList=new ArrayList<FullSearResult>();
         boolean islogin;
         UserInfo userInfotest = (UserInfo) session.getAttribute("user");
         if (userInfotest == null) { islogin = false; }
@@ -74,25 +81,40 @@ public class searchController {
             model.addAttribute("resultNum",0);
         }
         else{
+            if(resultList.size()<10){
+                for(int i=0;i<resultList.size();i++){
+                    fullSearResultList.add(resultList.get(i));
+                }
+            }
+            else{
+                for(int i=0;i<10;i++){
+                    fullSearResultList.add(resultList.get(i));
+                }
+            }
+
             model.addAttribute("resultNum",resultList.size());
-            model.addAttribute("resultList",resultList);
+            model.addAttribute("resultList",fullSearResultList);
         }
 
         return "searchResult";
     }
     @RequestMapping("/test")
     @ResponseBody
-    public List<FullSearResult>  resultMap( Model model, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws UnsupportedEncodingException {
-        List<FullSearResult> tets=service.fullSearch("香格里拉","中国","成都");
-//        for(FullSearResult fullSearResult :tets){
-//            System.out.println(fullSearResult.getHotelName());
-//        }
-//        Map text=new HashMap();
-//        text.put("text1","sdadasdasd");
-//        text.put("text2","asddfdqwere");
-        return tets;
-
+    public List<FullSearResult>  resultMap( Model model, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,HttpSession session) throws UnsupportedEncodingException {
+        int indexOfList=Integer.parseInt(httpServletRequest.getParameter("indexOfList"));
+        List<FullSearResult> fullSearResultList=(List<FullSearResult>) session.getAttribute("resultList");
+        List<FullSearResult> resultList=new ArrayList<FullSearResult>();
+        if (indexOfList + 10>fullSearResultList.size()) {
+            for(int i=indexOfList;i<fullSearResultList.size();i++){
+                resultList.add(fullSearResultList.get(i));
+            }
+        }
+        else{
+            for(int i=indexOfList;i<indexOfList+10;i++){
+                resultList.add(fullSearResultList.get(i));
+            }
+        }
+        return resultList;
     }
-
 
 }
