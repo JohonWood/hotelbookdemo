@@ -45,7 +45,7 @@
 
 <div class="wrapper">
     <header class="main-header ">
-        <a href="/test/host" class="logo bg-purple btn">
+        <a href="/504/host" class="logo bg-purple btn">
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>504</b>购</span>
             <!-- logo for regular state and mobile devices -->
@@ -100,7 +100,7 @@
                                 </ul>
                             </li>
                             <li class="footer">
-                                <a href="#">查看所有订单</a>
+                                <a href="/mybook/booklist">查看所有订单</a>
                             </li>
                         </ul>
                     </li>
@@ -134,7 +134,7 @@
 
                                     </div>
                                     <div class="col-xs-4 text-center">
-                                        <a href="#">我的订单</a>
+                                        <a href="/mybook/booklist">我的订单</a>
                                     </div>
                                     <div class="col-xs-4 text-center">
                                         <!--<a href="#">Friends</a>-->
@@ -153,10 +153,10 @@
                             </li>
                             <li class="user-footer" th:if="${isLogin}==false">
                                 <div class="pull-left">
-                                    <a href="#" class="btn btn-default btn-flat">登录</a>
+                                    <a href="/user/login" class="btn btn-default btn-flat">登录</a>
                                 </div>
                                 <div class="pull-right">
-                                    <a href="#" class="btn btn-default btn-flat">注册</a>
+                                    <a href="/user/register" class="btn btn-default btn-flat">注册</a>
                                 </div>
                             </li>
                         </ul>
@@ -188,7 +188,7 @@
                 </li>
             </ul>
           <!-- search form (Optional) -->
-            <form action="/test/post" method="post" class="sidebar-menu">
+            <form action="/504/post" method="post" class="sidebar-menu">
                     <div class="input-group sidebar-form">
                         <input type="text" name="hotelKey" class="form-control" placeholder="Search...">
                         <span class="input-group-btn">
@@ -230,7 +230,7 @@
                     <small>总计<span th:text="${resultNum}"></span>家酒店</small>
                 </h1>
                 <ol class="breadcrumb">
-                    <li><a href="/test/host"><i class="fa fa-dashboard"></i> 主页</a></li>
+                    <li><a href="/504/host"><i class="fa fa-dashboard"></i> 主页</a></li>
                     <li><a href="#">搜索结果</a></li>
                 </ol>
             </section>
@@ -329,7 +329,7 @@
 
 
     $(function () {
-        xmlhttp.open("GET", "/test/city?country=" + encodeURI(encodeURI($("#CountrySelect").val())), true);
+        xmlhttp.open("GET", "/504/city?country=" + encodeURI(encodeURI($("#CountrySelect").val())), true);
         xmlhttp.send();
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -346,7 +346,7 @@
 
 
     $("#CountrySelect").change(function () {
-        xmlhttp.open("GET", "/test/city?country=" + encodeURI(encodeURI($("#CountrySelect").val())), true);
+        xmlhttp.open("GET", "/504/city?country=" + encodeURI(encodeURI($("#CountrySelect").val())), true);
         xmlhttp.send();
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {

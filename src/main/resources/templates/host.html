@@ -72,7 +72,7 @@
                                 </ul>
                             </li>
                             <li class="footer">
-                                <a href="#">查看所有订单</a>
+                                <a href="/mybook/booklist">查看所有订单</a>
                             </li>
                         </ul>
                     </li>
@@ -106,7 +106,7 @@
 
                                     </div>
                                     <div class="col-xs-4 text-center">
-                                        <a href="#">我的订单</a>
+                                        <a href="/mybook/booklist">我的订单</a>
                                     </div>
                                     <div class="col-xs-4 text-center">
                                         <!--<a href="#">Friends</a>-->
@@ -125,10 +125,10 @@
                             </li>
                             <li class="user-footer" th:if="${isLogin}==false">
                                 <div class="pull-left">
-                                    <a href="#" class="btn btn-default btn-flat">登录</a>
+                                    <a href="/user/login" class="btn btn-default btn-flat">登录</a>
                                 </div>
                                 <div class="pull-right">
-                                    <a href="#" class="btn btn-default btn-flat">注册</a>
+                                    <a href="/user/register" class="btn btn-default btn-flat">注册</a>
                                 </div>
                             </li>
                         </ul>
@@ -150,7 +150,7 @@
             </h1>
             <span>享受全球住宿超值优惠</span>
         </section>
-        <form th:action="@{/test/post}" method="post">
+        <form th:action="@{/504/post}" method="post">
             <!-- Main content -->
             <section class="content container-fluid">
                 <div class="row">
@@ -219,7 +219,7 @@
 
 
     $(function () {
-        xmlhttp.open("GET", "/test/city?country=" + encodeURI(encodeURI($("#CountrySelect").val())), true);
+        xmlhttp.open("GET", "/504/city?country=" + encodeURI(encodeURI($("#CountrySelect").val())), true);
         xmlhttp.send();
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -236,7 +236,7 @@
 
 
     $("#CountrySelect").change(function () {
-        xmlhttp.open("GET", "/test/city?country=" + encodeURI(encodeURI($("#CountrySelect").val())), true);
+        xmlhttp.open("GET", "/504/city?country=" + encodeURI(encodeURI($("#CountrySelect").val())), true);
         xmlhttp.send();
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
