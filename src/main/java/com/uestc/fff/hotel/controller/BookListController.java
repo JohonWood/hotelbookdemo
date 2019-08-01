@@ -31,25 +31,26 @@ public class BookListController {
         UserInfo userInfotest = (UserInfo) session.getAttribute("user");
         response.setContentType("text/html;charset=utf-8");
 
-        model.addAttribute("isLogin",true);
-        model.addAttribute("User_name","Quincy");
-        model.addAttribute("numOfOrders",serviceSearch.countOrder("1"));
-        List<order> orderList=serviceSearch.orderList("1");
-        model.addAttribute("orderList",orderList);
-        List<String> listOfCountry=serviceSearch.searchCountry();
-        model.addAttribute("countryList",listOfCountry);
-
         try{
             PrintWriter writer = response.getWriter();
             if (userInfotest == null) {
-                writer.write("<script> alert('请先登录'); location.href='/user/login';</script>");
+                writer.write("<script> alert('请先登录');</script>");
+                return "login";
             }
             else {
                 model.addAttribute("OrderWithHotel",serviceBook.MyListOrder(userInfotest.getUserId()));
+                model.addAttribute("User_name",userInfotest.getLoginName());
+                model.addAttribute("numOfOrders",serviceSearch.countOrder(userInfotest.getUserId()));
+                List<order> orderList=serviceSearch.orderList(userInfotest.getUserId());
+                model.addAttribute("orderList",orderList);
+                model.addAttribute("isLogin",true);
+                List<String> listOfCountry=serviceSearch.searchCountry();
+                model.addAttribute("countryList",listOfCountry);
             }
         }catch (IOException e) {
             e.printStackTrace();
         }
+
         return "BookList";
     }
 
@@ -57,31 +58,34 @@ public class BookListController {
     public String BookInfoPages(@RequestParam("oid") String oid, Model model, HttpSession session, HttpServletResponse response){
         UserInfo userInfotest = (UserInfo) session.getAttribute("user");
         response.setContentType("text/html;charset=utf-8");
+        boolean islogin;
 
-        model.addAttribute("isLogin",true);
-        model.addAttribute("User_name","Quincy");
-        model.addAttribute("numOfOrders",serviceSearch.countOrder("1"));
-        List<order> orderList=serviceSearch.orderList("1");
-        model.addAttribute("orderList",orderList);
-        List<String> listOfCountry=serviceSearch.searchCountry();
-        model.addAttribute("countryList",listOfCountry);
         try{
             PrintWriter writer = response.getWriter();
             if (userInfotest == null) {
-                writer.write("<script> alert('请先登录'); location.href='/user/login';</script>");
+                writer.write("<script> alert('请先登录');</script>");
+                return "login";
             }
             else {
-                    String uid = serviceBook.OrderInfomation(oid).getUserId();
-                    String hid = serviceBook.OrderInfomation(oid).getHotelId();
-                    String rid = serviceBook.OrderInfomation(oid).getRoomid();
-                    model.addAttribute("Hotels",serviceBook.HotelInfomation(hid));
-                    model.addAttribute("Rooms",serviceBook.RoomInfomation(rid));
-                    model.addAttribute("Orders",serviceBook.OrderInfomation(oid));
-                    model.addAttribute("Users", serviceBook.UserInfomation(uid));
+                String uid = serviceBook.OrderInfomation(oid).getUserId();
+                String hid = serviceBook.OrderInfomation(oid).getHotelId();
+                String rid = serviceBook.OrderInfomation(oid).getRoomid();
+                model.addAttribute("Hotels",serviceBook.HotelInfomation(hid));
+                model.addAttribute("Rooms",serviceBook.RoomInfomation(rid));
+                model.addAttribute("Orders",serviceBook.OrderInfomation(oid));
+                model.addAttribute("Users", serviceBook.UserInfomation(uid));
+                model.addAttribute("User_name",userInfotest.getLoginName());
+                model.addAttribute("numOfOrders",serviceSearch.countOrder(userInfotest.getUserId()));
+                List<order> orderList=serviceSearch.orderList(userInfotest.getUserId());
+                model.addAttribute("orderList",orderList);
+                model.addAttribute("isLogin",true);
+                List<String> listOfCountry=serviceSearch.searchCountry();
+                model.addAttribute("countryList",listOfCountry);
             }
         }catch (IOException e) {
             e.printStackTrace();
         }
+
         return "BookInfo";
     }
 
@@ -92,4 +96,58 @@ public class BookListController {
         return true;
     }
 
+    @RequestMapping("/book")
+    public String BookPages(Model model, HttpSession session){
+        UserInfo userInfotest = (UserInfo) session.getAttribute("user");
+        boolean islogin;
+        String hid = "108387";
+
+        if (userInfotest == null) { islogin = false; }
+        else  {
+            islogin = true;
+            model.addAttribute("User_name",userInfotest.getLoginName());
+            model.addAttribute("numOfOrders",serviceSearch.countOrder(userInfotest.getUserId()));
+            List<order> orderList=serviceSearch.orderList(userInfotest.getUserId());
+            model.addAttribute("orderList",orderList);
+        }
+
+        model.addAttribute("isLogin",islogin);
+        List<String> listOfCountry=serviceSearch.searchCountry();
+        model.addAttribute("countryList",listOfCountry);
+        model.addAttribute("Hotels",serviceBook.HotelInfomation("108573"));
+        model.addAttribute("RoomList", serviceBook.RoomInfoList(hid));
+
+        return "Book";
+    }
+
+    @RequestMapping("/bookconfirm")
+    public String BookConfirmPages(@RequestParam("hid") String hid, Model model, HttpSession session, HttpServletResponse response){
+        UserInfo userInfotest = (UserInfo) session.getAttribute("user");
+        response.setContentType("text/html;charset=utf-8");
+
+        try{
+            PrintWriter writer = response.getWriter();
+            if (userInfotest == null) {
+                writer.write("<script> alert('请先登录');</script>");
+                return "login";
+            }
+            else {
+
+            }
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        model.addAttribute("User_name",userInfotest.getLoginName());
+        model.addAttribute("numOfOrders",serviceSearch.countOrder(userInfotest.getUserId()));
+        List<order> orderList=serviceSearch.orderList(userInfotest.getUserId());
+        model.addAttribute("orderList",orderList);
+        model.addAttribute("isLogin",true);
+        List<String> listOfCountry=serviceSearch.searchCountry();
+        model.addAttribute("countryList",listOfCountry);
+        model.addAttribute("Hotels",serviceBook.HotelInfomation(hid));
+        model.addAttribute("RoomList", serviceBook.RoomInfoList(hid));
+
+        return "BookConfirm";
+    }
 }

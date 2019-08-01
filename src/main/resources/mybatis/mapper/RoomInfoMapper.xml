@@ -131,6 +131,14 @@
       order by ${orderByClause}
     </if>
   </select>
+
+  <select id="selectByHotel" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select *
+    from room_info
+    where Hotel_id = #{hotelId,jdbcType=VARCHAR}
+    order by RoomID
+  </select>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     <!--
       WARNING - @mbg.generated

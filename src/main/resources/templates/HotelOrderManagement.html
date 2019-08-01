@@ -66,7 +66,7 @@
                                     <a href="#" class="btn btn-default btn-flat">简况</a>
                                 </div>
                                 <div class="pull-right">
-                                    <a href="#" class="btn btn-default btn-flat">退出</a>
+                                    <a href="/user/login" class="btn btn-default btn-flat">退出</a>
                                 </div>
                             </li>
                         </ul>
@@ -114,55 +114,86 @@
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        <section class="content">
-            <div class="row">
-                <!-- left column -->
-                <div class="col-md-6">
-                    <!-- general form elements -->
-                    <div class="box box-primary">
-                        <div class="box-header with-border">
-                            <h3 class="box-title" th:text="'编辑房间 - '+(${hotelName})"></h3>
-                        </div>
-                        <!-- /.box-header -->
-                        <!-- form start -->
-                        <form th:action="@{/manage/editRoom(hotelName = ${hotelName})}" method="post"  th:object="${room}" role="form">
-                            <div class="box-body">
-                                <div class="form-group">
-                                    <input type="hidden" class="form-control" th:field="*{hotelId}">
-                                </div>
-                                <div class="form-group">
-                                    <input type="hidden" class="form-control" th:field="*{roomStatus}">
-                                </div>
-                                <div class="form-group">
-                                    <label th:text="'房间代码：'+(${room.roomid})"></label>
-                                    <input type="hidden" class="form-control"th:field="*{roomid}" placeholder="输入早餐类型">
-                                </div>
-                                <div class="form-group">
-                                    <label for="type">房间类型</label>
-                                    <input type="text" class="form-control" id="type" name="type" th:field="*{roomType}" placeholder="输入房间类型">
-                                </div>
-                                <div class="form-group">
-                                    <label for="fee">房间费用</label>
-                                    <input type="text" class="form-control" id="fee" name="fee" th:field="*{roomFee}" placeholder="输入房间费用">
-                                </div>
-                                <div class="form-group">
-                                    <label for="name">早餐类型</label>
-                                    <input type="text" class="form-control" id="name" name="name" th:field="*{roomBreakfirst}" placeholder="输入早餐类型">
-                                </div>
-                            </div>
-                            <!-- /.box-body -->
-
-                            <div class="box-footer">
-                                <button type="submit" class="btn btn-primary">提交</button>
-                            </div>
-                        </form>
+        <section class="content container-fluid">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title" th:text="'订单管理 - '+${hotelName}"></h3>
+                </div >
+                <!-- /.box-header -->
+                <form th:action="@{/manage/orderSearch(hotelName = ${hotelName})}" method="post">
+                <div class="col-md-3">
+                    <div class="form-group">
+                         <select class="form-control select2" style="width: 50%;" name="way">
+                             <option>按用户名查询</option>
+                             <option>按订单号查询</option>
+                         </select>
+                        <label><br><input type="text" class="form-control input-sm"
+                                             aria-controls="example1" name="searchInfo" style="width: 145px;"></label>
+                        <button type="submit" class="btn btn-block btn-info" style="height: 30px;width: auto;">
+                            查询
+                        </button>
                     </div>
-                    <!-- /.box -->
-
                 </div>
-                <!--/.col (left) -->
+                </form>
+                <div class="box-body">
+                    <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table id="example1" class="table table-bordered table-striped dataTable" role="grid"
+                                       aria-describedby="example1_info">
+                                    <thead>
+                                    <tr role="row">
+                                        <th style="width: 266.6px;">订单号</th>
+                                        <th style="width: 266.6px;">用户名</th>
+                                        <th style="width: 166.6px;">房间ID</th>
+                                        <th style="width: 166.6px;">创建时间</th>
+                                        <th style="width: 166.6px;">入住时间</th>
+                                        <th style="width: 166.6px;">入住人数</th>
+                                        <th style="width: 166.6px;">支付金额</th>
+                                        <th style="width: 66.6px;">编辑</th>
+                                        <th style="width: 66.6px;">删除</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="order: ${listOrder}">
+                                        <td th:text="${order.orderId}"></td>
+                                        <td th:text="${order.userName}"></td>
+                                        <td th:text="${order.roomid}"></td>
+                                        <td th:text="${order.createTime}"></td>
+                                        <td th:text="${order.checkinTime}"></td>
+                                        <td th:text="${order.customNum}"></td>
+                                        <td th:text="${order.orderTotalFee}"></td>
+                                        <td><a th:href="@{/manage/editOrder(orderID = ${order.orderId})}">
+                                            <button type="button" class="btn btn-block btn-info">编辑</button>
+                                        </a></td>
+                                        <td><a>
+                                            <button type="button" class="btn btn-block btn-info"
+                                                    data-th-attr="onclick='deleteOrder(this, \'' + ${order.orderId} + '\')'">
+                                                删除
+                                            </button>
+                                        </a></td>
+                                    </tr>
+                                    </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <th rowspan="1" colspan="1">订单号</th>
+                                        <th rowspan="1" colspan="1">用户名</th>
+                                        <th rowspan="1" colspan="1">房间ID</th>
+                                        <th rowspan="1" colspan="1">创建时间</th>
+                                        <th rowspan="1" colspan="1">入住时间</th>
+                                        <th rowspan="1" colspan="1">入住人数</th>
+                                        <th rowspan="1" colspan="1">支付金额</th>
+                                        <th rowspan="1" colspan="1"></th>
+                                        <th rowspan="1" colspan="1"></th>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <!-- /.row -->
+            <!-- /.box-body -->
         </section>
         <!-- /.content -->
     </div>
@@ -180,5 +211,18 @@
         src="../dist/js/adminlte.min.js"></script>
 
 </body>
-
+<script>
+    function deleteOrder(elem, OrderID) {
+        $.ajax({
+            url: '/manage/deleteOrder?orderID=' + OrderID,
+            type: 'get',
+            success: function (data) {
+                $(elem).parent().parent().parent().remove();
+            },
+            fail: function (data) {
+                console.log('fail delete room')
+            }
+        })
+    }
+</script>
 </html>

@@ -26,6 +26,8 @@ public class searchService {
     RoomInfoMapper roomInfoMapper;
     @Autowired
     searchMapper searchMapper;
+    @Autowired
+    HotelSearchMapper hotelSearchMapper;
     public List<String> searchCountry(){
         List<Country> countries=countryMapper.selectByExample(new CountryExample());//new ArrayList<Country>();
         List<String> listOfCountry=new ArrayList<String>();
@@ -60,12 +62,13 @@ public class searchService {
         }
 
     }
-    public List<SearchResult> searchKey(String hotelKey,String countryKey,String cityKey) {
+    public List<FullSearResult> fullSearch(String hotelKey,String countryKey,String cityKey) {
         Key key = new Key();
         key.setCityKey(cityKey);
         key.setCountryKey(countryKey);
         key.setHotelKey("%" + hotelKey + "%");
-        List<SearchResult> searchResultList = searchMapper.selectByMutiKey(key);
+        List<FullSearResult> searchResultList=hotelSearchMapper.fullResultSearch(key);
+
         if (!searchResultList.isEmpty()) {
             return searchResultList;
         }

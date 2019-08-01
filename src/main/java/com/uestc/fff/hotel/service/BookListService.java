@@ -30,6 +30,8 @@ public class BookListService {
         return roomInfoMapper.selectByPrimaryKey(rid);
     }
 
+    public List<RoomInfo> RoomInfoList(String hid) { return  roomInfoMapper.selectByHotel(hid); }
+
     public OrderInfo OrderInfomation(String oid){
         return orderInfoMapper.selectByPrimaryKey(oid);
     }
@@ -37,5 +39,7 @@ public class BookListService {
     public UserInfo UserInfomation(String uid)  { return userInfoMapper.selectByPrimaryKey(uid); }
 
     public void DeleteOrder(String oid){ orderInfoMapper.deleteByPrimaryKey(oid); }
+
+    //public long NumOfAllOrders() { return orderInfoMapper.countByExample(new OrderInfoExample()); }
 }
 
