@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>我的订单</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="../adminlte/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../adminlte/bower_components/font-awesome/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="../adminlte/bower_components/Ionicons/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../adminlte/dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skinsfolder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="../adminlte/dist/css/skins/_all-skins.min.css">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="../adminlte/plugins/iCheck/flat/blue.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+
+    <header class="main-header ">
+        <a href="/504/host" class="logo bg-purple btn">
+            <!-- mini logo for sidebar mini 50x50 pixels -->
+            <span class="logo-mini"><b>504</b>购</span>
+            <!-- logo for regular state and mobile devices -->
+            <span class="logo-lg"><b>504</b>订购网</span>
+        </a>
+
+        <nav class="navbar navbar-static-top bg-purple" role="navigation">
+            <a href="#" class="sidebar-toggle bg-purple btn" data-toggle="push-menu" role="button">
+                <span class="sr-only">Toggle navigation</span>
+            </a>
+
+            <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
+
+                    <!-- Tasks Menu -->
+                    <li class="dropdown tasks-menu" th:if="${isLogin}==true">
+                        <!-- Menu Toggle Button -->
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-flag-o"></i>
+                            <span class="label label-danger" th:text="${numOfOrders}"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="header">你有<span th:text="${numOfOrders}"></span>个酒店订单</li>
+                            <li>
+                                <!-- Inner menu: contains the tasks -->
+                                <ul class="menu">
+                                    <li th:if="${numOfOrders}==0">
+                                        <a href="#">
+                                            <!-- Task title and progress text -->
+                                            <h3>
+                                                无订单
+                                            </h3>
+
+                                            </p>
+                                        </a>
+                                    </li>
+                                    <li th:each="order,orderStat: ${orderList}" th:if="${orderStat.count lt 3 && numOfOrders!=0}">
+                                        <!-- Task item -->
+                                        <a href="#">
+                                            <!-- Task title and progress text -->
+                                            <h3>
+                                                <span th:text="${order.hotelName}">酒店</span>
+                                            </h3>
+                                            <p class="text-black">
+                                                <span th:text="${order.roomType}">sadasd</span>
+                                                <span class="pull-right"><i class="fa fa-calendar"></i>
+                                            <span class="text-black" th:text='${order.checkInTime}'></span>入住</span>
+                                            </p>
+                                        </a>
+                                    </li>
+                                    <!-- end task item -->
+                                </ul>
+                            </li>
+                            <li class="footer">
+                                <a href="/mybook/booklist">查看所有订单</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- User Account Menu -->
+                    <li class="dropdown user user-menu">
+                        <!-- Menu Toggle Button -->
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <span class="hidden-xs" th:if="${isLogin}==true" th:text="${User_name}"></span>
+                            <span class="hidden-xs" th:if="${isLogin}==false">未登录</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="user-header bg-purple">
+
+                                <p th:if="${isLogin}==true">
+                                    <span th:text="${User_name}"></span>
+                                    <br>
+                                    <br>
+                                    <small>亲爱的用户，欢迎来到504订房网！</small>
+                                </p>
+                                <p th:if="${isLogin}==false">
+                                    <span>用户未登录</span>
+                                    <br>
+                                    <br>
+                                    <small>如果未注册，请注册后登录网站</small>
+                                </p>
+                            </li>
+                            <!-- Menu Body -->
+                            <li class="user-body" th:if="${isLogin}==true">
+                                <div class="row" style="">
+                                    <div class="col-xs-4 text-center">
+
+                                    </div>
+                                    <div class="col-xs-4 text-center">
+                                        <a href="/mybook/booklist">我的订单</a>
+                                    </div>
+                                    <div class="col-xs-4 text-center">
+                                        <!--<a href="#">Friends</a>-->
+                                    </div>
+                                </div>
+                                <!-- /.row -->
+                            </li>
+                            <!-- Menu Footer-->
+                            <li class="user-footer" th:if="${isLogin}==true">
+                                <div class="pull-left">
+                                    <a href="#" class="btn btn-default btn-flat">个人信息</a>
+                                </div>
+                                <div class="pull-right">
+                                    <a href="/user/logoutAction" class="btn btn-default btn-flat">登出</a>
+                                </div>
+                            </li>
+                            <li class="user-footer" th:if="${isLogin}==false">
+                                <div class="pull-left">
+                                    <a href="/user/login" class="btn btn-default btn-flat">登录</a>
+                                </div>
+                                <div class="pull-right">
+                                    <a href="/user/register" class="btn btn-default btn-flat">注册</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <!-- Left side column. contains the logo and sidebar -->
+    <aside class="main-sidebar">
+
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+            <!-- Sidebar Menu -->
+            <ul class="sidebar-menu" data-widget="tree">
+                <li class="header">HEADER</li>
+                <!-- Optionally, you can add icons to the links -->
+                <li class="active"><a href="booklist"><i class="fa fa-shopping-cart"></i> <span>我的订单</span></a></li>
+                <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
+                <li class="treeview">
+                    <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
+                        <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="#">Link in level 2</a></li>
+                        <li><a href="#">Link in level 2</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <!-- /.sidebar-menu -->
+        </section>
+        <!-- /.sidebar -->
+    </aside>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper -align-center" th:style="'align-content: center;background: url('+@{/picture/backImg.jpg} + ') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;'">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+               订单列表
+            </h1>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="row">
+                <!-- /.col -->
+                <div class="col-md-12">
+                    <div class="box box-primary">
+                        <!-- /.box-header -->
+                        <div class="box-body no-padding">
+                            <div id = "div1" class="table-responsive BookListBox-messages">
+                                <table class="table table-hover table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>预定时间</th>
+                                            <th>订单编号</th>
+                                            <th>酒店名称</th>
+                                            <th>入住时间</th>
+                                            <th>预定总价</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="Order : ${OrderWithHotel}">
+                                            <td><i class="fa fa-book"></i></td>
+                                            <td th:text="${#dates.format(Order.createTime, 'yyyy-MM-dd hh:mm:ss')}"></td>
+                                            <td th:text="${Order.orderId }"></td>
+                                            <td th:text="${Order.hotelName}"></td>
+                                            <td th:text="${#dates.format(Order.checkinTime, 'yyyy-MM-dd')}"></td>
+                                            <td th:text="${'￥'+Order.orderTotalFee}"></td>
+                                            <td>
+                                                <button type="button" class="btn btn-info btn-sm"
+                                                        data-th-attr="onclick='SeeInfo(\'' + ${Order.orderId} + '\')'">
+                                                    查看详细
+                                                </button >
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <!-- /.table -->
+                            </div>
+                            <!-- /.mail-box-messages -->
+                        </div>
+                        <!-- /.box-body -->
+                        <!--<div class="box-footer no-padding">-->
+                            <!--<div class="BookListBox-controls">-->
+                                <!--<div class="btn-group">-->
+                                <!--</div>-->
+                                <!--<div class="pull-right">-->
+                                    <!--<ul class="pagination">-->
+                                        <!--<li><a href="#">&laquo;</a></li>-->
+                                        <!--<li class="active"><a href="#">1</a></li>-->
+                                        <!--<li><a href="#">2</a></li>-->
+                                        <!--<li><a href="#">3</a></li>-->
+                                        <!--<li><a href="#">4</a></li>-->
+                                        <!--<li><a href="#">5</a></li>-->
+                                        <!--<li><a href="#">&raquo;</a></li>-->
+                                    <!--</ul>-->
+                                    <!--&lt;!&ndash; /.btn-group &ndash;&gt;-->
+                                <!--</div>-->
+                                <!--&lt;!&ndash; /.pull-right &ndash;&gt;-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    </div>
+                    <!-- /. box -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </section>
+        <!-- /.content -->
+    </div>
+
+    <footer class="main-footer fixed">
+        <!-- To the right -->
+        <div class="pull-right hidden-xs">
+            电子科技大学第22组
+        </div>
+        <!-- Default to the left -->
+        <strong>Copyright &copy; 2019 <a href="https://www.uestc.edu.cn/">电子科技大学</a>.</strong> All rights reserved.
+    </footer>
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery 3 -->
+<script src="../adminlte/bower_components/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="../adminlte/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- Slimscroll -->
+<script src="../adminlte/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<!-- FastClick -->
+<script src="../adminlte/bower_components/fastclick/lib/fastclick.js"></script>
+<!-- AdminLTE App -->
+<script src="../adminlte/dist/js/adminlte.min.js"></script>
+<!-- iCheck -->
+<script src="../adminlte/plugins/iCheck/icheck.min.js"></script>
+<!-- Page Script -->
+<script>
+    function SeeInfo(orderID) {
+        var clicks = $(this).data('clicks');
+        if (!clicks) {
+            open("/mybook/bookinfo?oid=" + orderID);
+        }
+    }
+</script>
+<!-- AdminLTE for demo purposes -->
+<script src="../adminlte/dist/js/demo.js"></script>
+</body>
+</html>

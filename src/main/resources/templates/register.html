@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:lang = "en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册页面</title>
+    <link rel="stylesheet" type="text/css" href="../adminlte/userResource/css/regist.css"
+          th:href="@{../adminlte/userResource/css/regist.css}">
+    <script src="../js/jquery-3.4.1.min.js"></script>
+    <style>
+        div.transbox
+        {
+            width: 420px;
+            height: 680px;
+            margin:30px;
+            padding:0;
+            background-color: #ffffff;
+
+            /* for IE */
+            filter:alpha(opacity=60);
+            /* CSS3 standard */
+            opacity:0.75;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+    <article>
+        <div class="transbox">
+            <br>
+        <h1 style="color: #AF0000"><span>注册</span></h1>
+        <div class="main">
+            <form th:action="@{/user/registerAction}" method="post">
+                <div class="userID">
+                    <label for="userID">身份证号：</label>
+                    <input type="text" name="userID" id="userID" placeholder="您的身份证号">
+                </div>
+
+                <div class="userName">
+                    <label for="userID">真实姓名：</label>
+                    <input type="text" name="userName" id="userName" placeholder="真实姓名">
+                </div>
+
+                <div class="userPhone">
+                    <label for="userID">手机号：</label>
+                    <input type="tel" name="userPhone" id="userPhone" placeholder="手机号">
+                </div>
+
+
+                <div class="loginName">
+                    <label for="userID">用户名：</label>
+                    <input type="text" name="loginName" id= "loginName" placeholder="用户名">
+                </div>
+
+                <div class="loginPassword">
+                    <label for="userID">密码：</label>
+                    <input type="password" name="loginPassword" id="loginPassword" placeholder="密码">
+                    <em>不超过18位</em>
+                </div>
+
+<!--                <div class="loginPasswordAgain">
+                    <input type="password" name="loginPasswordAgain" placeholder="再次输入密码">
+                    <em>不超过18位</em>
+                </div>-->
+                <button>注册</button>
+            </form>
+        </div>
+        </div>
+    </article>
+    </div>
+</body>
+</html>
