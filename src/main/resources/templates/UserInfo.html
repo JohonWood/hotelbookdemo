@@ -117,7 +117,7 @@
                             <!-- Menu Footer-->
                             <li class="user-footer" th:if="${isLogin}==true">
                                 <div class="pull-left">
-                                    <a href="/test" class="btn btn-default btn-flat">个人信息</a>
+                                    <a href="/user/userinfo" class="btn btn-default btn-flat">个人信息</a>
                                 </div>
                                 <div class="pull-right">
                                     <a href="/user/logoutAction" class="btn btn-default btn-flat">登出</a>
@@ -153,7 +153,7 @@
         <div class="row">
             <section class="text-center">
             <div>
-                <form th:action="@{/test/userinfo}"  method="post">
+                <form th:action="@{/user/userinfo}"  method="post">
                 <label>身份证号(登录帐号,无法修改)</label>
                 <p class="id"><i></i><input type="text" name="id" id="id" th:value="${userID}"
                                             style="height: 50px;width:30%;margin:auto;" readonly></p>
@@ -174,7 +174,7 @@
                     <p class="submit">
                         <i>
                             <button type="submit" class="btn bg-purple btn-lg" id="update" style="border-bottom-left-radius: initial">更新个人信息</button>
-                            <a href="/test/changepassword" class="btn bg-purple btn-lg" id="changepassword" style="border-bottom-right-radius: initial">修改密码</a>
+                            <a href="/user/changepassword" class="btn bg-purple btn-lg" id="changepassword" style="border-bottom-right-radius: initial">修改密码</a>
                             <a href="/504/host" class="btn bg-purple btn-lg" id="gotohost" style="border-bottom-right-radius: initial">返回主页</a>
 
                         </i>
