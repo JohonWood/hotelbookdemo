@@ -147,6 +147,7 @@ public class BookListController {
         model.addAttribute("countryList",listOfCountry);
         model.addAttribute("Hotels",serviceBook.HotelInfomation(hid));
         model.addAttribute("RoomList", serviceBook.RoomInfoList(hid));
+        model.addAttribute("numOfAllOrders", serviceBook.CountAllOrders());
 
         return "BookConfirm";
     }

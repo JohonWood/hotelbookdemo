@@ -3,20 +3,21 @@
 <head>
     <meta charset="utf-8">
     <title>酒店详情</title>
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <!-- Bootstrap 3.3.7 -->
-    <link rel="stylesheet" href="../adminlte/bower_components/bootstrap/dist/css/bootstrap.min.css">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="../adminlte/bower_components/font-awesome/css/font-awesome.min.css">
-    <!-- Ionicons -->
-    <link rel="stylesheet" href="../adminlte/bower_components/Ionicons/css/ionicons.min.css">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="../adminlte/dist/css/AdminLTE.min.css">
-    <!-- AdminLTE Skins. Choose a skin from the css/skinsfolder instead of downloading all of them to reduce the load. -->
-    <link rel="stylesheet" href="../adminlte/dist/css/skins/_all-skins.min.css">
-    <!-- iCheck -->
-    <link rel="stylesheet" href="../adminlte/plugins/iCheck/flat/blue.css">
+
+    <link rel="stylesheet" type="text/css" media="all" href="../adminlte/bower_components/bootstrap/dist/css/bootstrap.min.css"
+          th:href="@{/adminlte/bower_components/bootstrap/dist/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" media="all" href="../adminlte/bower_components/font-awesome/css/font-awesome.min.css"
+          th:href="@{/adminlte/bower_components/font-awesome/css/font-awesome.min.css}"/>
+    <link rel="stylesheet" type="text/css" media="all" href="../adminlte/bower_components/Ionicons/css/ionicons.min.css"
+          th:href="@{/adminlte/bower_components/Ionicons/css/ionicons.min.css}"/>
+    <link rel="stylesheet" type="text/css" media="all" href="../adminlte/dist/css/AdminLTE.min.css"
+          th:href="@{/adminlte/dist/css/AdminLTE.min.css}"/>
+    <link rel="stylesheet" type="text/css" media="all" href="../adminlte/dist/css/skins/skin-blue.min.css"
+          th:href="@{/adminlte/dist/css/skins/skin-blue.min.css}"/>
+    <link rel="stylesheet" type="text/css" media="all" href="../adminlte/bower_components/select2/dist/css/select2.min.css"
+          th:href="@{/adminlte/bower_components/select2/dist/css/select2.min.css}">
+    <link rel="stylesheet" type="text/css" media="all" href="../adminlte/dist/css/AdminLTE.min.css"
+          th:href="@{/adminlte/dist/css/AdminLTE.min.css}">
 
     <style>
         .picture1{float:right;}
@@ -297,8 +298,57 @@
                                         <p th:each="Hotel : ${Hotels}">
                                             <button type="button" class="btn btn-block btn-success bg-purple"
                                                     data-th-attr="onclick='BookAction(\'' + ${Hotel.hotelId} + '\')'">
+                                                >>立即预订0<<
+                                            </button>
+                                            <!-- 按钮触发模态框 -->
+                                            <button class="btn btn-block btn-success bg-purple" data-toggle="modal" data-target="#myModal">
                                                 >>立即预订<<
                                             </button>
+                                            <!-- 模态框（Modal） -->
+                                            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document" style="width: 700px;">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                                                &times;
+                                                            </button>
+                                                            <h4 class="modal-title" id="myModalLabel">
+                                                                输入信息
+                                                            </h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="form-group">
+                                                                <label>请选择房间</label>
+                                                                <select class="form-control select2" id="RoomSelect" style="width: 100%;">
+                                                                    <option th:each="Room: ${RoomList}" th:text="${Room.roomName}"></option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label>请输入天数</label>
+                                                                <input class="form-control" id="numOfDays" placeholder="请输入您要预定的天数" style="width: 100%;">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label>请输入人数</label>
+                                                                <input class="form-control" id="numOfCus" placeholder="请输入人数" style="width: 100%;">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label>请选择入住时间</label>
+                                                                <div class="input-group">
+                                                                    <div class="input-group-addon">
+                                                                        <i class="fa fa-calendar"></i>
+                                                                    </div>
+                                                                    <input type="text" class="form-control" data-inputmask="'alias': 'mm/dd/yyyy'" data-mask>
+                                                                </div>
+                                                                <!-- /.input group -->
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                                            <button type="button" class="btn btn-primary">确定</button>
+                                                        </div>
+                                                    </div><!-- /.modal-content -->
+                                                </div><!-- /.modal -->
+                                            </div>
                                         </p>
                                     </div>
                                     <HR align=center color=#987cb9 SIZE=5 class="col-md-12">
@@ -329,19 +379,34 @@
 </div>
 <!-- ./wrapper -->
 
-<!-- jQuery 3 -->
-<script src="../adminlte/bower_components/jquery/dist/jquery.min.js"></script>
-<!-- Bootstrap 3.3.7 -->
-<script src="../adminlte/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<!-- Slimscroll -->
-<script src="../adminlte/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<script type="text/javascript" th:src="@{/adminlte/bower_components/jquery/dist/jquery.min.js}"
+        src="../adminlte/bower_components/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" th:src="@{/adminlte/bower_components/bootstrap/dist/js/bootstrap.min.js}"
+        src="../adminlte/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" th:src="@{/adminlte/dist/js/adminlte.min.js}"
+        src="../adminlte/dist/js/adminlte.min.js"></script>
+<script src="../adminlte/bower_components/select2/dist/js/select2.full.min.js" type="text/javascript"
+        th:src="@{/adminlte/bower_components/select2/dist/js/select2.full.min.js}"></script>
+<!-- DataTables -->
+<script src="../adminlte/bower_components/datatables.net/js/jquery.dataTables.min.js" type="text/javascript"
+        th:src="@{/adminlte/bower_components/datatables.net/js/jquery.dataTables.min.js}"></script>
+<script src="../adminlte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js" type="text/javascript"
+        th:src="@{/adminlte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js}"></script>
+<!-- SlimScroll -->
+<script src="../adminlte/bower_components/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"
+        th:src="@{/adminlte/bower_components/jquery-slimscroll/jquery.slimscroll.min.js}"></script>
 <!-- FastClick -->
-<script src="../adminlte/bower_components/fastclick/lib/fastclick.js"></script>
-<!-- AdminLTE App -->
-<script src="../adminlte/dist/js/adminlte.min.js"></script>
-<!-- iCheck -->
-<script src="../adminlte/plugins/iCheck/icheck.min.js"></script>
-<!-- Page Script -->
+<script src="../adminlte/bower_components/fastclick/lib/fastclick.js" type="text/javascript"
+        th:src="@{/adminlte/bower_components/fastclick/lib/fastclick.js}"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../adminlte/dist/js/demo.js" type="text/javascript"
+        th:src="@{/adminlte/dist/js/demo.js}"></script>
+<!-- Select2 -->
+<script src="../adminlte/bower_components/select2/dist/js/select2.full.min.js"></script>
+<!-- InputMask -->
+<script src="../adminlte/plugins/input-mask/jquery.inputmask.js"></script>
+<script src="../adminlte/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+<script src="../adminlte/plugins/input-mask/jquery.inputmask.extensions.js"></script>
 
 <script>
     function BookAction(hotelID) {
@@ -350,6 +415,13 @@
             open("/mybook/bookconfirm?hid=" + hotelID);
         }
     }
+
+    //Initialize Select2 Elements
+    $('.select2').select2()
+    //Datemask dd/mm/yyyy
+    $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
+    //Datemask2 mm/dd/yyyy
+    $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
 </script>
 <!-- AdminLTE for demo purposes -->
 <script src="../adminlte/dist/js/demo.js"></script>

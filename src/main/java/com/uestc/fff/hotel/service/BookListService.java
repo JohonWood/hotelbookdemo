@@ -40,6 +40,6 @@ public class BookListService {
 
     public void DeleteOrder(String oid){ orderInfoMapper.deleteByPrimaryKey(oid); }
 
-    //public long NumOfAllOrders() { return orderInfoMapper.countByExample(new OrderInfoExample()); }
+    public long CountAllOrders() { return orderInfoMapper.countByExample(new OrderInfoExample()); }
 }
 
