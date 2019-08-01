@@ -52,7 +52,7 @@
                             <!-- The user image in the navbar-->
                             <img th:src="@{/picture/test.jpg}" class="user-image" alt="User Image">
                             <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                            <span class="hidden-xs">彭业鉴</span>
+                            <span class="hidden-xs" th:text="${session.user.loginName}"></span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- The user image in the menu -->
@@ -138,11 +138,6 @@
                                         </button>
                                     </div>
                                 </form>
-                                <div class="col-sm-2">
-                                    <a th:href="@{/manage/addCity}" method="get"><button class="btn btn-block btn-info" style="height: 30px">
-                                        添加酒店
-                                    </button></a>
-                                </div>
                             </div>
                         </div>
                         <div class="row">
