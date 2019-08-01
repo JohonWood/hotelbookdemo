@@ -53,6 +53,7 @@
     select *
     from order_info o join hotel_info h on o.Hotel_id = h.Hotel_id
     where User_ID = #{userId,jdbcType=VARCHAR}
+    order by Order_ID
   </select>
 
 </mapper>
