@@ -11,6 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
 @RequestMapping("/manage")
 public class ManageController {
@@ -203,5 +206,41 @@ public class ManageController {
     public Boolean deleteRoom(@RequestParam String roomID){
         hotelManageService.deleteRoomByID(roomID);
         return true;
+    }
+
+    /****************************/
+    /******OrderManagement*******/
+    /****************************/
+
+    @GetMapping("/orderManage")
+    public String orderManage(@RequestParam String hotelID, @RequestParam String hotelName, Model model) {
+        OrderInfoExample orderInfoExample = new OrderInfoExample();
+        orderInfoExample.createCriteria().andHotelIdEqualTo(hotelID);
+        List<OrderInfo> orderInfoList = hotelManageService.listOrderInfo(orderInfoExample);
+        model.addAttribute("listOrder", hotelManageService.userManagementList(orderInfoList));
+        model.addAttribute("hotelName", hotelName);
+        return "HotelOrderManagement";
+    }
+
+    @PostMapping("/orderSearch")
+    public String orderSearch(@RequestParam String hotelName,
+                              @RequestParam String way,
+                              @RequestParam String searchInfo,
+                              Model model) {
+        OrderInfoExample orderInfoExample = new OrderInfoExample();
+        List<OrderInfo> orderInfoList;
+        if ("按用户名查询".equals(way)) {
+            UserInfoExample userInfoExample = new UserInfoExample();
+            userInfoExample.createCriteria().andUserNameLike("%"+searchInfo+"%");
+            UserInfo userInfo = hotelManageService.findUserByExample(userInfoExample).get(0);
+            orderInfoExample.createCriteria().andUserIdEqualTo(userInfo.getUserId());
+            orderInfoList = hotelManageService.listOrderInfo(orderInfoExample);
+        }else {
+            orderInfoExample.createCriteria().andOrderIdEqualTo(searchInfo);
+            orderInfoList = hotelManageService.listOrderInfo(orderInfoExample);
+        }
+        model.addAttribute("listOrder", hotelManageService.userManagementList(orderInfoList));
+        model.addAttribute("hotelName", hotelName);
+        return "HotelOrderManagement";
     }
 }
