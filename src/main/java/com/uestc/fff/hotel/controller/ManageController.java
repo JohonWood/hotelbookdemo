@@ -219,11 +219,13 @@ public class ManageController {
         List<OrderInfo> orderInfoList = hotelManageService.listOrderInfo(orderInfoExample);
         model.addAttribute("listOrder", hotelManageService.userManagementList(orderInfoList));
         model.addAttribute("hotelName", hotelName);
+        model.addAttribute("hotelID", hotelID);
         return "HotelOrderManagement";
     }
 
     @PostMapping("/orderSearch")
     public String orderSearch(@RequestParam String hotelName,
+                              @RequestParam String hotelID,
                               @RequestParam String way,
                               @RequestParam String searchInfo,
                               Model model) {
@@ -236,11 +238,12 @@ public class ManageController {
             orderInfoExample.createCriteria().andUserIdEqualTo(userInfo.getUserId());
             orderInfoList = hotelManageService.listOrderInfo(orderInfoExample);
         }else {
-            orderInfoExample.createCriteria().andOrderIdEqualTo(searchInfo);
+            orderInfoExample.createCriteria().andOrderIdLike("%"+searchInfo+"%");
             orderInfoList = hotelManageService.listOrderInfo(orderInfoExample);
         }
         model.addAttribute("listOrder", hotelManageService.userManagementList(orderInfoList));
         model.addAttribute("hotelName", hotelName);
+        model.addAttribute("hotelID", hotelID);
         return "HotelOrderManagement";
     }
 
