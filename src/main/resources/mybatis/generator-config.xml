@@ -57,8 +57,9 @@
             <generatedKey column="Room_id" sqlStatement="select second(now())" identity="false"/>
         </table>
 
-        <table schema="hotelbooktest" tableName="user_info" domainObjectName="UserInfo">
-            <generatedKey column="User_id" sqlStatement="select second(now())" identity="false"/>
+
+        <table schema="hotelbooktest" tableName="order_to_room" domainObjectName="OrderTR">
+            <generatedKey column="id" sqlStatement="select uuid()" identity="false"/>
         </table>
 
     </context>

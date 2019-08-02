@@ -243,4 +243,12 @@ public class ManageController {
         model.addAttribute("hotelName", hotelName);
         return "HotelOrderManagement";
     }
+
+    @GetMapping("/orderEdit")
+    public String orderEdit(@RequestParam String orderID,
+                            @RequestParam String hotelName,
+                            @RequestParam String hotelID,
+                            Model model) {
+        return "";
+    }
 }

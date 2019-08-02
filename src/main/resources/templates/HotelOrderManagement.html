@@ -95,7 +95,7 @@
                         <li><a href="/manage/hotel"><i class="fa fa-map-signs"></i>酒店数据管理</a></li>
                     </ul>
                 </li>
-                <li class="treeview">
+               <!-- <li class="treeview">
                     <a href="#"><i class="fa fa-link"></i> <span>订单管理</span>
                         <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
@@ -105,7 +105,7 @@
                         <li><a href="#"><i class="fa fa-map-signs"></i> 菜单一</a></li>
                         <li><a href="#"><i class="fa fa-map-signs"></i> 菜单二</a></li>
                     </ul>
-                </li>
+                </li>-->
             </ul>
             <!-- /.sidebar-menu -->
         </section>
@@ -118,22 +118,28 @@
             <div class="box">
                 <div class="box-header">
                     <h3 class="box-title" th:text="'订单管理 - '+${hotelName}"></h3>
-                </div >
+                </div>
                 <!-- /.box-header -->
                 <form th:action="@{/manage/orderSearch(hotelName = ${hotelName})}" method="post">
-                <div class="col-md-3">
-                    <div class="form-group">
-                         <select class="form-control select2" style="width: 50%;" name="way">
-                             <option>按用户名查询</option>
-                             <option>按订单号查询</option>
-                         </select>
-                        <label><br><input type="text" class="form-control input-sm"
-                                             aria-controls="example1" name="searchInfo" style="width: 145px;"></label>
-                        <button type="submit" class="btn btn-block btn-info" style="height: 30px;width: auto;">
-                            查询
-                        </button>
+                    <div class="container-fluid">
+                        <div class="col-xs-3 col-xs-offset-1" style="padding: 0px;margin-right: 10px">
+                            <select class="form-control select2" style="width: 50%;margin: 0px" name="way">
+                                <option>按用户名查询</option>
+                                <option>按订单号查询</option>
+                            </select>
+                        </div>
+                        <div class="col-xs-3" style="padding: 0px;margin-right: 0px">
+                            <input type="text" class="form-control input-sm"
+                                   aria-controls="example1" name="searchInfo" style="width: 145px;margin: 0px">
+                        </div>
+                        <div class="col-md-3">
+                            <button type="submit" class="btn btn-block btn-info" style="height: 30px;width: auto;">
+                                查询
+                            </button>
+                        </div>
                     </div>
-                </div>
+
+
                 </form>
                 <div class="box-body">
                     <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
@@ -163,9 +169,10 @@
                                         <td th:text="${order.checkinTime}"></td>
                                         <td th:text="${order.customNum}"></td>
                                         <td th:text="${order.orderTotalFee}"></td>
-                                        <td><a th:href="@{/manage/editOrder(orderID = ${order.orderId})}">
-                                            <button type="button" class="btn btn-block btn-info">编辑</button>
-                                        </a></td>
+                                        <td>
+                                            <a th:href="@{/manage/editOrder(orderID = ${order.orderId},hotelName = ${hotelName},hotelID = order.hotelId)}">
+                                                <button type="button" class="btn btn-block btn-info">编辑</button>
+                                            </a></td>
                                         <td><a>
                                             <button type="button" class="btn btn-block btn-info"
                                                     data-th-attr="onclick='deleteOrder(this, \'' + ${order.orderId} + '\')'">
