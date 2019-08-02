@@ -59,6 +59,7 @@ public class searchController {
     public String receiveParam(String hotelKey, String countryKey,String cityKey,Model model, HttpSession session,HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
         List<FullSearResult> resultList=service.fullSearch(hotelKey,countryKey,cityKey);
         session.setAttribute("resultList", resultList);
+        session.setAttribute("originList",resultList);
         //创建cookie对象来保存session的id
         Cookie cookie = new Cookie("resultSession", session.getId());
         cookie.setMaxAge(86400);//保存一天
@@ -98,7 +99,7 @@ public class searchController {
 
         return "searchResult";
     }
-    @RequestMapping("/test")
+    @RequestMapping("/down")
     @ResponseBody
     public List<FullSearResult>  resultMap( Model model, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,HttpSession session) throws UnsupportedEncodingException {
         int indexOfList=Integer.parseInt(httpServletRequest.getParameter("indexOfList"));
@@ -114,6 +115,56 @@ public class searchController {
                 resultList.add(fullSearResultList.get(i));
             }
         }
+        return resultList;
+    }
+
+    @RequestMapping("/filter")
+    @ResponseBody
+    public List<FullSearResult> filterResult(Model model ,HttpServletRequest httpServletRequest,HttpServletResponse httpServletResponse,HttpSession session){
+        String lowPrice=httpServletRequest.getParameter("lowPrice");
+        String highPrice=httpServletRequest.getParameter("highPrice");
+        String highGrade=httpServletRequest.getParameter("highGrade");
+        String lowGrade=httpServletRequest.getParameter("lowGrade");
+        System.out.println(highGrade);
+
+        List<FullSearResult> fullSearResultList=(List<FullSearResult>) session.getAttribute("originList");
+        List<FullSearResult> resultList=new ArrayList<FullSearResult>();
+        if(lowPrice==""&&highPrice==""){
+            for(FullSearResult fullSearResult:fullSearResultList){
+                if (fullSearResult.getHotelGrade() >= Integer.parseInt(lowGrade) && fullSearResult.getHotelGrade() <= Integer.parseInt(highGrade)) {
+                    resultList.add(fullSearResult);
+                }
+            }
+        }
+        else if(lowPrice==""){
+            for(FullSearResult fullSearResult:fullSearResultList){
+                if(fullSearResult.getLeastPrice()<=Integer.parseInt(highPrice)){
+                    if(fullSearResult.getHotelGrade()>=Integer.parseInt(lowGrade)&&fullSearResult.getHotelGrade()<=Integer.parseInt(highGrade)){
+                        resultList.add(fullSearResult);
+                    }
+                }
+            }
+        }
+        else if(highPrice==""){
+            for(FullSearResult fullSearResult:fullSearResultList){
+                if(fullSearResult.getLeastPrice()>=Integer.parseInt(lowPrice)){
+                    if(fullSearResult.getHotelGrade()>=Integer.parseInt(lowGrade)&&fullSearResult.getHotelGrade()<=Integer.parseInt(highGrade)){
+                        resultList.add(fullSearResult);
+                    }
+                }
+            }
+        }
+        else{
+            for(FullSearResult fullSearResult:fullSearResultList){
+                if(fullSearResult.getLeastPrice()>=Integer.parseInt(lowPrice)&&fullSearResult.getLeastPrice()<=Integer.parseInt(highPrice)){
+                    if(fullSearResult.getHotelGrade()>=Integer.parseInt(lowGrade)&&fullSearResult.getHotelGrade()<=Integer.parseInt(highGrade)){
+                        resultList.add(fullSearResult);
+                    }
+                }
+            }
+        }
+        session.setAttribute("resultList",resultList);
+
         return resultList;
     }
 

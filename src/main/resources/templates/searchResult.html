@@ -22,7 +22,7 @@
         a:hover {
             text-decoration: underline
         }
-        .top{
+        #topArrow{
             width: 60px;
             height: 30px;
             border-radius: 10px;
@@ -31,13 +31,17 @@
             bottom: 20%;
             border: none;
         }
-        .top #topArrow:hover{
-            background: mediumpurple;
-        }
-        .fa #TopArraow{
-            margin:auto;
-            width:60%;
-            height:60%
+
+        #FilterDiv {
+            width: 250px;
+            height: 200px;
+            border-radius: 10px;
+            position: fixed;
+            left: 15px;
+            top: 20%;
+            border: none;
+            margin-left: -10px;
+            z-index:999
         }
     </style>
 </head>
@@ -72,7 +76,7 @@
                             </ul>
                         </li>
                     </ul>
-                    <form class="navbar-form navbar-left" role="search">
+                    <form class="navbar-form navbar-left" role="search" th:action="@{/504/post}" method="post">
                         <div class="input-group">
                             <input type="text" name="hotelKey" class="form-control" placeholder="Search...">
                             <span class="input-group-btn">
@@ -214,66 +218,87 @@
         </nav>
     </header>
 
-    <!--<aside class="main-sidebar">-->
-
-        <!--&lt;!&ndash; sidebar: style can be found in sidebar.less &ndash;&gt;-->
-        <!--<section class="sidebar">-->
-
-          <!--&lt;!&ndash; search form (Optional) &ndash;&gt;-->
-            <!--<form action="/504/post" method="post" class="sidebar-menu">-->
-                <!--<ul class="sidebar-menu tree">-->
-                <!--<li class="header"><p style="color: darkgrey;margin-top: 10px;margin-left:0px;font-size: 16px;">筛选条件:</p></li></ul>-->
-                <!--&lt;!&ndash;最低房间价格和最高房间价格&ndash;&gt;-->
-                <!--<div class="input-group sidebar-form pull-left" style="width: 80px;">-->
-                    <!--<input id="lowText" type="text" name="lowPrice" class="form-control" placeholder="最低价">-->
-                <!--</div>-->
-
-                <!--<i class="fa fa-arrows-h fa-2x fa-inverse sidebar-form" aria-hidden="true" style="margin-top: 12px;margin-left: 0px;margin-right: 0px"></i>-->
-
-                <!--<div class="input-group sidebar-form pull-right" style="width: 80px;">-->
-
-                    <!--<input id="highText" type="text" name="highPrice" class="form-control" placeholder="最高价">-->
-                <!--</div>-->
-                <!--<div class="input-group sidebar-form" style="width: 80px;">-->
-
-                    <!--<button id="filterBtn" type="button" class="btn btn-block btn-default btn-sm">筛选</button>-->
-                <!--</div>-->
-
-                <!--<div class="input-group sidebar-form">-->
-                    <!--<input type="text" name="hotelKey" class="form-control" placeholder="Search...">-->
-                    <!--<span class="input-group-btn">-->
-                        <!--<button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>-->
-                        <!--</button>-->
-                    <!--</span>-->
-                <!--</div>-->
-
-                <!--<div class="input-group sidebar-form col-xs-10">-->
-                    <!--<select name="countryKey" class="form-control select2 " id="CountrySelect">-->
-                        <!--<option th:each="country: ${countryList}" th:text="${country}" th:if="${country}!='中国'"></option>-->
-                        <!--<option th:each="country: ${countryList}" th:text="${country}" selected="selected" th:if="${country}=='中国'"></option>-->
-                    <!--</select>-->
-                <!--</div>-->
-                <!--<div class="input-group sidebar-form col-xs-10">-->
-                    <!--<select name="cityKey" class="form-control input-lg select2" id="CitySelect">-->
-                        <!--&lt;!&ndash;由JS代码生成&ndash;&gt;-->
-                    <!--</select>-->
-                <!--</div>-->
-            <!--</form>-->
-        <!--</section>-->
-    <!--</aside>-->
     <div class="content-wrapper -align-center" th:style="'align-content: center;background: url('+@{/picture/backImg.jpg} + ') no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;'">
-        <!-- Content Header (Page header) -->
 
+        <div class="top " id="FilterDiv" >
+            <div class="box box-widget">
+                <div class="box-header bg-purple">
+                    <div class="user-block">
+                        <span>筛选条件</span>
+                    </div>
+                    <!-- /.user-block -->
+                    <div class="box-tools">
+                        <button  type="button" class="btn btn-box-tool" id="filterBtn" ><i  class="fa fa-chevron-left fa-inverse"></i>
+                        </button>
+                    </div>
+                    <!-- /.box-tools -->
+                </div>
+                <!-- /.box-header -->
+                <div id="filterContent">
+                    <div class="box-footer box-comments">
+                        <div class="box-comment">
+                            <div class="row" style="margin-left:10px">
+                                <label>价格：</label>
+                            </div>
+                            <div class="input-group pull-left" style="width: 80px;">
+                                <input id="lowText" type="text" name="lowPrice" class="form-control" placeholder="最低价">
+                            </div>
+
+                            <i class="fa fa-arrows-h fa-2x" aria-hidden="true" style="margin:3px 21px"></i>
+
+                            <div class="input-group pull-right" style="width: 80px;">
+                                <input id="highText" type="text" name="highPrice" class="form-control" placeholder="最高价">
+                            </div>
+                        </div>
+                        <!-- /.box-comment -->
+                        <div class="box-comment">
+                            <div class="row" style="margin-left:10px">
+                                <label>星级：</label>
+                            </div>
+                            <div class="input-group pull-left" style="width: 80px;">
+                                <select id="gradeSelectL" class="select2" style="width: 80px;">
+                                    <option id="gsl1" selected="selected">一星级</option>
+                                    <option id="gsl2" >二星级</option>
+                                    <option id="gsl3" >三星级</option>
+                                    <option id="gsl4" >四星级</option>
+                                    <option id="gsl5" >五星级</option>
+                                </select>
+                            </div>
+
+                            <i class="fa fa-arrows-h fa-2x" aria-hidden="true" style="margin:3px 21px"></i>
+
+                            <div class="input-group pull-right" style="width: 80px;">
+                                <select id="gradeSelectH" class="select2" style="width: 80px;">
+                                    <option id="gsh1" >一星级</option>
+                                    <option id="gsh2" >二星级</option>
+                                    <option id="gsh3" >三星级</option>
+                                    <option id="gsh4" >四星级</option>
+                                    <option id="gsh5" selected="selected">五星级</option>
+                                </select>
+                            </div>
+                        </div>
+                            <!-- /.comment-text -->
+                    </div>
+
+
+                    <div class="box-footer">
+                        <button type="button" name="filterSubmit"  id="filterSub" class="btn btn-adn bg-purple-active pull-right" style="width: 80px"><i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- /.box-footer -->
+            </div>
+        </div>
         <div class="container">
             <!-- Content Header (Page header) -->
-            <section class="content-header">
+            <section  class="content-header">
                 <h1>
                     搜索结果
-                    <small>总计<span th:text="${resultNum}"></span>家酒店</small>
+                    <small>总计<span id="numOfHotel" th:text="${resultNum}"></span>家酒店</small>
                 </h1>
                 <ol class="breadcrumb">
                     <li><a href="/504/host"><i class="fa fa-dashboard"></i> 主页</a></li>
@@ -282,50 +307,56 @@
             </section>
 
             <!-- Main content -->
-            <section class="content">
-                <div class="text-center" th:if="${resultNum==0}"><h3>无搜索结果</h3></div>
-
-                <div th:id="'resultList'+${resultStat.count}" class="box box-default " style="margin: 5px auto;" th:each="result,resultStat: ${resultList}" th:if="${resultNum!=0}">
-                    <!--<div class="box-header with-border">-->
-                        <!--<h3 class="box-title">Blank Box</h3>-->
-                    <!--</div>-->
+            <section id="resultSection"  class="content">
+                <div class="text-center" id="none1"  th:if="${resultNum==0}"><h3>无搜索结果</h3></div>
+                <div class="text-center" id="none2" style="display: none"><h3>无搜索结果</h3></div>
+                <div th:id="'resultList'+${resultStat.count}" class="box box-default fullResultBox" style="margin: 5px auto;" th:each="result,resultStat: ${resultList}" th:if="${resultNum!=0}">
                     <div class="box-body" style="padding-left: 10px;position: relative;">
-
-
                         <div class="product-img sidebar-menu" style="float: left;margin-right: 20px;margin-top: 30px">
                             <img th:src="${result.hotelPhoto1}" alt="Product Image">
                         </div>
                         <div class="product-info" style="margin-right: 10px;overflow: hidden">
-                            <h3><i class="fa fa-fw fa-bed"></i>
-                            <a href="javascript:void(0)" class="product-title"><span th:text="${result.hotelName}"></span> </a>
-                                <span class="pull-right text-red"><i class="fa fa-fw fa-cny"></i><span class="hotelFee" th:text="${result.leastPrice}"></span>起</span></h3>
-
-
-                            <p id="hotelStar"><span  class="label label-warning">品质保证</span>
-                                <span th:each="i:${#numbers.sequence(1,result.getHotelGrade())}">
-                                    <i class="fa fa-fw fa-star" ></i>
+                            <h3 ><i class="fa fa-fw fa-bed pull-left"></i>
+                                <a href="javascript:void(0)" class="product-title">
+                                    <span th:text="${result.hotelName}"></span>
+                                </a>
+                                <span class="pull-right">
+                                    <a class="btn btn-warning" style="height: 40px;padding-top: 0px;font-size:25px" href="#">
+                                         <i class="fa fa-thumbs-up"></i><span th:text="${result.hotelRating}"></span>
+                                    </a>
                                 </span>
-
-                            </p>
-                            <small><span th:text="${result.hotelAddress}"></span> </small>
-
+                            </h3>
+                            <h3>
+                                <span class="pull-right text-red">
+                                    <i class="fa fa-fw fa-cny"></i>
+                                    <span class="hotelFee" th:text="${result.leastPrice}">
+                                    </span>起
+                                </span>
+                            </h3>
+                            <span>
+                                <p id="hotelStar">
+                                    <span class="label label-warning">品质保证</span>
+                                    <span th:id="'hotelGradeStar'+${resultStat.count}" th:each="i:${#numbers.sequence(1,result.getHotelGrade())}">
+                                        <i class="fa fa-fw fa-star"></i>
+                                    </span>
+                                </p>
+                                <small><span th:text="${result.hotelAddress}"></span> </small>
+                            </span>
                             <span class="product-description block">
-                                <p><br>&emsp;&emsp;<span th:text="${result.getHotelOverview()}"></span></p>
+                                <p><br>&emsp<span th:text="${result.getHotelOverview()}"></span></p>
                             </span>
                             <a class="btn bg-purple btn-lg pull-right" href="#">查看详情</a>
                         </div>
                     </div>
-                    <!-- /.box-body -->
                 </div>
-                <div class="text-center btn bg-purple center-block" title="加载10项" id="downList" th:if="${resultNum > 11}">
+                <div class="text-center btn bg-purple center-block downList" title="加载10项" id="downList" th:if="${resultNum > 11}">
                     <span ><i class="fa fa-fw fa-chevron-down"></i></span>
                 </div>
-                <!-- /.box -->
             </section>
-            <!-- /.content -->
         </div>
 
     </div>
+
     <div class="top text-center btn bg-purple" id="topArrow" title="回到顶部">
         <span  ><i id="TopArraow" class="fa fa-fw fa-chevron-up"></i></span>
     </div>
@@ -362,16 +393,40 @@
 <!-- AdminLTE for demo purposes -->
 <script src="../adminlte/dist/js/demo.js" type="text/javascript"
         th:src="@{/adminlte/dist/js/demo.js}"></script>
+<script src="../adminlte/dist/js/jquery.rotate.js" type="text/javascript"
+        th:src="@{/adminlte/dist/js/jquery.rotate.js}"></script>
 
 <script th:inline="javascript">
     var indexOfList=10;
+    var filterAni=false;
 
     $("#topArrow").click(function(){
         $(document).scrollTop(0);
     })
 
+    $('#filterBtn').click(function () {
+        if (filterAni==false){
+            $('#filterContent').hide(500,function () {
+                $('#FilterDiv').animate({left:'-200px'},function () {
+                    $('#filterBtn').rotate({animateTo: 180,duration:500});
+
+                });
+            });
+            filterAni=true;
+        }
+        else{
+            $('#FilterDiv').animate({left:'15px'},function (){
+                $('#filterContent').show(500,function () {
+                    $('#filterBtn').rotate({animateTo: 180,duration:500});
+                })
+            })
+            filterAni=false;
+        }
+
+
+    })
+
     var xmlhttp;
-    var countResult =10;
     if (window.XMLHttpRequest) {
         xmlhttp = new XMLHttpRequest();
     } else {
@@ -380,10 +435,8 @@
 
 
 
+
     $(function () {
-        // for (var i=11;i<=[[${resultNum}]];i++){
-        //     $('#resultList'+i).hide();
-        // }
         xmlhttp.open("GET", "/504/city?country=" + encodeURI(encodeURI($("#CountrySelect").val())), true);
         xmlhttp.send();
         xmlhttp.onreadystatechange = function () {
@@ -416,24 +469,50 @@
             }
         }
     });
-    $('#downList').click(function (){
-        if(indexOfList==parseInt([[${resultNum}]])){
-            $('#downList').attr("title","已全部加载")
+
+    $('#filterSub').click(function () {
+        var lowPrice=$('#lowText').val();
+        var highPrice=$('#highText').val();
+        for (var i=1;i<=5;i++){
+            if ($("#gradeSelectL option:selected").attr("id")=="gsl"+i){
+                var lowGrade=i;
+            }
         }
-        else {
-            var x = 0;
-            xmlhttp.open("GET", "/504/test?indexOfList=" + indexOfList, true);
+        for (var i=1;i<=5;i++){
+            if ($("#gradeSelectH option:selected").attr("id")=="gsh"+i){
+                var highGrade=i;
+            }
+        }
+
+        if (lowPrice!=""&&!isNumber(lowPrice)){
+            alert("最低价需要输入有效数字");
+        }
+        else if(highPrice!=""&&!isNumber(highPrice)){
+            alert("最高价需要输入有效数字");
+        }
+        else if (lowGrade>highGrade){
+            alert("请将星级从小到大设置");
+        }
+        else{
+            alert(lowGrade+highGrade)
+            xmlhttp.open("GET", "/504/filter?lowPrice="+lowPrice+"&highPrice="+highPrice+"&lowGrade="+lowGrade+"&highGrade="+highGrade, true);
             xmlhttp.send();
             xmlhttp.onreadystatechange = function () {
                 if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                     var text;
                     text = xmlhttp.responseText;
                     text = JSON.parse(text)
-                    for (x in text) {
-                        console.log(text[x]["hotelName"])
-                        $('#resultList'+(parseInt(x)+indexOfList)).after(
-                            // '<p id="resultList'+(parseInt(x)+indexOfList+1)+'">'+text[x]["hotelName"]+'</p>'
-                            '<div id="resultList'+(parseInt(x)+indexOfList+1)+'" class="box box-default " style="margin: 5px auto;">\n' +
+                    var num=parseInt(text.length)
+                    $('#numOfHotel').text(num);
+                    $('.fullResultBox').remove();
+                    if (parseInt(num) ==0){
+                        $('.downList').hide()
+                        $('#none2').show();
+                    }
+                    else if(num<10){
+                        var x=0;
+                        $('#none2').after(
+                            '<div id="resultList'+(parseInt(x)+1)+'" class="box box-default fullResultBox" style="margin: 5px auto;">\n' +
                             '    <div class="box-body" style="padding-left: 10px;position: relative;">\n' +
                             '        <div class="product-img sidebar-menu" style="float: left;margin-right: 20px;margin-top: 30px">\n' +
                             '            <img src="'+text[x]["hotelPhoto1"]+'" alt="Product Image">\n' +
@@ -441,11 +520,12 @@
                             '        <div class="product-info" style="margin-right: 10px;overflow: hidden">\n' +
                             '            <h3><i class="fa fa-fw fa-bed"></i>\n' +
                             '                <a href="javascript:void(0)" class="product-title"><span>'+text[x]["hotelName"]+'</span> </a>\n' +
-                            '                <span class="pull-right text-red"><i class="fa fa-fw fa-cny"></i><span class="hotelFee">'+text[x]["leastPrice"]+'</span>起</span>\n '+
-                            '            </h3>\n' +
+                            '                <span class="pull-right"><a class="btn btn-warning" style="height: 40px;padding-top: 0px;font-size:25px" href="#">\n'+
+                            '                <i class="fa fa-thumbs-up"></i><span>'+text[x]["hotelRating"]+'</span></a></span>\n' +
+                            '            </h3>\n'+
+                            '            <h3><span class="pull-right text-red"><i class="fa fa-fw fa-cny"></i><span class="hotelFee">'+text[x]["leastPrice"]+'</span>起</span></h3>\n'+
                             '            <p id="hotelStar"><span  class="label label-warning">品质保证</span>\n' +
-                            '                <span th:each="i:${#numbers.sequence(1,'+text[x]["hotelGrade"]+')}">\n' +
-                            '                    <i class="fa fa-fw fa-star" ></i>\n' +
+                            '                <span id="hotelGradeStar'+(parseInt(x)+1)+'">\n' +
                             '                </span>\n' +
                             '            </p>\n' +
                             '            <small><span>'+ text[x]["hotelAddress"]+'</span> </small>\n' +
@@ -457,83 +537,180 @@
                             '    </div>\n' +
                             '</div>'
                         );
+                        for (var i=0;i<parseInt(text[x]["hotelGrade"]);i++){
+                            $('#hotelGradeStar'+(parseInt(x)+1)).append('<i class="fa fa-fw fa-star" ></i>')
+                        }
+                        x = x+1;
+                        for (x;x<num;x++) {
+                            console.log(text[x])
+                            $('#resultList'+(parseInt(x))).after(
+                                '<div id="resultList'+(parseInt(x)+1)+'" class="box box-default fullResultBox" style="margin: 5px auto;">\n' +
+                                '    <div class="box-body" style="padding-left: 10px;position: relative;">\n' +
+                                '        <div class="product-img sidebar-menu" style="float: left;margin-right: 20px;margin-top: 30px">\n' +
+                                '            <img src="'+text[x]["hotelPhoto1"]+'" alt="Product Image">\n' +
+                                '        </div>\n' +
+                                '        <div class="product-info" style="margin-right: 10px;overflow: hidden">\n' +
+                                '            <h3><i class="fa fa-fw fa-bed"></i>\n' +
+                                '                <a href="javascript:void(0)" class="product-title"><span>'+text[x]["hotelName"]+'</span> </a>\n' +
+                                '                <span class="pull-right"><a class="btn btn-warning" style="height: 40px;padding-top: 0px;font-size:25px" href="#">\n'+
+                                '                <i class="fa fa-thumbs-up"></i><span>'+text[x]["hotelRating"]+'</span></a></span>\n' +
+                                '            </h3>\n'+
+                                '            <h3><span class="pull-right text-red"><i class="fa fa-fw fa-cny"></i><span class="hotelFee">'+text[x]["leastPrice"]+'</span>起</span></h3>\n'+
+                                '            <p id="hotelStar"><span  class="label label-warning">品质保证</span>\n' +
+                                '                <span id="hotelGradeStar'+(parseInt(x)+1)+'">\n' +
+                                '                </span>\n' +
+                                '            </p>\n' +
+                                '            <small><span>'+ text[x]["hotelAddress"]+'</span> </small>\n' +
+                                '            <span class="product-description block">\n' +
+                                '                <p><br>&emsp;&emsp;<span>'+text[x]["hotelOverview"]+'</span></p>\n' +
+                                '            </span>\n' +
+                                '            <a class="btn bg-purple btn-lg pull-right" href="#">查看详情</a>\n' +
+                                '        </div>\n' +
+                                '    </div>\n' +
+                                '</div>'
+                            );
+                            for (var i=0;i<parseInt(text[x]["hotelGrade"]);i++){
+                                $('#hotelGradeStar'+(parseInt(x)+1)).append('<i class="fa fa-fw fa-star" ></i>')
+                            }
+                        }
+                        $('.downList').hide()
+                        $('#none2').hide();
+                    }
+                    else{
+                        $('#none2').hide();
+                        var x = 0;
+                        $('#none2').after(
+                            '<div id="resultList'+(parseInt(x)+1)+'" class="box box-default fullResultBox" style="margin: 5px auto;">\n' +
+                            '    <div class="box-body" style="padding-left: 10px;position: relative;">\n' +
+                            '        <div class="product-img sidebar-menu" style="float: left;margin-right: 20px;margin-top: 30px">\n' +
+                            '            <img src="'+text[x]["hotelPhoto1"]+'" alt="Product Image">\n' +
+                            '        </div>\n' +
+                            '        <div class="product-info" style="margin-right: 10px;overflow: hidden">\n' +
+                            '            <h3><i class="fa fa-fw fa-bed"></i>\n' +
+                            '                <a href="javascript:void(0)" class="product-title"><span>'+text[x]["hotelName"]+'</span> </a>\n' +
+                            '                <span class="pull-right"><a class="btn btn-warning" style="height: 40px;padding-top: 0px;font-size:25px" href="#">\n'+
+                            '                <i class="fa fa-thumbs-up"></i><span>'+text[x]["hotelRating"]+'</span></a></span>\n' +
+                            '            </h3>\n'+
+                            '            <h3><span class="pull-right text-red"><i class="fa fa-fw fa-cny"></i><span class="hotelFee">'+text[x]["leastPrice"]+'</span>起</span></h3>\n'+
+                            '            <p id="hotelStar"><span  class="label label-warning">品质保证</span>\n' +
+                            '                <span id="hotelGradeStar'+(parseInt(x)+1)+'">\n' +
+                            '                </span>\n' +
+                            '            </p>\n' +
+                            '            <small><span>'+ text[x]["hotelAddress"]+'</span> </small>\n' +
+                            '            <span class="product-description block">\n' +
+                            '                <p><br>&emsp;&emsp;<span>'+text[x]["hotelOverview"]+'</span></p>\n' +
+                            '            </span>\n' +
+                            '            <a class="btn bg-purple btn-lg pull-right" href="#">查看详情</a>\n' +
+                            '        </div>\n' +
+                            '    </div>\n' +
+                            '</div>'
+                        );
+                        for (var i=0;i<parseInt(text[x]["hotelGrade"]);i++){
+                            $('#hotelGradeStar'+(parseInt(x)+1)).append('<i class="fa fa-fw fa-star" ></i>')
+                        }
+                        x = x+1;
+                        for (x;x<10;x++){
+                            console.log(text[x])
+                            $('#resultList'+(parseInt(x))).after(
+                                '<div id="resultList'+(parseInt(x)+1)+'" class="box box-default fullResultBox" style="margin: 5px auto;">\n' +
+                                '    <div class="box-body" style="padding-left: 10px;position: relative;">\n' +
+                                '        <div class="product-img sidebar-menu" style="float: left;margin-right: 20px;margin-top: 30px">\n' +
+                                '            <img src="'+text[x]["hotelPhoto1"]+'" alt="Product Image">\n' +
+                                '        </div>\n' +
+                                '        <div class="product-info" style="margin-right: 10px;overflow: hidden">\n' +
+                                '            <h3><i class="fa fa-fw fa-bed"></i>\n' +
+                                '                <a href="javascript:void(0)" class="product-title"><span>'+text[x]["hotelName"]+'</span> </a>\n' +
+                                '                <span class="pull-right"><a class="btn btn-warning" style="height: 40px;padding-top: 0px;font-size:25px" href="#">\n'+
+                                '                <i class="fa fa-thumbs-up"></i><span>'+text[x]["hotelRating"]+'</span></a></span>\n' +
+                                '            </h3>\n'+
+                                '            <h3><span class="pull-right text-red"><i class="fa fa-fw fa-cny"></i><span class="hotelFee">'+text[x]["leastPrice"]+'</span>起</span></h3>\n'+
+                                '            <p id="hotelStar"><span  class="label label-warning">品质保证</span>\n' +
+                                '                <span id="hotelGradeStar'+(parseInt(x)+1)+'">\n' +
+                                '                </span>\n' +
+                                '            </p>\n' +
+                                '            <small><span>'+ text[x]["hotelAddress"]+'</span> </small>\n' +
+                                '            <span class="product-description block">\n' +
+                                '                <p><br>&emsp;&emsp;<span>'+text[x]["hotelOverview"]+'</span></p>\n' +
+                                '            </span>\n' +
+                                '            <a class="btn bg-purple btn-lg pull-right" href="#">查看详情</a>\n' +
+                                '        </div>\n' +
+                                '    </div>\n' +
+                                '</div>'
+                            );
+                            for (var i=0;i<parseInt(text[x]["hotelGrade"]);i++){
+                                $('#hotelGradeStar'+(parseInt(x)+1)).append('<i class="fa fa-fw fa-star" ></i>')
+                            }
+                        }
+                        $('.downList').show();
+                        //indexOfList=parseInt($('#numOfHotel').text())
+                        indexOfList=10;
+                    }
+
+                }
+            }
+
+        }
+    })
+
+    $('.downList').on("click",function (){
+        if(indexOfList==parseInt($('#numOfHotel').text())){
+            $('#downList').attr("title","已全部加载")
+        }
+        else {
+            var x = 0;
+            xmlhttp.open("GET", "/504/down?indexOfList=" + indexOfList, true);
+            xmlhttp.send();
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    var text;
+                    text = xmlhttp.responseText;
+                    text = JSON.parse(text)
+                    for (x in text) {
+                        console.log(text[x]["hotelName"])
+                        $('#resultList'+(parseInt(x)+indexOfList)).after(
+                            '<div id="resultList'+(parseInt(x)+indexOfList+1)+'" class="box box-default fullResultBox" style="margin: 5px auto;">\n' +
+                            '    <div class="box-body" style="padding-left: 10px;position: relative;">\n' +
+                            '        <div class="product-img sidebar-menu" style="float: left;margin-right: 20px;margin-top: 30px">\n' +
+                            '            <img src="'+text[x]["hotelPhoto1"]+'" alt="Product Image">\n' +
+                            '        </div>\n' +
+                            '        <div class="product-info" style="margin-right: 10px;overflow: hidden">\n' +
+                            '            <h3><i class="fa fa-fw fa-bed"></i>\n' +
+                            '                <a href="javascript:void(0)" class="product-title"><span>'+text[x]["hotelName"]+'</span> </a>\n' +
+                            '                <span class="pull-right"><a class="btn btn-warning" style="height: 40px;padding-top: 0px;font-size:25px" href="#">\n'+
+                            '                <i class="fa fa-thumbs-up"></i><span>'+text[x]["hotelRating"]+'</span></a></span>\n' +
+                            '            </h3>\n'+
+                            '            <h3><span class="pull-right text-red"><i class="fa fa-fw fa-cny"></i><span class="hotelFee">'+text[x]["leastPrice"]+'</span>起</span></h3>\n'+
+                            '            <p id="hotelStar"><span  class="label label-warning">品质保证</span>\n' +
+                            '                <span id="hotelGradeStar'+(parseInt(x)+indexOfList+1)+'">\n'+
+                            '                </span>\n' +
+                            '            </p>\n' +
+                            '            <small><span>'+ text[x]["hotelAddress"]+'</span> </small>\n' +
+                            '            <span class="product-description block">\n' +
+                            '                <p><br>&emsp;&emsp;<span>'+text[x]["hotelOverview"]+'</span></p>\n' +
+                            '            </span>\n' +
+                            '            <a class="btn bg-purple btn-lg pull-right" href="#">查看详情</a>\n' +
+                            '        </div>\n' +
+                            '    </div>\n' +
+                            '</div>'
+                        );
+                        for (var i=0;i<parseInt(text[x]["hotelGrade"]);i++){
+                            $('#hotelGradeStar'+(parseInt(x)+indexOfList+1)).append('<i class="fa fa-fw fa-star" ></i>')
+                        }
                     }
                     x = parseInt(x);
-                    if (x + indexOfList + 1 == [[${resultNum}]]) {
-                        indexOfList = parseInt([[${resultNum}]])
+                    if (x + indexOfList + 1 == $('#numOfHotel').text()) {
+                        indexOfList = parseInt($('#numOfHotel').text())
                     } else {
                         indexOfList = indexOfList + x + 1;
+                    }
+
+                    if(indexOfList==parseInt($('#numOfHotel').text())){
+                        $('#downList').hide()
                     }
                 }
             }
         }
     })
-    // $('#downList').click(function () {
-    //     if(countResult+10>[[${resultNum}]]){
-    //         $('#downList').attr("title","已全部加载")
-    //         countResult=[[${resultNum}]];
-    //     }
-    //     else{
-    //
-    //         var lowPrice=$('#lowText').val();
-    //         var highPrice=$('#highText').val();
-    //         if (lowPrice!=""){
-    //             if (isNumber(lowPrice)){
-    //                 for (var i=countResult+1;i<=countResult+10;i++) {
-    //                     if ($('#resultList' + i).find(".hotelFee").text() >= lowPrice) {
-    //                         $('#resultList' + i).show();
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //         if (highPrice!=""){
-    //             if (isNumber(highPrice)){
-    //                 for (var i=countResult+1;i<=countResult+10;i++) {
-    //                     if ($('#resultList' + i).find(".hotelFee").text() > lowPrice) {
-    //                         $('#resultList' + i).hide();
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //         countResult=countResult+10;
-    //     }
-    //
-    //
-    // })
-    // $("#filterBtn").click(function () {
-    //     var lowPrice=$('#lowText').val();
-    //     var highPrice=$('#highText').val();
-    //     if (lowPrice!=""){
-    //         if (!isNumber(lowPrice)){
-    //             alert('最低价输入不是有效的数字');
-    //         }
-    //         else{
-    //             for (var i=1;i<=countResult;i++){
-    //                 if($('#resultList'+i).find(".hotelFee").text()<lowPrice){
-    //                     $('#resultList'+i).hide();
-    //                 }
-    //                 else{
-    //                     $('#resultList'+i).show();
-    //                 }
-    //             }
-    //         }
-    //     }
-    //     if (highPrice!=""){
-    //         if (!isNumber(highPrice)){
-    //             alert('最高价输入不是有效的数字');
-    //         }
-    //         else{
-    //             for (var i=1;i<=countResult;i++){
-    //                 if($('#resultList'+i).find(".hotelFee").text()>highPrice){
-    //                     $('#resultList'+i).hide();
-    //                 }
-    //             }
-    //
-    //         }
-    //     }
-    //
-    //
-    // })
 
     function isNumber(value) {         //验证是否为数字
         var patrn = /^(-)?\d+(\.\d+)?$/;
