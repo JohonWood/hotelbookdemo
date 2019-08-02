@@ -46,7 +46,7 @@ public class HotelManageService {
     }
 
     public RoomInfo findRoomByPrimaryKey(String roomID) {
-       return roomInfoMapper.selectByPrimaryKey(roomID);
+        return roomInfoMapper.selectByPrimaryKey(roomID);
     }
 
     public void updateRoom(RoomInfo roomInfo) {
@@ -77,7 +77,8 @@ public class HotelManageService {
             userManagement.setCustomNum(order1.getCustomNum());
             userManagement.setHotelId(order1.getHotelId());
             userManagement.setOrderTotalFee(order1.getOrderTotalFee());
-            //userManagement.setRoomid(order1.getRoomid());
+            userManagement.setRoomnum(order1.getRoomNum());
+
             userManagement.setUserName(userInfo.getUserName());
             userManagements.add(userManagement);
         }
