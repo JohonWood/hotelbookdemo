@@ -95,17 +95,6 @@
                         <li><a href="/manage/hotel"><i class="fa fa-map-signs"></i>酒店数据管理</a></li>
                     </ul>
                 </li>
-                <li class="treeview">
-                    <a href="#"><i class="fa fa-link"></i> <span>订单管理</span>
-                        <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="#"><i class="fa fa-map-signs"></i> 菜单一</a></li>
-                        <li><a href="#"><i class="fa fa-map-signs"></i> 菜单二</a></li>
-                    </ul>
-                </li>
             </ul>
             <!-- /.sidebar-menu -->
         </section>
@@ -144,6 +133,10 @@
                                 <div class="form-group">
                                     <label for="fee">房间费用</label>
                                     <input type="text" class="form-control" id="fee" name="fee" th:field="*{roomFee}" placeholder="输入房间费用">
+                                </div>
+                                <div class="form-group">
+                                    <label for="last">同类房间剩余量</label>
+                                    <input type="text" class="form-control" id="last" name="last" th:field="*{roomLast}" placeholder="输入房间剩余量">
                                 </div>
                                 <div class="form-group">
                                     <label for="name">早餐类型</label>

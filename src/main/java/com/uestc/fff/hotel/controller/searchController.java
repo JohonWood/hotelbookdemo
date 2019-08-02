@@ -156,7 +156,7 @@ public class searchController {
         }
         else{
             for(FullSearResult fullSearResult:fullSearResultList){
-                if(fullSearResult.getLeastPrice()>=Integer.parseInt(lowPrice)&&fullSearResult.getLeastPrice()<=Integer.parseInt(highPrice)){
+                if(fullSearResult.getLeastPrice()>=Integer. parseInt(lowPrice)&&fullSearResult.getLeastPrice()<=Integer.parseInt(highPrice)){
                     if(fullSearResult.getHotelGrade()>=Integer.parseInt(lowGrade)&&fullSearResult.getHotelGrade()<=Integer.parseInt(highGrade)){
                         resultList.add(fullSearResult);
                     }

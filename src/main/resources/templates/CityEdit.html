@@ -132,6 +132,10 @@
                                     <input type="hidden" class="form-control" id="code" name="code" th:field="*{cityId}" placeholder="输入国家代码">
                                 </div>
                                 <div class="form-group">
+                                    <label for="Ccode">国家代码：[[${listCity.countryCode}]]</label>
+                                    <input type="hidden" class="form-control" id="Ccode" name="Ccode" th:field="*{countryCode}" placeholder="输入国家代码">
+                                </div>
+                                <div class="form-group">
                                     <label for="name">城市名字</label>
                                     <input type="text" class="form-control" id="name" name="name" th:field="*{cityName}" placeholder="输入城市名字">
                                 </div>
