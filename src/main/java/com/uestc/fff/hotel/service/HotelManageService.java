@@ -46,7 +46,7 @@ public class HotelManageService {
     }
 
     public RoomInfo findRoomByPrimaryKey(String roomID) {
-       return roomInfoMapper.selectByPrimaryKey(roomID);
+        return roomInfoMapper.selectByPrimaryKey(roomID);
     }
 
     public void updateRoom(RoomInfo roomInfo) {

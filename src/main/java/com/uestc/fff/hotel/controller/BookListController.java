@@ -1,5 +1,6 @@
 package com.uestc.fff.hotel.controller;
 
+import com.uestc.fff.hotel.domain.OrderTR;
 import com.uestc.fff.hotel.domain.UserInfo;
 import com.uestc.fff.hotel.domain.order;
 import com.uestc.fff.hotel.service.BookListService;
@@ -69,18 +70,27 @@ public class BookListController {
             else {
                 String uid = serviceBook.OrderInfomation(oid).getUserId();
                 String hid = serviceBook.OrderInfomation(oid).getHotelId();
-                String rid = serviceBook.OrderInfomation(oid).getRoomid();
+
+                OrderTR RoomNumInfo = serviceBook.RoomNumInfo(oid);
+                String rid1 = RoomNumInfo.getRoomId1();
+                String rid2 = RoomNumInfo.getRoomId2();
+                String rid3 = RoomNumInfo.getRoomId3();
+                model.addAttribute("Room1",serviceBook.RoomInfomation(rid1));
+                if(rid2!=null) { model.addAttribute("Room2", serviceBook.RoomInfomation(rid2)); }
+                else { model.addAttribute("Room2", false); }
+                if(rid3!=null) { model.addAttribute("Room3", serviceBook.RoomInfomation(rid3)); }
+                else { model.addAttribute("Room3", false); }
+
                 model.addAttribute("Hotels",serviceBook.HotelInfomation(hid));
-                model.addAttribute("Rooms",serviceBook.RoomInfomation(rid));
                 model.addAttribute("Orders",serviceBook.OrderInfomation(oid));
                 model.addAttribute("Users", serviceBook.UserInfomation(uid));
-                model.addAttribute("User_name",userInfotest.getLoginName());
-                model.addAttribute("numOfOrders",serviceSearch.countOrder(userInfotest.getUserId()));
-                List<order> orderList=serviceSearch.orderList(userInfotest.getUserId());
-                model.addAttribute("orderList",orderList);
-                model.addAttribute("isLogin",true);
-                List<String> listOfCountry=serviceSearch.searchCountry();
-                model.addAttribute("countryList",listOfCountry);
+//                model.addAttribute("User_name",userInfotest.getLoginName());
+//                model.addAttribute("numOfOrders",serviceSearch.countOrder(userInfotest.getUserId()));
+//                List<order> orderList=serviceSearch.orderList(userInfotest.getUserId());
+//                model.addAttribute("orderList",orderList);
+//                model.addAttribute("isLogin",true);
+//                List<String> listOfCountry=serviceSearch.searchCountry();
+//                model.addAttribute("countryList",listOfCountry);
             }
         }catch (IOException e) {
             e.printStackTrace();
@@ -115,7 +125,7 @@ public class BookListController {
         List<String> listOfCountry=serviceSearch.searchCountry();
         model.addAttribute("countryList",listOfCountry);
         model.addAttribute("Hotels",serviceBook.HotelInfomation("108573"));
-        model.addAttribute("RoomList", serviceBook.RoomInfoList(hid));
+        //model.addAttribute("RoomList", serviceBook.RoomInfoList(hid));
 
         return "Book";
     }
@@ -146,7 +156,7 @@ public class BookListController {
         List<String> listOfCountry=serviceSearch.searchCountry();
         model.addAttribute("countryList",listOfCountry);
         model.addAttribute("Hotels",serviceBook.HotelInfomation(hid));
-        model.addAttribute("RoomList", serviceBook.RoomInfoList(hid));
+        //model.addAttribute("RoomList", serviceBook.RoomInfoList(hid));
         model.addAttribute("numOfAllOrders", serviceBook.CountAllOrders());
 
         return "BookConfirm";
