@@ -125,9 +125,9 @@
                             </div>-->
                             <div class="col-sm-12">
                                 <form th:action="@{/manage/searchCountry}" method="post">
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-2">
                                         <div id="example1_filter" class="dataTables_filter">
-                                            <label>Search:<input type="text" class="form-control input-sm"
+                                            <label><input type="text" class="form-control input-sm"
                                                                  placeholder="请输入国家名字"
                                                                  aria-controls="example1" name="countryName"></label>
                                         </div>
@@ -235,13 +235,20 @@
 </div>
 <!-- ./wrapper -->
 
-
 <script type="text/javascript" th:src="@{/adminlte/bower_components/jquery/dist/jquery.min.js}"
         src="../bower_components/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript" th:src="@{/adminlte/bower_components/bootstrap/dist/js/bootstrap.min.js}"
         src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script type="text/javascript" th:src="@{/adminlte/dist/js/adminlte.min.js}"
         src="../dist/js/adminlte.min.js"></script>
+<!-- Slimscroll -->
+<script src="../adminlte/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<!-- FastClick -->
+<script src="../adminlte/bower_components/fastclick/lib/fastclick.js"></script>
+<!-- Page Script -->
+<!-- DataTables -->
+<script src="../adminlte/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="../adminlte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
 
 </body>
 <script>
@@ -258,4 +265,20 @@
         })
     }
 </script>
+<script>
+    $(function () {
+        $('#example1').DataTable({
+            'searching'   : false
+        })
+        $('#example2').DataTable({
+            'paging'      : true,
+            'lengthChange': false,
+            'searching'   : false,
+            'ordering'    : true,
+            'info'        : true,
+            'autoWidth'   : false
+        })
+    })
+</script>
+
 </html>

@@ -7,6 +7,21 @@ public class UserManagement {
     private String orderId;
     private String userId;
     private String hotelId;
+    private int roomnum;
+    private Date createTime;
+    private Float orderTotalFee;
+    private Date checkinTime;
+    private Integer customNum;
+    private String userName;
+    private int days;
+
+    public int getDays() {
+        return days;
+    }
+
+    public void setDays(int days) {
+        this.days = days;
+    }
 
     public int getRoomnum() {
         return roomnum;
@@ -14,16 +29,7 @@ public class UserManagement {
 
     public void setRoomnum(int roomnum) {
         this.roomnum = roomnum;
-    }
-
-    private int roomnum;
-    private Date createTime;
-    private Float orderTotalFee;
-    private Date checkinTime;
-    private Integer customNum;
-    private String userName;
-
-    public String getOrderId() {
+    }    public String getOrderId() {
         return orderId;
     }
 
