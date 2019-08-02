@@ -77,7 +77,11 @@ public class HotelManageService {
             userManagement.setCustomNum(order1.getCustomNum());
             userManagement.setHotelId(order1.getHotelId());
             userManagement.setOrderTotalFee(order1.getOrderTotalFee());
+<<<<<<< HEAD
             //userManagement.setRoomid(order1.getRoomid());
+=======
+            userManagement.setRoomnum(order1.getRoomNum());
+>>>>>>> 9f434f0221329bc53736936672d6eb258e434ab6
             userManagement.setUserName(userInfo.getUserName());
             userManagements.add(userManagement);
         }
