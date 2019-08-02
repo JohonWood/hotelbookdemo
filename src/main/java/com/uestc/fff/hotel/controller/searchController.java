@@ -129,6 +129,7 @@ public class searchController {
 
         List<FullSearResult> fullSearResultList=(List<FullSearResult>) session.getAttribute("originList");
         List<FullSearResult> resultList=service.filterPrice(lowPrice,highPrice,fullSearResultList);
+        resultList=service.filterGrade(lowGrade,highGrade,resultList);
         session.setAttribute("resultList",resultList);
 
         return resultList;

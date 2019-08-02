@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
+import javax.swing.plaf.FontUIResource;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -106,6 +107,15 @@ public class searchService {
             }
             return resultList;
         }
+    }
+    public List<FullSearResult> filterGrade(String lowGrade,String highGrade,List<FullSearResult> origin){
+        List<FullSearResult> resultList=new ArrayList<FullSearResult>();
+        for(FullSearResult originReslt:origin){
+            if(originReslt.getHotelGrade()<=Integer.parseInt(highGrade)&&originReslt.getHotelGrade()>=Integer.parseInt(lowGrade)){
+                resultList.add(originReslt);
+            }
+        }
+        return resultList;
     }
 
 }
