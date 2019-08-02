@@ -252,6 +252,31 @@ public class ManageController {
                             @RequestParam String hotelName,
                             @RequestParam String hotelID,
                             Model model) {
-        return "";
+        model.addAttribute("hotelName",hotelName);
+        model.addAttribute("hotelID",hotelID);
+        model.addAttribute("OrderInfo", hotelManageService.findOrderbyPrimaryKey(orderID));
+        return "HotelOrderEdit";
+    }
+
+    @PostMapping("/orderEdit")
+    public String orderSave(@RequestParam String hotelName,
+                            @RequestParam String hotelID,
+                            OrderInfo orderInfo,
+                            Model model) {
+        hotelManageService.saveOrder(orderInfo);
+        OrderInfoExample orderInfoExample = new OrderInfoExample();
+        orderInfoExample.createCriteria().andHotelIdEqualTo(hotelID);
+        List<OrderInfo> orderInfoList = hotelManageService.listOrderInfo(orderInfoExample);
+        model.addAttribute("listOrder", hotelManageService.userManagementList(orderInfoList));
+        model.addAttribute("hotelName", hotelName);
+        model.addAttribute("hotelID", hotelID);
+        return "HotelOrderManagement";
+    }
+
+    @GetMapping("/deleteOrder")
+    @ResponseBody
+    public Boolean deleteOrder(@RequestParam String orderID) {
+        hotelManageService.deleteOrderByID(orderID);
+        return true;
     }
 }
