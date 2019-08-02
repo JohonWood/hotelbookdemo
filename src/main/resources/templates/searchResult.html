@@ -92,7 +92,7 @@
                                     </select>
                                 </li>
                                 <li>
-                                    <select name="cityKey" class="form-control input-lg select2" id="CitySelect">
+                                    <select name="cityKey" class="form-control input-lg select2" id="CitySelect" style="width: 100%">
                                     <!--由JS代码生成-->
                                     </select>
 
@@ -139,7 +139,7 @@
                                                     <span th:text="${order.hotelName}">酒店</span>
                                                 </h3>
                                                 <p class="text-black">
-                                                    <span th:text="${order.roomType}">sadasd</span>
+                                                    <span><span th:text="${order.roomNum}"></span>间房间</span>
                                                     <span class="pull-right"><i class="fa fa-calendar"></i>
                                             <span class="text-black" th:text='${order.checkInTime}'></span>入住</span>
                                                 </p>
@@ -281,7 +281,24 @@
                                 </select>
                             </div>
                         </div>
-                            <!-- /.comment-text -->
+
+                        <div class="box-comment">
+                            <label style="margin-left:10px">评分：</label>
+                            <div class="input-group pull-right" style="width: 120px; margin-right: 30px">
+                                <select id="ratingSelect" class="select2" style="width: 120px;">
+                                    <option id="rs1" selected="selected">无要求</option>
+                                    <option id="rs2" >1分以上</option>
+                                    <option id="rs3" >2分以上</option>
+                                    <option id="rs4" >3分以上</option>
+                                    <option id="rs5" >4分以上</option>
+                                    <option id="rs6" >5分以上</option>
+                                    <option id="rs7" >6分以上</option>
+                                    <option id="rs8" >7分以上</option>
+                                    <option id="rs9" >8分以上</option>
+                                    <option id="rs10">9分以上</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
 
 
@@ -445,7 +462,13 @@
                 text = xmlhttp.responseText;
                 var jsonData = JSON.parse(text);
                 for (x in jsonData) {
-                    $("#CitySelect").append('<option>' + jsonData[x] + '</option>');
+                    if (jsonData[x]=="成都") {
+                        $("#CitySelect").append('<option selected="selected">' + jsonData[x] + '</option>');
+                    }
+                    else{
+                        $("#CitySelect").append('<option>' + jsonData[x] + '</option>');
+                    }
+
                 }
                 $('.select2').select2();
             }
@@ -494,7 +517,6 @@
             alert("请将星级从小到大设置");
         }
         else{
-            alert(lowGrade+highGrade)
             xmlhttp.open("GET", "/504/filter?lowPrice="+lowPrice+"&highPrice="+highPrice+"&lowGrade="+lowGrade+"&highGrade="+highGrade, true);
             xmlhttp.send();
             xmlhttp.onreadystatechange = function () {
@@ -641,7 +663,13 @@
                                 $('#hotelGradeStar'+(parseInt(x)+1)).append('<i class="fa fa-fw fa-star" ></i>')
                             }
                         }
-                        $('.downList').show();
+                        if (num ==10) {
+                            $('.downList').hide();
+                        }
+                        else{
+                            $('.downList').show();
+                        }
+
                         //indexOfList=parseInt($('#numOfHotel').text())
                         indexOfList=10;
                     }

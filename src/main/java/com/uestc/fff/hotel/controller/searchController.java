@@ -128,41 +128,8 @@ public class searchController {
         System.out.println(highGrade);
 
         List<FullSearResult> fullSearResultList=(List<FullSearResult>) session.getAttribute("originList");
-        List<FullSearResult> resultList=new ArrayList<FullSearResult>();
-        if(lowPrice==""&&highPrice==""){
-            for(FullSearResult fullSearResult:fullSearResultList){
-                if (fullSearResult.getHotelGrade() >= Integer.parseInt(lowGrade) && fullSearResult.getHotelGrade() <= Integer.parseInt(highGrade)) {
-                    resultList.add(fullSearResult);
-                }
-            }
-        }
-        else if(lowPrice==""){
-            for(FullSearResult fullSearResult:fullSearResultList){
-                if(fullSearResult.getLeastPrice()<=Integer.parseInt(highPrice)){
-                    if(fullSearResult.getHotelGrade()>=Integer.parseInt(lowGrade)&&fullSearResult.getHotelGrade()<=Integer.parseInt(highGrade)){
-                        resultList.add(fullSearResult);
-                    }
-                }
-            }
-        }
-        else if(highPrice==""){
-            for(FullSearResult fullSearResult:fullSearResultList){
-                if(fullSearResult.getLeastPrice()>=Integer.parseInt(lowPrice)){
-                    if(fullSearResult.getHotelGrade()>=Integer.parseInt(lowGrade)&&fullSearResult.getHotelGrade()<=Integer.parseInt(highGrade)){
-                        resultList.add(fullSearResult);
-                    }
-                }
-            }
-        }
-        else{
-            for(FullSearResult fullSearResult:fullSearResultList){
-                if(fullSearResult.getLeastPrice()>=Integer. parseInt(lowPrice)&&fullSearResult.getLeastPrice()<=Integer.parseInt(highPrice)){
-                    if(fullSearResult.getHotelGrade()>=Integer.parseInt(lowGrade)&&fullSearResult.getHotelGrade()<=Integer.parseInt(highGrade)){
-                        resultList.add(fullSearResult);
-                    }
-                }
-            }
-        }
+        List<FullSearResult> resultList=service.filterPrice(lowPrice,highPrice,fullSearResultList);
+        resultList=service.filterGrade(lowGrade,highGrade,resultList);
         session.setAttribute("resultList",resultList);
 
         return resultList;

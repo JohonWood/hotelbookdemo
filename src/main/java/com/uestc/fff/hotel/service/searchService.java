@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
+import javax.swing.plaf.FontUIResource;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -75,6 +76,46 @@ public class searchService {
         else{
             return null;
         }
+    }
+
+    public List<FullSearResult> filterPrice(String lowPrice,String highPrice,List<FullSearResult> origin){
+        List<FullSearResult> resultList=new ArrayList<FullSearResult>();
+        if(lowPrice==""&&highPrice==""){
+            return origin;
+        }
+        else if(lowPrice==""){
+            for(FullSearResult fullSearResult:origin){
+                if(fullSearResult.getLeastPrice()<=Integer.parseInt(highPrice)){
+                    resultList.add(fullSearResult);
+                }
+            }
+            return resultList;
+        }
+        else if(highPrice==""){
+            for(FullSearResult fullSearResult:origin){
+                if(fullSearResult.getLeastPrice()>=Integer.parseInt(lowPrice)){
+                    resultList.add(fullSearResult);
+                }
+            }
+            return resultList;
+        }
+        else{
+            for(FullSearResult fullSearResult:origin){
+                if(fullSearResult.getLeastPrice()>=Integer.parseInt(lowPrice)&&fullSearResult.getLeastPrice()<=Integer.parseInt(highPrice)){
+                    resultList.add(fullSearResult);
+                }
+            }
+            return resultList;
+        }
+    }
+    public List<FullSearResult> filterGrade(String lowGrade,String highGrade,List<FullSearResult> origin){
+        List<FullSearResult> resultList=new ArrayList<FullSearResult>();
+        for(FullSearResult originReslt:origin){
+            if(originReslt.getHotelGrade()<=Integer.parseInt(highGrade)&&originReslt.getHotelGrade()>=Integer.parseInt(lowGrade)){
+                resultList.add(originReslt);
+            }
+        }
+        return resultList;
     }
 
 }
