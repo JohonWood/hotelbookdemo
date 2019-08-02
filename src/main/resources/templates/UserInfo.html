@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <title>个人信息</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" type="text/css" media="all" href="../adminlte/bower_components/bootstrap/dist/css/bootstrap.min.css"
+          th:href="@{/adminlte/bower_components/bootstrap/dist/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" media="all" href="../adminlte/bower_components/font-awesome/css/font-awesome.min.css"
+          th:href="@{/adminlte/bower_components/font-awesome/css/font-awesome.min.css}"/>
+    <link rel="stylesheet" type="text/css" media="all" href="../adminlte/bower_components/Ionicons/css/ionicons.min.css"
+          th:href="@{/adminlte/bower_components/Ionicons/css/ionicons.min.css}"/>
+    <link rel="stylesheet" type="text/css" media="all" href="../adminlte/dist/css/AdminLTE.min.css"
+          th:href="@{/adminlte/dist/css/AdminLTE.min.css}"/>
+    <link rel="stylesheet" type="text/css" media="all" href="../adminlte/dist/css/skins/skin-blue.min.css"
+          th:href="@{/adminlte/dist/css/skins/skin-blue.min.css}"/>
+    <link rel="stylesheet" type="text/css" media="all" href="../adminlte/bower_components/select2/dist/css/select2.min.css"
+          th:href="@{/adminlte/bower_components/select2/dist/css/select2.min.css}">
+    <style>
+        a:hover {
+            text-decoration: underline
+        }
+    </style>
+</head>
+<body class="hold-transition skin-blue sidebar-mini layout-top-nav">
+
+<div class="wrapper">
+    <header class="main-header">
+
+        <nav class="navbar navbar-static-top bg-purple" role="navigation">
+
+            <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
+
+                    <!-- Tasks Menu -->
+                    <li class="dropdown tasks-menu" th:if="${isLogin}==true">
+                        <!-- Menu Toggle Button -->
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-flag-o"></i>
+                            <span class="label label-danger" th:text="${numOfOrders}"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="header">你有<span th:text="${numOfOrders}"></span>个酒店订单</li>
+                            <li>
+                                <!-- Inner menu: contains the tasks -->
+                                <ul class="menu">
+                                    <li th:if="${numOfOrders}==0">
+                                        <a href="#">
+                                            <!-- Task title and progress text -->
+                                            <h3>
+                                                无订单
+                                            </h3>
+
+                                            </p>
+                                        </a>
+                                    </li>
+                                    <li th:each="order,orderStat: ${orderList}" th:if="${orderStat.count lt 3 && numOfOrders!=0}">
+                                        <!-- Task item -->
+                                        <a href="#">
+                                            <!-- Task title and progress text -->
+                                            <h3>
+                                                <span th:text="${order.hotelName}">酒店</span>
+                                            </h3>
+                                            <p class="text-black">
+                                                <span th:text="${order.roomType}">sadasd</span>
+                                                <span class="pull-right"><i class="fa fa-calendar"></i>
+                                            <span class="text-black" th:text='${order.checkInTime}'></span>入住</span>
+                                            </p>
+                                        </a>
+                                    </li>
+                                    <!-- end task item -->
+                                </ul>
+                            </li>
+                            <li class="footer">
+                                <a href="/mybook/booklist">查看所有订单</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- User Account Menu -->
+                    <li class="dropdown user user-menu">
+                        <!-- Menu Toggle Button -->
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <span class="hidden-xs" th:if="${isLogin}==true" th:text="${User_name}"></span>
+                            <span class="hidden-xs" th:if="${isLogin}==false">未登录</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="user-header bg-purple">
+
+                                <p th:if="${isLogin}==true">
+                                    <span th:text="${User_name}"></span>
+                                    <br>
+                                    <br>
+                                    <small>亲爱的用户，欢迎来到504订房网！</small>
+                                </p>
+                                <p th:if="${isLogin}==false">
+                                    <span>用户未登录</span>
+                                    <br>
+                                    <br>
+                                    <small>如果未注册，请注册后登录网站</small>
+                                </p>
+                            </li>
+                            <!-- Menu Body -->
+                            <li class="user-body" th:if="${isLogin}==true">
+                                <div class="row" style="">
+                                    <div class="col-xs-4 text-center">
+
+                                    </div>
+                                    <div class="col-xs-4 text-center">
+                                        <a href="/mybook/booklist">我的订单</a>
+                                    </div>
+                                    <div class="col-xs-4 text-center">
+                                        <!--<a href="#">Friends</a>-->
+                                    </div>
+                                </div>
+                                <!-- /.row -->
+                            </li>
+                            <!-- Menu Footer-->
+                            <li class="user-footer" th:if="${isLogin}==true">
+                                <div class="pull-left">
+                                    <a href="/user/userinfo" class="btn btn-default btn-flat">个人信息</a>
+                                </div>
+                                <div class="pull-right">
+                                    <a href="/user/logoutAction" class="btn btn-default btn-flat">登出</a>
+                                </div>
+                            </li>
+                            <li class="user-footer" th:if="${isLogin}==false">
+                                <div class="pull-left">
+                                    <a href="/user/login" class="btn btn-default btn-flat">登录</a>
+                                </div>
+                                <div class="pull-right">
+                                    <a href="/user/register" class="btn btn-default btn-flat">注册</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div class="content-wrapper -align-center" th:style="'align-content: center;background: url('+@{/picture/backImg.jpg} + ') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;'">
+        <!-- Content Header (Page header) -->
+        <section class="content-header text-center">
+            <h1 style="margin-bottom: 10px;margin-top: 40px">
+                在这里更改您的个人信息
+            </h1>
+        </section>
+
+        <div class="row">
+            <section class="text-center">
+            <div>
+                <form th:action="@{/user/userinfo}"  method="post">
+                <label>身份证号(登录帐号,无法修改)</label>
+                <p class="id"><i></i><input type="text" name="id" id="id" th:value="${userID}"
+                                            style="height: 50px;width:30%;margin:auto;" readonly></p>
+                <label>您的姓名</label>
+                <p class="name"><i></i><input type="text" name="name" id="name" th:value="${userName}"
+                                              style="height: 50px;width:30%;margin:auto;" required="required"></p>
+                <label>手机号</label>
+                <p class="phone"><i></i><input type="text" name="phone" id="phone" th:value="${userPhone}"
+                                               style="height: 50px;width:30%;margin:auto;" required="required"></p>
+                <label>昵称</label>
+                <p class="loginname"><i></i><input type="text" name="loginname" id="loginname" th:value="${loginName}"
+                                                   style="height: 50px;width:30%;margin:auto;" required="required"></p>
+<!--                <label>密码</label>-->
+<!--                <p class="loginpassword"><i></i><input type="password" name="loginpasword" id="loginpassword" th:value="${loginPassword}"
+                                                       style="height: 50px;width:30%;margin:auto;" required="required"></p>-->
+
+                    <p></p>
+                    <p class="submit">
+                        <i>
+                            <button type="submit" class="btn bg-purple btn-lg" id="update" style="border-bottom-left-radius: initial">更新个人信息</button>
+                            <a href="/user/changepassword" class="btn bg-purple btn-lg" id="changepassword" style="border-bottom-right-radius: initial">修改密码</a>
+                            <a href="/504/host" class="btn bg-purple btn-lg" id="gotohost" style="border-bottom-right-radius: initial">返回主页</a>
+
+                        </i>
+                    </p>
+<!--                    <p class="gotohost">
+                    <i>
+
+                    </i>
+                    </p>-->
+            </form>
+            </div>
+            </section>
+        </div>
+
+
+                <!--   <div class="row">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4 input-group">
+                        <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+                        <input name="hotelKey" class="form-control input-lg" type="text" placeholder="酒店"
+                               style="height: 80px;width:100%;margin:auto;" required="required">
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 20px;padding-left: 0">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4 input-group">
+                        <div class="form-group"
+                             style="padding-left: 0px;margin-right: 0px;align: left;float:left;width: 32%">
+                            <label>国家</label>
+                            <select name="countryKey" class="form-control input-lg select2  block" id="CountrySelect">
+                                <option th:each="country: ${countryList}" th:text="${country}" th:if="${country}!='中国'"></option>
+                                <option th:each="country: ${countryList}" th:text="${country}" selected="selected" th:if="${country}=='中国'"></option>
+                            </select>
+                        </div>
+                        <div class="form-group"
+                             style="padding-left: 0px;margin-left: 0px;margin-right:0px;float:left;width: 32%">
+                            <label>城市</label>
+                            <select name="cityKey" class="form-control input-lg select2 block" id="CitySelect">
+                                由JS代码生成&ndash;&gt;
+                            </select>
+                        </div>
+                        <button type="submit" class="btn bg-purple btn-lg" id="myselect"
+                                style="float:right;width:25%;margin-top:7px">搜索</button>
+                    </div>
+                </div>-->
+
+    </div>
+
+
+    <footer class="main-footer fixed">
+        <!-- To the right -->
+        <div class="pull-right hidden-xs">
+            电子科技大学第20组
+        </div>
+        <!-- Default to the left -->
+        <strong>Copyright &copy; 2019 <a href="https://www.uestc.edu.cn/">电子科技大学</a>.</strong> All rights reserved.
+    </footer>
+</div>
+
+
+<script type="text/javascript" th:src="@{/adminlte/bower_components/jquery/dist/jquery.min.js}"
+        src="../adminlte/bower_components/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" th:src="@{/adminlte/bower_components/bootstrap/dist/js/bootstrap.min.js}"
+        src="../adminlte/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" th:src="@{/adminlte/dist/js/adminlte.min.js}"
+        src="../adminlte/dist/js/adminlte.min.js"></script>
+<script src="../adminlte/bower_components/select2/dist/js/select2.full.min.js" type="text/javascript"
+        th:src="@{/adminlte/bower_components/select2/dist/js/select2.full.min.js}"></script>
+</body>
+</html>
