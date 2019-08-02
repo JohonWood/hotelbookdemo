@@ -2,20 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
-    <title>网站主页</title>
+    <title>个人信息</title>
     <!-- Font Awesome -->
-<<<<<<< HEAD
-    <link rel="stylesheet" type="text/css" media="all" href="../static/bower_components/bootstrap/dist/css/bootstrap.min.css"
-          th:href="@{/bower_components/bootstrap/dist/css/bootstrap.min.css}" />
-    <link rel="stylesheet" type="text/css" media="all" href="../static/bower_components/font-awesome/css/font-awesome.min.css"
-          th:href="@{/bower_components/font-awesome/css/font-awesome.min.css}" />
-    <link rel="stylesheet" type="text/css" media="all" href="../static/bower_components/Ionicons/css/ionicons.min.css"
-          th:href="@{/bower_components/Ionicons/css/ionicons.min.css}" />
-    <link rel="stylesheet" type="text/css" media="all" href="../static/dist/css/AdminLTE.min.css"
-          th:href="@{/dist/css/AdminLTE.min.css}" />
-    <link rel="stylesheet" type="text/css" media="all" href="../static/dist/css/skins/skin-blue.min.css"
-          th:href="@{/dist/css/skins/skin-blue.min.css}" />
-=======
     <link rel="stylesheet" type="text/css" media="all" href="../adminlte/bower_components/bootstrap/dist/css/bootstrap.min.css"
           th:href="@{/adminlte/bower_components/bootstrap/dist/css/bootstrap.min.css}"/>
     <link rel="stylesheet" type="text/css" media="all" href="../adminlte/bower_components/font-awesome/css/font-awesome.min.css"
@@ -33,7 +21,6 @@
             text-decoration: underline
         }
     </style>
->>>>>>> 4dd3b80fb74f49e9618dfbcbbd1de91f5ca6433c
 </head>
 <body class="hold-transition skin-blue sidebar-mini layout-top-nav">
 
@@ -130,7 +117,7 @@
                             <!-- Menu Footer-->
                             <li class="user-footer" th:if="${isLogin}==true">
                                 <div class="pull-left">
-                                    <a href="#" class="btn btn-default btn-flat">个人信息</a>
+                                    <a href="/user/userinfo" class="btn btn-default btn-flat">个人信息</a>
                                 </div>
                                 <div class="pull-right">
                                     <a href="/user/logoutAction" class="btn btn-default btn-flat">登出</a>
@@ -159,14 +146,51 @@
         <!-- Content Header (Page header) -->
         <section class="content-header text-center">
             <h1 style="margin-bottom: 10px;margin-top: 40px">
-                在这里，订酒店、度假村、青年旅馆、民宿等各类住宿
+                在这里更改您的个人信息
             </h1>
-            <span>享受全球住宿超值优惠</span>
         </section>
-        <form th:action="@{/504/post}" method="post">
-            <!-- Main content -->
-            <section class="content container-fluid">
-                <div class="row">
+
+        <div class="row">
+            <section class="text-center">
+            <div>
+                <form th:action="@{/user/userinfo}"  method="post">
+                <label>身份证号(登录帐号,无法修改)</label>
+                <p class="id"><i></i><input type="text" name="id" id="id" th:value="${userID}"
+                                            style="height: 50px;width:30%;margin:auto;" readonly></p>
+                <label>您的姓名</label>
+                <p class="name"><i></i><input type="text" name="name" id="name" th:value="${userName}"
+                                              style="height: 50px;width:30%;margin:auto;" required="required"></p>
+                <label>手机号</label>
+                <p class="phone"><i></i><input type="text" name="phone" id="phone" th:value="${userPhone}"
+                                               style="height: 50px;width:30%;margin:auto;" required="required"></p>
+                <label>昵称</label>
+                <p class="loginname"><i></i><input type="text" name="loginname" id="loginname" th:value="${loginName}"
+                                                   style="height: 50px;width:30%;margin:auto;" required="required"></p>
+<!--                <label>密码</label>-->
+<!--                <p class="loginpassword"><i></i><input type="password" name="loginpasword" id="loginpassword" th:value="${loginPassword}"
+                                                       style="height: 50px;width:30%;margin:auto;" required="required"></p>-->
+
+                    <p></p>
+                    <p class="submit">
+                        <i>
+                            <button type="submit" class="btn bg-purple btn-lg" id="update" style="border-bottom-left-radius: initial">更新个人信息</button>
+                            <a href="/user/changepassword" class="btn bg-purple btn-lg" id="changepassword" style="border-bottom-right-radius: initial">修改密码</a>
+                            <a href="/504/host" class="btn bg-purple btn-lg" id="gotohost" style="border-bottom-right-radius: initial">返回主页</a>
+
+                        </i>
+                    </p>
+<!--                    <p class="gotohost">
+                    <i>
+
+                    </i>
+                    </p>-->
+            </form>
+            </div>
+            </section>
+        </div>
+
+
+                <!--   <div class="row">
                     <div class="col-md-4"></div>
                     <div class="col-md-4 input-group">
                         <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
@@ -189,15 +213,13 @@
                              style="padding-left: 0px;margin-left: 0px;margin-right:0px;float:left;width: 32%">
                             <label>城市</label>
                             <select name="cityKey" class="form-control input-lg select2 block" id="CitySelect">
-                                <!--由JS代码生成-->
+                                由JS代码生成&ndash;&gt;
                             </select>
                         </div>
                         <button type="submit" class="btn bg-purple btn-lg" id="myselect"
                                 style="float:right;width:25%;margin-top:7px">搜索</button>
                     </div>
-                </div>
-            </section>
-        </form>
+                </div>-->
 
     </div>
 
@@ -205,7 +227,7 @@
     <footer class="main-footer fixed">
         <!-- To the right -->
         <div class="pull-right hidden-xs">
-            电子科技大学第22组
+            电子科技大学第20组
         </div>
         <!-- Default to the left -->
         <strong>Copyright &copy; 2019 <a href="https://www.uestc.edu.cn/">电子科技大学</a>.</strong> All rights reserved.
@@ -221,55 +243,5 @@
         src="../adminlte/dist/js/adminlte.min.js"></script>
 <script src="../adminlte/bower_components/select2/dist/js/select2.full.min.js" type="text/javascript"
         th:src="@{/adminlte/bower_components/select2/dist/js/select2.full.min.js}"></script>
-
-<script>
-    var xmlhttp;
-    if (window.XMLHttpRequest) {
-        xmlhttp = new XMLHttpRequest();
-    } else {
-        xmlhttp = new ActiveXObject();
-    }
-
-
-    $(function () {
-        xmlhttp.open("GET", "/504/city?country=" + encodeURI(encodeURI($("#CountrySelect").val())), true);
-        xmlhttp.send();
-        xmlhttp.onreadystatechange = function () {
-            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                var text;
-                text = xmlhttp.responseText;
-                var jsonData = JSON.parse(text);
-                for (x in jsonData) {
-                    $("#CitySelect").append('<option>' + jsonData[x] + '</option>');
-                }
-                $('.select2').select2();
-            }
-        }
-    })
-
-
-    $("#CountrySelect").change(function () {
-        xmlhttp.open("GET", "/504/city?country=" + encodeURI(encodeURI($("#CountrySelect").val())), true);
-        xmlhttp.send();
-        xmlhttp.onreadystatechange = function () {
-            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                var text;
-                text = xmlhttp.responseText;
-                var jsonData = JSON.parse(text);
-                $("#CitySelect").empty();
-                for (x in jsonData) {
-                    $("#CitySelect").append('<option>' + jsonData[x] + '</option>');
-                }
-                $('.select2').select2();
-            }
-        }
-    });
-
-    $("#CitySelect").change(function () {
-        console.log($("#CitySelect").val())
-    });
-
-
-</script>
 </body>
 </html>

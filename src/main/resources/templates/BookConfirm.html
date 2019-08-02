@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>确认订单</title>
+
+    <link rel="stylesheet" type="text/css" media="all" href="../adminlte/bower_components/bootstrap/dist/css/bootstrap.min.css"
+          th:href="@{/adminlte/bower_components/bootstrap/dist/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" media="all" href="../adminlte/bower_components/font-awesome/css/font-awesome.min.css"
+          th:href="@{/adminlte/bower_components/font-awesome/css/font-awesome.min.css}"/>
+    <link rel="stylesheet" type="text/css" media="all" href="../adminlte/bower_components/Ionicons/css/ionicons.min.css"
+          th:href="@{/adminlte/bower_components/Ionicons/css/ionicons.min.css}"/>
+    <link rel="stylesheet" type="text/css" media="all" href="../adminlte/dist/css/AdminLTE.min.css"
+          th:href="@{/adminlte/dist/css/AdminLTE.min.css}"/>
+    <link rel="stylesheet" type="text/css" media="all" href="../adminlte/dist/css/skins/skin-blue.min.css"
+          th:href="@{/adminlte/dist/css/skins/skin-blue.min.css}"/>
+    <link rel="stylesheet" type="text/css" media="all" href="../adminlte/bower_components/select2/dist/css/select2.min.css"
+          th:href="@{/adminlte/bower_components/select2/dist/css/select2.min.css}">
+    <link rel="stylesheet" type="text/css" media="all" href="../adminlte/dist/css/AdminLTE.min.css"
+          th:href="@{/adminlte/dist/css/AdminLTE.min.css}">
+
+</head>
+<body class="hold-transition skin-blue sidebar-mini layout-top-nav">
+<div class="wrapper">
+
+    <header class="main-header">
+        <nav class="navbar navbar-static-top bg-purple" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <a href="/504/host" class="navbar-brand"><b>504</b>订购网</a>
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+                        <li><a href="#">Link</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#">Action</a></li>
+                                <li><a href="#">Another action</a></li>
+                                <li><a href="#">Something else here</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">Separated link</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">One more separated link</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <form class="navbar-form navbar-left" role="search">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="navbar-search-input" placeholder="Search">
+                        </div>
+                    </form>
+                </div>
+                <!-- /.navbar-collapse -->
+                <!-- Navbar Right Menu -->
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <!-- Tasks Menu -->
+                        <li class="dropdown tasks-menu" th:if="${isLogin}==true">
+                            <!-- Menu Toggle Button -->
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-flag-o"></i>
+                                <span class="label label-danger" th:text="${numOfOrders}"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="header">你有<span th:text="${numOfOrders}"></span>个酒店订单</li>
+                                <li>
+                                    <!-- Inner menu: contains the tasks -->
+                                    <ul class="menu">
+                                        <li th:if="${numOfOrders}==0">
+                                            <a href="#">
+                                                <!-- Task title and progress text -->
+                                                <h3>
+                                                    无订单
+                                                </h3>
+
+                                                </p>
+                                            </a>
+                                        </li>
+                                        <li th:each="order,orderStat: ${orderList}" th:if="${orderStat.count lt 3 && numOfOrders!=0}">
+                                            <!-- Task item -->
+                                            <a href="#">
+                                                <!-- Task title and progress text -->
+                                                <h3>
+                                                    <span th:text="${order.hotelName}">酒店</span>
+                                                </h3>
+                                                <p class="text-black">
+                                                    <span th:text="${order.roomType}">sadasd</span>
+                                                    <span class="pull-right"><i class="fa fa-calendar"></i>
+                                            <span class="text-black" th:text='${order.checkInTime}'></span>入住</span>
+                                                </p>
+                                            </a>
+                                        </li>
+                                        <!-- end task item -->
+                                    </ul>
+                                </li>
+                                <li class="footer">
+                                    <a href="/mybook/booklist">查看所有订单</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- User Account Menu -->
+                        <li class="dropdown user user-menu">
+                            <!-- Menu Toggle Button -->
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <span class="hidden-xs" th:if="${isLogin}==true" th:text="${User_name}"></span>
+                                <span class="hidden-xs" th:if="${isLogin}==false">未登录</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="user-header bg-purple">
+
+                                    <p th:if="${isLogin}==true">
+                                        <span th:text="${User_name}"></span>
+                                        <br>
+                                        <br>
+                                        <small>亲爱的用户，欢迎来到504订房网！</small>
+                                    </p>
+                                    <p th:if="${isLogin}==false">
+                                        <span>用户未登录</span>
+                                        <br>
+                                        <br>
+                                        <small>如果未注册，请注册后登录网站</small>
+                                    </p>
+                                </li>
+                                <!-- Menu Body -->
+                                <li class="user-body" th:if="${isLogin}==true">
+                                    <div class="row" style="">
+                                        <div class="col-xs-4 text-center">
+
+                                        </div>
+                                        <div class="col-xs-4 text-center">
+                                            <a href="/mybook/booklist">我的订单</a>
+                                        </div>
+                                        <div class="col-xs-4 text-center">
+                                            <!--<a href="#">Friends</a>-->
+                                        </div>
+                                    </div>
+                                    <!-- /.row -->
+                                </li>
+                                <!-- Menu Footer-->
+                                <li class="user-footer" th:if="${isLogin}==true">
+                                    <div class="pull-left">
+                                        <a href="#" class="btn btn-default btn-flat">个人信息</a>
+                                    </div>
+                                    <div class="pull-right">
+                                        <a href="/user/logoutAction" class="btn btn-default btn-flat">登出</a>
+                                    </div>
+                                </li>
+                                <li class="user-footer" th:if="${isLogin}==false">
+                                    <div class="pull-left">
+                                        <a href="/user/login" class="btn btn-default btn-flat">登录</a>
+                                    </div>
+                                    <div class="pull-right">
+                                        <a href="/user/register" class="btn btn-default btn-flat">注册</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.navbar-custom-menu -->
+            </div>
+            <!-- /.container-fluid -->
+        </nav>
+    </header>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                确认订单信息
+                <small>#<span th:text="${numOfAllOrders}+1"></span></small>
+            </h1>
+            <ol class="breadcrumb">
+                <li><a href="/504/host"><i class="fa fa-dashboard"></i> 主页</a></li>
+                <li><a href="/504/host">酒店列表</a></li>
+                <li><a href="#">下单</a></li>
+            </ol>
+        </section>
+
+        <div class="pad margin no-print">
+            <div class="callout callout-info" style="margin-bottom: 0!important;">
+                <h4><i class="fa fa-info"></i> 注意</h4>
+                 请仔细核对以下信息，确认无误后点击确认完成下单。
+            </div>
+        </div>
+
+        <!-- Main content -->
+        <section class="invoice">
+            <!-- title row -->
+            <div class="row">
+                <div class="col-xs-12">
+                    <h2 class="page-header">
+                        <i class="fa fa-globe"></i> 504订购网
+                        <small class="pull-right" id = "show_time">
+                            <script>
+                                setInterval("fun(show_time)",1);
+                                function fun(timeID){
+                                    var date = new Date();  //创建对象  
+                                    var y = date.getFullYear();     //获取年份  
+                                    var m =date.getMonth()+1;   //获取月份  返回0-11  
+                                    var d = date.getDate(); // 获取日  
+                                    var w = date.getDay();   //获取星期几  返回0-6   (0=星期天) 
+                                    var ww = ' 星期'+'日一二三四五六'.charAt(new Date().getDay()) ;//星期几
+                                    var h = date.getHours();  //时
+                                    var minute = date.getMinutes()  //分
+                                    var s = date.getSeconds(); //秒
+                                    if(m<10){
+                                        m = "0"+m;
+                                    }
+                                    if(d<10){
+                                        d = "0"+d;
+                                    }
+                                    if(h<10){
+                                        h = "0"+h;
+                                    }
+                                    if(minute<10){
+                                        minute = "0"+minute;
+                                    }
+                                    if(s<10){
+                                        s = "0"+s;
+                                    }
+                                    document.getElementById(timeID.id).innerHTML =  y+"-"+m+"-"+d+"   "+h+":"+minute+":"+s+"  "+ww;}
+                            </script> 
+                        </small>
+                    </h2>
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- info row -->
+            <div class="row invoice-info">
+                <div class="col-sm-4 invoice-col">
+                    From
+                    <address>
+                        <strong>Admin, Inc.</strong><br>
+                        795 Folsom Ave, Suite 600<br>
+                        San Francisco, CA 94107<br>
+                        Phone: (804) 123-5432<br>
+                        Email: info@almasaeedstudio.com
+                    </address>
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-4 invoice-col">
+                    To
+                    <address>
+                        <strong>John Doe</strong><br>
+                        795 Folsom Ave, Suite 600<br>
+                        San Francisco, CA 94107<br>
+                        Phone: (555) 539-1037<br>
+                        Email: john.doe@example.com
+                    </address>
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-4 invoice-col">
+                    <b>Invoice #007612</b><br>
+                    <br>
+                    <b>Order ID:</b> 4F3S8J<br>
+                    <b>Payment Due:</b> 2/22/2014<br>
+                    <b>Account:</b> 968-34567
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+
+            <!-- Table row -->
+            <div class="row">
+                <div class="col-xs-12 table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Qty</th>
+                            <th>Product</th>
+                            <th>Serial #</th>
+                            <th>Description</th>
+                            <th>Subtotal</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Call of Duty</td>
+                            <td>455-981-221</td>
+                            <td>El snort testosterone trophy driving gloves handsome</td>
+                            <td>$64.50</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>Need for Speed IV</td>
+                            <td>247-925-726</td>
+                            <td>Wes Anderson umami biodiesel</td>
+                            <td>$50.00</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>Monsters DVD</td>
+                            <td>735-845-642</td>
+                            <td>Terry Richardson helvetica tousled street art master</td>
+                            <td>$10.70</td>
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>Grown Ups Blue Ray</td>
+                            <td>422-568-642</td>
+                            <td>Tousled lomo letterpress</td>
+                            <td>$25.99</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+
+            <div class="row">
+                <!-- accepted payments column -->
+                <div class="col-xs-6">
+                    <p class="lead">Payment Methods:</p>
+                    <img src="../adminlte/dist/img/credit/visa.png" alt="Visa">
+                    <img src="../adminlte/dist/img/credit/mastercard.png" alt="Mastercard">
+                    <img src="../adminlte/dist/img/credit/american-express.png" alt="American Express">
+                    <img src="../adminlte/dist/img/credit/paypal2.png" alt="Paypal">
+
+                    <p class="text-muted well well-sm no-shadow" style="margin-top: 10px;">
+                        Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles, weebly ning heekya handango imeem plugg
+                        dopplr jibjab, movity jajah plickers sifteo edmodo ifttt zimbra.
+                    </p>
+                </div>
+                <!-- /.col -->
+                <div class="col-xs-6">
+                    <p class="lead">Amount Due 2/22/2014</p>
+
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tr>
+                                <th style="width:50%">Subtotal:</th>
+                                <td>$250.30</td>
+                            </tr>
+                            <tr>
+                                <th>Tax (9.3%)</th>
+                                <td>$10.34</td>
+                            </tr>
+                            <tr>
+                                <th>Shipping:</th>
+                                <td>$5.80</td>
+                            </tr>
+                            <tr>
+                                <th>Total:</th>
+                                <td>$265.24</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+
+            <!-- this row will not appear when printing -->
+            <div class="row no-print">
+                <div class="col-xs-12">
+                    <a href="invoice-print.html" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Print</a>
+                    <button type="button" class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> Submit Payment
+                    </button>
+                    <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px;">
+                        <i class="fa fa-download"></i> Generate PDF
+                    </button>
+                </div>
+            </div>
+        </section>
+        <!-- /.content -->
+        <div class="clearfix"></div>
+    </div>
+    <!-- /.content-wrapper -->
+    <footer class="main-footer fixed">
+        <!-- To the right -->
+        <div class="pull-right hidden-xs">
+            电子科技大学第22组
+        </div>
+        <!-- Default to the left -->
+        <strong>Copyright &copy; 2019 <a href="https://www.uestc.edu.cn/">电子科技大学</a>.</strong> All rights reserved.
+    </footer>
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery 3 -->
+<script src="../adminlte/bower_components/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="../adminlte/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- Slimscroll -->
+<script src="../adminlte/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<!-- FastClick -->
+<script src="../adminlte/bower_components/fastclick/lib/fastclick.js"></script>
+<!-- AdminLTE App -->
+<script src="../adminlte/dist/js/adminlte.min.js"></script>
+<!-- iCheck -->
+<script src="../adminlte/plugins/iCheck/icheck.min.js"></script>
+</body>
+</html>

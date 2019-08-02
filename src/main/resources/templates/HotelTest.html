@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Spring-boot</title>
+    <script th:src="@{/js/jquery-3.4.1.min.js}"></script>
+</head>
+<body>
+User List:
+<table border="1">
+    <tr>
+        <th>HotelID</th>
+        <th>HotelName</th>
+    </tr>
+    <tr th:each="Hotel : ${Hotels}">
+        <td th:text="${Hotel.hotelId}"></td>
+        <td th:text="${Hotel.hotelName}"></td>
+    </tr>
+</table>
+</body>
