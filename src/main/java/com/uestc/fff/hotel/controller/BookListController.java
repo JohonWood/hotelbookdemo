@@ -84,13 +84,13 @@ public class BookListController {
                 model.addAttribute("Hotels",serviceBook.HotelInfomation(hid));
                 model.addAttribute("Orders",serviceBook.OrderInfomation(oid));
                 model.addAttribute("Users", serviceBook.UserInfomation(uid));
-                model.addAttribute("User_name",userInfotest.getLoginName());
-                model.addAttribute("numOfOrders",serviceSearch.countOrder(userInfotest.getUserId()));
-                List<order> orderList=serviceSearch.orderList(userInfotest.getUserId());
-                model.addAttribute("orderList",orderList);
-                model.addAttribute("isLogin",true);
-                List<String> listOfCountry=serviceSearch.searchCountry();
-                model.addAttribute("countryList",listOfCountry);
+//                model.addAttribute("User_name",userInfotest.getLoginName());
+//                model.addAttribute("numOfOrders",serviceSearch.countOrder(userInfotest.getUserId()));
+//                List<order> orderList=serviceSearch.orderList(userInfotest.getUserId());
+//                model.addAttribute("orderList",orderList);
+//                model.addAttribute("isLogin",true);
+//                List<String> listOfCountry=serviceSearch.searchCountry();
+//                model.addAttribute("countryList",listOfCountry);
             }
         }catch (IOException e) {
             e.printStackTrace();
