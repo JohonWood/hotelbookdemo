@@ -62,7 +62,7 @@
                                                 <span th:text="${order.hotelName}">酒店</span>
                                             </h3>
                                             <p class="text-black">
-                                                <span th:text="${order.roomType}">sadasd</span>
+                                                <span><span th:text="${order.roomNum}"></span>间房间</span>
                                                 <span class="pull-right"><i class="fa fa-calendar"></i>
                                             <span class="text-black" th:text='${order.checkInTime}'></span>入住</span>
                                             </p>
@@ -227,7 +227,13 @@
                 text = xmlhttp.responseText;
                 var jsonData = JSON.parse(text);
                 for (x in jsonData) {
-                    $("#CitySelect").append('<option>' + jsonData[x] + '</option>');
+                    if (jsonData[x]=="成都") {
+                        $("#CitySelect").append('<option selected="selected">' + jsonData[x] + '</option>');
+                    }
+                    else{
+                        $("#CitySelect").append('<option>' + jsonData[x] + '</option>');
+                    }
+
                 }
                 $('.select2').select2();
             }

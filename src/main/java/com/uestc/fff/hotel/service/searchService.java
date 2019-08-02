@@ -77,4 +77,35 @@ public class searchService {
         }
     }
 
+    public List<FullSearResult> filterPrice(String lowPrice,String highPrice,List<FullSearResult> origin){
+        List<FullSearResult> resultList=new ArrayList<FullSearResult>();
+        if(lowPrice==""&&highPrice==""){
+            return origin;
+        }
+        else if(lowPrice==""){
+            for(FullSearResult fullSearResult:origin){
+                if(fullSearResult.getLeastPrice()<=Integer.parseInt(highPrice)){
+                    resultList.add(fullSearResult);
+                }
+            }
+            return resultList;
+        }
+        else if(highPrice==""){
+            for(FullSearResult fullSearResult:origin){
+                if(fullSearResult.getLeastPrice()>=Integer.parseInt(lowPrice)){
+                    resultList.add(fullSearResult);
+                }
+            }
+            return resultList;
+        }
+        else{
+            for(FullSearResult fullSearResult:origin){
+                if(fullSearResult.getLeastPrice()>=Integer.parseInt(lowPrice)&&fullSearResult.getLeastPrice()<=Integer.parseInt(highPrice)){
+                    resultList.add(fullSearResult);
+                }
+            }
+            return resultList;
+        }
+    }
+
 }

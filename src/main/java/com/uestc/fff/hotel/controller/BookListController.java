@@ -69,9 +69,9 @@ public class BookListController {
             else {
                 String uid = serviceBook.OrderInfomation(oid).getUserId();
                 String hid = serviceBook.OrderInfomation(oid).getHotelId();
-                String rid = serviceBook.OrderInfomation(oid).getRoomid();
+                //String rid = serviceBook.OrderInfomation(oid).getRoomid();
                 model.addAttribute("Hotels",serviceBook.HotelInfomation(hid));
-                model.addAttribute("Rooms",serviceBook.RoomInfomation(rid));
+                //model.addAttribute("Rooms",serviceBook.RoomInfomation(rid));
                 model.addAttribute("Orders",serviceBook.OrderInfomation(oid));
                 model.addAttribute("Users", serviceBook.UserInfomation(uid));
                 model.addAttribute("User_name",userInfotest.getLoginName());
@@ -115,7 +115,7 @@ public class BookListController {
         List<String> listOfCountry=serviceSearch.searchCountry();
         model.addAttribute("countryList",listOfCountry);
         model.addAttribute("Hotels",serviceBook.HotelInfomation("108573"));
-        model.addAttribute("RoomList", serviceBook.RoomInfoList(hid));
+       /// model.addAttribute("RoomList", serviceBook.RoomInfoList(hid));
 
         return "Book";
     }
@@ -146,7 +146,7 @@ public class BookListController {
         List<String> listOfCountry=serviceSearch.searchCountry();
         model.addAttribute("countryList",listOfCountry);
         model.addAttribute("Hotels",serviceBook.HotelInfomation(hid));
-        model.addAttribute("RoomList", serviceBook.RoomInfoList(hid));
+       // model.addAttribute("RoomList", serviceBook.RoomInfoList(hid));
         model.addAttribute("numOfAllOrders", serviceBook.CountAllOrders());
 
         return "BookConfirm";

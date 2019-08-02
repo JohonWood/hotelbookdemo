@@ -13,10 +13,10 @@
         <result column="Country_Code" jdbcType="VARCHAR" property="countryCode"/>
     </resultMap>
     <resultMap id="OrderResultMap" type="com.uestc.fff.hotel.domain.order">
-        <id column="RoomID" jdbcType="VARCHAR" property="roomID"/>
+        <id column="Order_ID" jdbcType="VARCHAR" property="orderID"/>
         <result column="Hotel_name" jdbcType="VARCHAR" property="hotelName"/>
         <result column="Checkin_time" jdbcType="DATE" property="checkInTime"/>
-        <result column="Room_Type" jdbcType="VARCHAR" property="roomType"/>
+        <result column="Room_Num" jdbcType="VARCHAR" property="roomNum"/>
     </resultMap>
     <resultMap id="HotelResultMap" type="com.uestc.fff.hotel.domain.HotelInfo">
         <id column="Hotel_id" jdbcType="VARCHAR" property="hotelId"/>
@@ -52,12 +52,6 @@
         <result column="Hotel_overview" jdbcType="LONGVARCHAR" property="hotelOverview"/>
     </resultMap>
 
-    <!--<resultMap id="searchCity" type="com.uestc.fff.hotel.domain.City">-->
-    <!--<id column="City_ID" jdbcType="VARCHAR" property="cityId" />-->
-    <!--<result column="City_Name" jdbcType="VARCHAR" property="cityName" />-->
-    <!--<result column="City_State" jdbcType="VARCHAR" property="cityState" />-->
-    <!--<result column="Country_Code" jdbcType="VARCHAR" property="countryCode" />-->
-    <!--</resultMap>-->
     <sql id="Example_Where_Clause">
         <!--
           WARNING - @mbg.generated
@@ -143,10 +137,10 @@
         where city.Country_Code=country.Country_Code and country.Country_Name=#{countryCode, jdbcType=VARCHAR}
     </select>
     <select id="selectOrder" parameterType="java.lang.String" resultMap="OrderResultMap">
-        Select
-        room_info.RoomID,hotel_info.Hotel_name,order_info.Checkin_time,room_info.Room_Type
-        FROM room_info,hotel_info,order_info
-        where room_info.RoomID=order_info.RoomID and order_info.Hotel_id=hotel_info.Hotel_id AND order_info.User_ID=#{userID,jdbcType=VARCHAR}
+       Select
+        o.Order_ID,h.Hotel_name,o.Checkin_time,o.Room_Num
+        FROM order_info o,hotel_info h
+        where o.Hotel_id=h.Hotel_id AND o.User_ID=#{userID,jdbcType=VARCHAR}
     </select>
     <select id="countOrder" parameterType="java.lang.String" resultType="int">
         Select

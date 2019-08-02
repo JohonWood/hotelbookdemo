@@ -4,13 +4,11 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 public class order {
-    private String roomID;
+    private String orderID;
     private String hotelName;
     private Date checkInTime;
-    private String roomType;
+    private String roomNum;
 
-    public order() {
-    }
 
     public String getHotelName() {
         return hotelName;
@@ -21,29 +19,27 @@ public class order {
     }
 
 
-
-    public String getRoomType() {
-        return roomType;
-    }
-
-    public void setRoomType(String roomType) {
-        this.roomType = roomType;
-    }
-
-    public String getRoomID() {
-        return roomID;
-    }
-
-    public void setRoomID(String roomID) {
-        this.roomID = roomID;
-    }
-
-
     public Date getCheckInTime() {
         return checkInTime;
     }
 
     public void setCheckInTime(Date checkInTime) {
         this.checkInTime = checkInTime;
+    }
+
+    public String getOrderID() {
+        return orderID;
+    }
+
+    public void setOrderID(String orderID) {
+        this.orderID = orderID;
+    }
+
+    public String getRoomNum() {
+        return roomNum;
+    }
+
+    public void setRoomNum(String roomNum) {
+        this.roomNum = roomNum;
     }
 }

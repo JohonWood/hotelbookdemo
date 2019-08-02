@@ -30,7 +30,7 @@ public class BookListService {
         return roomInfoMapper.selectByPrimaryKey(rid);
     }
 
-    public List<RoomInfo> RoomInfoList(String hid) { return  roomInfoMapper.selectByHotel(hid); }
+    //public List<RoomInfo> RoomInfoList(String hid) { return  roomInfoMapper.selectByHotel(hid); }
 
     public OrderInfo OrderInfomation(String oid){
         return orderInfoMapper.selectByPrimaryKey(oid);
