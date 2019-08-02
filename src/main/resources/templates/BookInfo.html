@@ -235,12 +235,36 @@
                                     <div class="word2 col-md-12">
                                         <table class="table table-hover table-striped">
                                             <h4>&nbsp;&nbsp;&nbsp;房间信息</h4>
+                                            <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>房间编号</th>
+                                                <th>房间类型</th>
+                                                <th>房间单价</th>
+                                                <th>有无早餐</th>
+                                            </tr>
+                                            </thead>
                                             <tbody>
-                                            <tr  th:each="Room : ${Rooms}">
-                                                <td th:text="${'房间编号: '+Room.roomid}"></td>
-                                                <td th:text="${'房间名称: '+Room.roomName}"></td>
-                                                <td th:text="${'房间类型: '+Room.roomType}"></td>
-                                                <td th:text="${'有无早餐: '+Room.roomBreakfirst}"></td>
+                                            <tr  th:each="Room : ${Room1}">
+                                                <td><i class="fa fa-book"></i></td>
+                                                <td th:text="${Room.roomid}"></td>
+                                                <td th:text="${Room.roomType}"></td>
+                                                <td th:text="${Room.roomFee}"></td>
+                                                <td th:text="${Room.roomBreakfirst}"></td>
+                                            </tr>
+                                            <tr  th:each="Room : ${Room2}" th:if="${Room2}">
+                                                <td><i class="fa fa-book"></i></td>
+                                                <td th:text="${Room.roomid}"></td>
+                                                <td th:text="${Room.roomType}"></td>
+                                                <td th:text="${Room.roomFee}"></td>
+                                                <td th:text="${Room.roomBreakfirst}"></td>
+                                            </tr>
+                                            <tr  th:each="Room : ${Room3}" th:if="${Room3}">
+                                                <td><i class="fa fa-book"></i></td>
+                                                <td th:text="${Room.roomid}"></td>
+                                                <td th:text="${Room.roomType}"></td>
+                                                <td th:text="${Room.roomFee}"></td>
+                                                <td th:text="${Room.roomBreakfirst}"></td>
                                             </tr>
                                             </tbody>
                                         </table>
