@@ -7,7 +7,16 @@ public class UserManagement {
     private String orderId;
     private String userId;
     private String hotelId;
-    private String roomid;
+
+    public int getRoomnum() {
+        return roomnum;
+    }
+
+    public void setRoomnum(int roomnum) {
+        this.roomnum = roomnum;
+    }
+
+    private int roomnum;
     private Date createTime;
     private Float orderTotalFee;
     private Date checkinTime;
@@ -38,13 +47,6 @@ public class UserManagement {
         this.hotelId = hotelId;
     }
 
-    public String getRoomid() {
-        return roomid;
-    }
-
-    public void setRoomid(String roomid) {
-        this.roomid = roomid;
-    }
 
     public Date getCreateTime() {
         return createTime;
