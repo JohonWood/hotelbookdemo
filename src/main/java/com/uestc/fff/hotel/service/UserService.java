@@ -19,6 +19,11 @@ public class UserService {
     {
         return userInfoMapper.selectByPrimaryKey(userID);
     }
+
+    public void updateUserInfo(UserInfo userInfo)
+    {
+        userInfoMapper.updateByPrimaryKey(userInfo);
+    }
 }
 /*
     public boolean register(){

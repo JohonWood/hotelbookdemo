@@ -19,10 +19,31 @@
     <link rel="stylesheet" type="text/css" media="all"
           th:href="@{/adminlte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css}"/>
     <script th:src="@{/js/jquery-3.4.1.min.js}"></script>
-</head>
+
+    <style>
+        .top{
+            width: 60px;
+            height: 30px;
+            border-radius: 10px;
+            position: fixed;
+            right: 5px;
+            top: 650px;
+            bottom: 20%;
+            border: none;
+        }
+        .top #topArrow:hover{
+            background: #39CCCC;
+        }
+        .fa #TopArraow{
+            margin:auto;
+            width:60%;
+            height:60%
+        }
+    </style>
 </head>
 
 <body class="hold-transition skin-yellow sidebar-mini">
+<a name="top"></a>
 <div class="wrapper">
 
     <!-- Main Header -->
@@ -52,7 +73,7 @@
                             <!-- The user image in the navbar-->
                             <img th:src="@{/picture/test.jpg}" class="user-image" alt="User Image">
                             <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                            <span class="hidden-xs">彭业鉴</span>
+                            <span class="hidden-xs" th:text="${session.user.loginName}"></span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- The user image in the menu -->
@@ -138,11 +159,6 @@
                                         </button>
                                     </div>
                                 </form>
-                                <div class="col-sm-2">
-                                    <a th:href="@{/manage/addCity}" method="get"><button class="btn btn-block btn-info" style="height: 30px">
-                                        添加酒店
-                                    </button></a>
-                                </div>
                             </div>
                         </div>
                         <div class="row">
@@ -168,7 +184,7 @@
                                             操作
                                         </th>
                                         <th style="width: 66.6px;">
-                                            删除
+
                                         </th>
                                     </tr>
                                     </thead>
@@ -183,10 +199,9 @@
                                         <td><a th:href="@{/manage/room(hotelID = ${hotel.hotelId},hotelName = ${hotel.hotelName})}">
                                             <button type="button" class="btn btn-block btn-info">房间管理</button>
                                         </a></td>
-                                        <td><a>
-                                            <button type="button" class="btn btn-block btn-info"
-                                                    data-th-attr="onclick='deleteHotel(this, \'' + ${hotel.hotelId} + '\')'">
-                                                删除
+                                        <td><a th:href="@{/manage/orderManage(hotelID = ${hotel.hotelId},hotelName = ${hotel.hotelName})}">
+                                            <button type="button" class="btn btn-block btn-info">
+                                                订单管理
                                             </button>
                                         </a></td>
                                     </tr>
@@ -208,6 +223,11 @@
         </section>
         <!-- /.content -->
     </div>
+    <a href="#top">
+    <div class="top text-center btn bg-purple" id="topArrow" title="回到顶部">
+        <span  ><i id="TopArraow" class="fa fa-fw fa-chevron-up"></i></span>
+    </div>
+    </a>
 
 
 </div>
@@ -222,18 +242,5 @@
         src="../dist/js/adminlte.min.js"></script>
 
 </body>
-<script>
-    function deleteHotel(elem, HotelID) {
-        $.ajax({
-            url: '/manage/deleteHotel?hotelID=' + HotelID,
-            type: 'get',
-            success: function (data) {
-                $(elem).parent().parent().parent().remove();
-            },
-            fail: function (data) {
-                console.log('fail delete hotel')
-            }
-        })
-    }
-</script>
+
 </html>

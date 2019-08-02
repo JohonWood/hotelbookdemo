@@ -2,28 +2,29 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <title>预定酒店</title>
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <!-- Bootstrap 3.3.7 -->
-    <link rel="stylesheet" href="../adminlte/bower_components/bootstrap/dist/css/bootstrap.min.css">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="../adminlte/bower_components/font-awesome/css/font-awesome.min.css">
-    <!-- Ionicons -->
-    <link rel="stylesheet" href="../adminlte/bower_components/Ionicons/css/ionicons.min.css">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="../adminlte/dist/css/AdminLTE.min.css">
-    <!-- AdminLTE Skins. Choose a skin from the css/skinsfolder instead of downloading all of them to reduce the load. -->
-    <link rel="stylesheet" href="../adminlte/dist/css/skins/_all-skins.min.css">
-    <!-- iCheck -->
-    <link rel="stylesheet" href="../adminlte/plugins/iCheck/flat/blue.css">
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <title>酒店详情</title>
+
+    <link rel="stylesheet" type="text/css" media="all" href="../adminlte/bower_components/bootstrap/dist/css/bootstrap.min.css"
+          th:href="@{/adminlte/bower_components/bootstrap/dist/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" media="all" href="../adminlte/bower_components/font-awesome/css/font-awesome.min.css"
+          th:href="@{/adminlte/bower_components/font-awesome/css/font-awesome.min.css}"/>
+    <link rel="stylesheet" type="text/css" media="all" href="../adminlte/bower_components/Ionicons/css/ionicons.min.css"
+          th:href="@{/adminlte/bower_components/Ionicons/css/ionicons.min.css}"/>
+    <link rel="stylesheet" type="text/css" media="all" href="../adminlte/dist/css/AdminLTE.min.css"
+          th:href="@{/adminlte/dist/css/AdminLTE.min.css}"/>
+    <link rel="stylesheet" type="text/css" media="all" href="../adminlte/dist/css/skins/skin-blue.min.css"
+          th:href="@{/adminlte/dist/css/skins/skin-blue.min.css}"/>
+    <link rel="stylesheet" type="text/css" media="all" href="../adminlte/bower_components/select2/dist/css/select2.min.css"
+          th:href="@{/adminlte/bower_components/select2/dist/css/select2.min.css}">
+    <link rel="stylesheet" type="text/css" media="all" href="../adminlte/dist/css/AdminLTE.min.css"
+          th:href="@{/adminlte/dist/css/AdminLTE.min.css}">
+
     <style>
         .picture1{float:right;}
         .word1{float:left;}
         /*.word2{font-size: 16px}*/
         /*.word3{font-size: 16px}*/
+        }
     </style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini layout-top-nav">
@@ -182,81 +183,188 @@
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;'">
-        <!-- Content Header (Page header) -->
-        <!--<section class="content-header">-->
-            <!--<h1>确认订单</h1>-->
 
-        <!--</section>-->
-        <!-- Main content -->
-        <section class="content">
-            <div class="row">
-                <!-- /.col -->
-                <div class="col-md-12">
-                    <div class="box box-primary">
-                        <!-- /.box-header -->
-                        <div class="box-body no-padding">
-                            <div id = "div1" class="table-responsive BookListBox-messages">
-                                <h4></h4>
-                                <div th:each="Hotel : ${Hotels}">
-                                    <img class="picture1 col-md-3" th:src="${Hotel.hotelPhoto1}" alt="photo1">
-                                </div>
-                                <div class="word1 col-md-9">
+        <div class="container-fluid">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    我的订单列表
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="/504/host"><i class="fa fa-dashboard"></i> 主页</a></li>
+                    <li><a href="/504/host">酒店列表</a></li>
+                    <li><a href="#">酒店详情</a></li>
+                </ol>
+            </section>
 
-                                    <table class="table table-hover table-striped">
-                                        <h4>&nbsp;&nbsp;&nbsp;确认酒店信息</h4>
-                                        <tbody th:each="Hotel : ${Hotels}">
-                                        <tr> <td th:text="${'酒店名称: '+Hotel.hotelName}"></td> </tr>
-                                        <tr> <td th:text="${Hotel.hotelGrade+'星级酒店'}"></td> </tr>
-                                        <tr> <td th:text="${'酒店地址: '+Hotel.hotelAddress}"></td> </tr>
-                                        <tr> <td th:text="${'Tel: '+Hotel.hotelPhone}"></td></tr> </tr>
-                                        <tr> <td th:text="${'上班时间: '+Hotel.hotelCheckin}"></td>
-                                            <td th:text="${'下班时间: '+Hotel.hotelCheckout}"></td></tr>
-                                        <tr>  </tr>
-                                        <tr> <td>酒店简介:</td></tr>
-                                        <tr> <td th:text="${'&nbsp;&nbsp;&nbsp;&nbsp'+Hotel.hotelOverview}"></td> </tr>
-                                        </tbody>
-                                    </table>
+            <!-- Main content -->
+            <section class="content">
+                <div class="row">
+                    <!-- /.col -->
+                    <div class="col-md-12">
+                        <div class="box box-primary">
+                            <!-- /.box-header -->
+                            <div class="box-body no-padding">
+                                <div id = "div1" class="table-responsive BookListBox-messages">
+                                    <h4></h4>
+                                    <div id="demo" class="carousel slide picture1 col-md-3" data-ride="carousel">
+                                        <!-- 指示符 -->
+                                        <ul class="carousel-indicators">
+                                            <li data-target="#demo" data-slide-to="0" class="active"></li>
+                                            <li data-target="#demo" data-slide-to="1"></li>
+                                            <li data-target="#demo" data-slide-to="2"></li>
+                                            <li data-target="#demo" data-slide-to="3"></li>
+                                            <li data-target="#demo" data-slide-to="4"></li>
+                                        </ul>
+                                        <!-- 轮播图片 -->
+                                        <div class="carousel-inner" th:each="Hotel : ${Hotels}">
+                                            <div class="item active">
+                                                <img th:src="${Hotel.hotelPhoto1}">
+                                            </div>
+                                            <div class="item">
+                                                <img th:src="${Hotel.hotelPhoto2}">
+                                            </div>
+                                            <div class="item">
+                                                <img th:src="${Hotel.hotelPhoto3}">
+                                            </div>
+                                            <div class="item">
+                                                <img th:src="${Hotel.hotelPhoto4}">
+                                            </div>
+                                            <div class="item">
+                                                <img th:src="${Hotel.hotelPhoto5}">
+                                            </div>
+                                        </div>
+                                        <!-- 左右切换按钮 -->
+                                        <a class="left carousel-control" href="#demo" role="button" data-slide="prev">
+                                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                                        </a>
+                                        <a class="right carousel-control" href="#demo" role="button" data-slide="next">
+                                            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                        </a>
+                                    </div>
+
+                                    <div class="word1 col-md-9">
+
+                                        <table class="table table-hover table-striped">
+                                            <h4>&nbsp;&nbsp;酒店信息</h4>
+                                            <tbody th:each="Hotel : ${Hotels}">
+                                            <tr>
+                                                <td th:text="${'酒店名称: '+Hotel.hotelName}"></td>
+                                                <td th:text="${Hotel.hotelGrade+'星级酒店'}"></td>
+                                            </tr>
+                                            <tr>
+                                                <td th:text="${'酒店地址: '+Hotel.hotelAddress}"></td>
+                                                <td th:text="${'Tel: '+Hotel.hotelPhone}"></td></tr>
+                                            </tr>
+                                            <tr>
+                                                <td th:text="${'上班时间: '+Hotel.hotelCheckin}"></td>
+                                                <td th:text="${'下班时间: '+Hotel.hotelCheckout}"></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                        <table class="table table-hover table-striped">
+                                            <tbody th:each="Hotel : ${Hotels}">
+                                            <tr> <td>酒店简介:</td> </tr>
+                                            <tr> <td th:text="${'&nbsp;&nbsp;&nbsp;&nbsp'+Hotel.hotelOverview}"></td> </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                     <HR align=center color=#987cb9 SIZE=5 class="col-md-12">
+                                    <div class="word2 col-md-12">
+                                        <table class="table table-hover table-striped">
+                                            <h4>&nbsp;&nbsp;房间信息</h4>
+                                            <thead>
+                                                <tr>
+                                                    <th>房间编号</th>
+                                                    <th>房间名称</th>
+                                                    <th>房间类型</th>
+                                                    <th>有无早餐</th>
+                                                    <th>价格/天</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr  th:each="Room : ${RoomList}">
+                                                    <td th:text="${Room.roomid}"></td>
+                                                    <td th:text="${Room.roomName}"></td>
+                                                    <td th:text="${Room.roomType}"></td>
+                                                    <td th:text="${Room.roomBreakfirst}"></td>
+                                                    <td th:text="${'¥'+Room.roomFee}"></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <HR align=center color=#987cb9 SIZE=5 class="col-md-12">
+                                    <div>
+                                        <p th:each="Hotel : ${Hotels}">
+                                            <button type="button" class="btn btn-block btn-success bg-purple"
+                                                    data-th-attr="onclick='BookAction(\'' + ${Hotel.hotelId} + '\')'">
+                                                >>立即预订0<<
+                                            </button>
+                                            <!-- 按钮触发模态框 -->
+                                            <button class="btn btn-block btn-success bg-purple" data-toggle="modal" data-target="#myModal">
+                                                >>立即预订<<
+                                            </button>
+                                            <!-- 模态框（Modal） -->
+                                            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document" style="width: 700px;">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                                                &times;
+                                                            </button>
+                                                            <h4 class="modal-title" id="myModalLabel">
+                                                                输入信息
+                                                            </h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="form-group">
+                                                                <label>请选择房间</label>
+                                                                <select class="form-control select2" id="RoomSelect" style="width: 100%;">
+                                                                    <option th:each="Room: ${RoomList}" th:text="${Room.roomName}"></option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label>请输入天数</label>
+                                                                <input class="form-control" id="numOfDays" placeholder="请输入您要预定的天数" style="width: 100%;">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label>请输入人数</label>
+                                                                <input class="form-control" id="numOfCus" placeholder="请输入人数" style="width: 100%;">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label>请选择入住时间</label>
+                                                                <div class="input-group">
+                                                                    <div class="input-group-addon">
+                                                                        <i class="fa fa-calendar"></i>
+                                                                    </div>
+                                                                    <input type="text" class="form-control" data-inputmask="'alias': 'mm/dd/yyyy'" data-mask>
+                                                                </div>
+                                                                <!-- /.input group -->
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                                            <button type="button" class="btn btn-primary">确定</button>
+                                                        </div>
+                                                    </div><!-- /.modal-content -->
+                                                </div><!-- /.modal -->
+                                            </div>
+                                        </p>
+                                    </div>
+                                    <HR align=center color=#987cb9 SIZE=5 class="col-md-12">
+                                    <br>
                                 </div>
-                                <!--<div class="word3 col-md-12">-->
-                                    <!--<table class="table table-hover table-striped">-->
-                                        <!--<h4>&nbsp;&nbsp;&nbsp;订单信息</h4>-->
-                                        <!--<tbody>-->
-                                        <!--<tr th:each="Order : ${Orders}">-->
-                                            <!--<td th:text="${'订单编号: '+Order.orderId }"></td>-->
-                                            <!--<td th:text="${'订单创建时间:'+#dates.format(Order.createTime, 'yyyy-MM-dd hh:mm:ss')}"></td>-->
-                                            <!--<td th:text="${'入住时间: '+#dates.format(Order.checkinTime, 'yyyy-MM-dd')}"></td>-->
-                                            <!--<td th:text="${'入住人数: '+Order.customNum}"></td>-->
-                                            <!--<td th:text="${'总价: ￥'+Order.orderTotalFee}"></td>-->
-                                        <!--</tr>-->
-                                        <!--</tbody>-->
-                                    <!--</table>-->
-                                    <!--<HR align=center color=#987cb9 SIZE=5 class="col-md-12">-->
-                                <!--</div>-->
-                                <!--<div class="word2 col-md-12">-->
-                                    <!--<table class="table table-hover table-striped">-->
-                                        <!--<h4>&nbsp;&nbsp;&nbsp;房间信息</h4>-->
-                                        <!--<tbody>-->
-                                        <!--<tr  th:each="Room : ${Rooms}">-->
-                                            <!--<td th:text="${'房间编号: '+Room.roomid}"></td>-->
-                                            <!--<td th:text="${'房间名称: '+Room.roomName}"></td>-->
-                                            <!--<td th:text="${'房间类型: '+Room.roomType}"></td>-->
-                                            <!--<td th:text="${'有无早餐: '+Room.roomBreakfirst}"></td>-->
-                                        <!--</tr>-->
-                                        <!--</tbody>-->
-                                    <!--</table>-->
-                                <!--</div>-->
+                                <!-- /.mail-box-messages -->
                             </div>
-                            <!-- /.mail-box-messages -->
+                            <!-- /.box-body -->
                         </div>
-                        <!-- /.box-body -->
+                        <!-- /. box -->
                     </div>
-                    <!-- /. box -->
+                    <!-- /.col -->
                 </div>
-                <!-- /.col -->
-            </div>
-            <!-- /.row -->
-        </section>
+                <!-- /.row -->
+            </section>
+        </div>
         <!-- /.content -->
     </div>
 
@@ -271,38 +379,49 @@
 </div>
 <!-- ./wrapper -->
 
-<!-- jQuery 3 -->
-<script src="../adminlte/bower_components/jquery/dist/jquery.min.js"></script>
-<!-- Bootstrap 3.3.7 -->
-<script src="../adminlte/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<!-- Slimscroll -->
-<script src="../adminlte/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<script type="text/javascript" th:src="@{/adminlte/bower_components/jquery/dist/jquery.min.js}"
+        src="../adminlte/bower_components/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" th:src="@{/adminlte/bower_components/bootstrap/dist/js/bootstrap.min.js}"
+        src="../adminlte/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" th:src="@{/adminlte/dist/js/adminlte.min.js}"
+        src="../adminlte/dist/js/adminlte.min.js"></script>
+<script src="../adminlte/bower_components/select2/dist/js/select2.full.min.js" type="text/javascript"
+        th:src="@{/adminlte/bower_components/select2/dist/js/select2.full.min.js}"></script>
+<!-- DataTables -->
+<script src="../adminlte/bower_components/datatables.net/js/jquery.dataTables.min.js" type="text/javascript"
+        th:src="@{/adminlte/bower_components/datatables.net/js/jquery.dataTables.min.js}"></script>
+<script src="../adminlte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js" type="text/javascript"
+        th:src="@{/adminlte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js}"></script>
+<!-- SlimScroll -->
+<script src="../adminlte/bower_components/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"
+        th:src="@{/adminlte/bower_components/jquery-slimscroll/jquery.slimscroll.min.js}"></script>
 <!-- FastClick -->
-<script src="../adminlte/bower_components/fastclick/lib/fastclick.js"></script>
-<!-- AdminLTE App -->
-<script src="../adminlte/dist/js/adminlte.min.js"></script>
-<!-- iCheck -->
-<script src="../adminlte/plugins/iCheck/icheck.min.js"></script>
-<!-- Page Script -->
+<script src="../adminlte/bower_components/fastclick/lib/fastclick.js" type="text/javascript"
+        th:src="@{/adminlte/bower_components/fastclick/lib/fastclick.js}"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../adminlte/dist/js/demo.js" type="text/javascript"
+        th:src="@{/adminlte/dist/js/demo.js}"></script>
+<!-- Select2 -->
+<script src="../adminlte/bower_components/select2/dist/js/select2.full.min.js"></script>
+<!-- InputMask -->
+<script src="../adminlte/plugins/input-mask/jquery.inputmask.js"></script>
+<script src="../adminlte/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+<script src="../adminlte/plugins/input-mask/jquery.inputmask.extensions.js"></script>
+
 <script>
-    function CheckOut(orderID) {
+    function BookAction(hotelID) {
         var clicks = $(this).data('clicks');
         if (!clicks) {
-            if(confirm("确定要退房？")){
-                $.ajax({
-                    url: '/mybook/checkout?oid=' + orderID,
-                    type: 'get',
-                    success: function (data) {
-                        open("booklist");
-                        close();
-                    },
-                    fail: function (data) {
-                        console.log('fail to checkout')
-                    }
-                })
-            }
+            open("/mybook/bookconfirm?hid=" + hotelID);
         }
     }
+
+    //Initialize Select2 Elements
+    $('.select2').select2()
+    //Datemask dd/mm/yyyy
+    $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
+    //Datemask2 mm/dd/yyyy
+    $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
 </script>
 <!-- AdminLTE for demo purposes -->
 <script src="../adminlte/dist/js/demo.js"></script>
