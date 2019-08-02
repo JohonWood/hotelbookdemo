@@ -33,6 +33,7 @@ public class BookListService {
         return roomInfoMapper.selectByPrimaryKey(rid);
     }
 
+
     public OrderTR RoomNumInfo(String oid){ return RoomNumInfoMapper.selectByOid(oid); }
 
     //public List<RoomInfo> RoomInfoList(String hid) { return  roomInfoMapper.selectByHotel(hid); }

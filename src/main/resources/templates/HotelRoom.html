@@ -95,17 +95,6 @@
                         <li><a href="/manage/hotel"><i class="fa fa-map-signs"></i>酒店数据管理</a></li>
                     </ul>
                 </li>
-                <li class="treeview">
-                    <a href="#"><i class="fa fa-link"></i> <span>订单管理</span>
-                        <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="#"><i class="fa fa-map-signs"></i> 菜单一</a></li>
-                        <li><a href="#"><i class="fa fa-map-signs"></i> 菜单二</a></li>
-                    </ul>
-                </li>
             </ul>
             <!-- /.sidebar-menu -->
         </section>
@@ -124,20 +113,6 @@
                     <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
                         <div class="row">
                             <div class="col-sm-12">
-                                <!--<form th:action="@{/manage/searchHotel}" method="post">
-                                    <div class="col-sm-3">
-                                        <div id="example1_filter" class="dataTables_filter">
-                                            <label>Search:<input type="text" class="form-control input-sm"
-                                                                 placeholder="请输入酒店名字"
-                                                                 aria-controls="example1" name="hotelName"></label>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-2">
-                                        <button type="submit" class="btn btn-block btn-info" style="height: 30px">
-                                            查询
-                                        </button>
-                                    </div>
-                                </form>-->
                                 <div class="col-sm-2">
                                     <a th:href="@{/manage/addRoom(hotelName = ${hotelName},hotelID = ${hotelID})}" method="get"><button class="btn btn-block btn-info" style="height: 30px">
                                         添加房间
@@ -165,7 +140,7 @@
                                            早餐信息
                                         </th>
                                         <th style="width: 166.6px;">
-                                            房间状态
+                                            房间剩余量
                                         </th>
                                         <th style="width: 66.6px;">
                                             编辑
@@ -181,7 +156,7 @@
                                         <td th:text="${Room.roomType}"></td>
                                         <td th:text="${Room.roomFee}"></td>
                                         <td th:text="${Room.roomBreakfirst}"></td>
-                                        <td th:text="${Room.roomStatus}?'已被订':'空闲'"></td>
+                                        <td th:text="${Room.roomLast}"></td>
                                         <td><a th:href="@{/manage/editRoom(roomID = ${Room.roomid},hotelName = ${hotelName})}">
                                             <button type="button" class="btn btn-block btn-info">编辑</button>
                                         </a></td>
@@ -199,7 +174,7 @@
                                         <th rowspan="1" colspan="1">房间类型</th>
                                         <th rowspan="1" colspan="1">房间价格</th>
                                         <th rowspan="1" colspan="1">早餐信息</th>
-                                        <th rowspan="1" colspan="1">房间状态</th>
+                                        <th rowspan="1" colspan="1">房间剩余量</th>
                                     </tr>
                                     </tfoot>
                                 </table>

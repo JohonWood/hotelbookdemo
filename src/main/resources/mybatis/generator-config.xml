@@ -34,27 +34,27 @@
         </javaClientGenerator>
 
         <table schema="hotelbooktest" tableName="hotel_info" domainObjectName="HotelInfo">
-            <generatedKey column="Hotel_id" sqlStatement="select second(now())" identity="false"/>
+            <generatedKey column="Hotel_id" sqlStatement="select uuid()" identity="false"/>
         </table>
 
         <table schema="hotelbooktest" tableName="country" domainObjectName="Country">
-            <generatedKey column="Hotel_id" sqlStatement="select second(now())" identity="false"/>
+            <generatedKey column="Country_Code" sqlStatement="select uuid()" identity="false"/>
         </table>
 
         <table schema="hotelbooktest" tableName="city" domainObjectName="City">
-            <generatedKey column="City_ID" sqlStatement="select second(now())" identity="false"/>
+            <generatedKey column="City_ID" sqlStatement="select uuid()" identity="false"/>
         </table>
 
         <table schema="hotelbooktest" tableName="continent" domainObjectName="Continent">
-            <generatedKey column="Contiment_id" sqlStatement="select second(now())" identity="false"/>
+            <generatedKey column="Contiment_id" sqlStatement="select uuid()" identity="false"/>
         </table>
 
         <table schema="hotelbooktest" tableName="order_info" domainObjectName="OrderInfo">
-            <generatedKey column="Order_id" sqlStatement="select second(now())" identity="false"/>
+            <generatedKey column="Order_id" sqlStatement="select uuid()" identity="false"/>
         </table>
 
         <table schema="hotelbooktest" tableName="room_info" domainObjectName="RoomInfo">
-            <generatedKey column="Room_id" sqlStatement="select second(now())" identity="false"/>
+            <generatedKey column="Room_id" sqlStatement="select uuid()" identity="false"/>
         </table>
 
 
