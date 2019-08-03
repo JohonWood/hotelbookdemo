@@ -58,12 +58,6 @@ public class searchController {
     @PostMapping("/post")
     public String receiveParam(String hotelKey, String countryKey,String cityKey,Model model, HttpSession session,HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
         List<FullSearResult> resultList=service.fullSearch(hotelKey,countryKey,cityKey);
-        session.setAttribute("resultList", resultList);
-        session.setAttribute("originList",resultList);
-        //创建cookie对象来保存session的id
-        Cookie cookie = new Cookie("resultSession", session.getId());
-        cookie.setMaxAge(86400);//保存一天
-        httpServletResponse.addCookie(cookie);
         List<FullSearResult> fullSearResultList=new ArrayList<FullSearResult>();
         boolean islogin;
         UserInfo userInfotest = (UserInfo) session.getAttribute("user");
@@ -80,8 +74,12 @@ public class searchController {
         model.addAttribute("countryList",listOfCountry);
         if(resultList==null){
             model.addAttribute("resultNum",0);
+            session.setAttribute("resultList", fullSearResultList);
+            session.setAttribute("originList",fullSearResultList);
         }
         else{
+            session.setAttribute("resultList", resultList);
+            session.setAttribute("originList",resultList);
             if(resultList.size()<10){
                 for(int i=0;i<resultList.size();i++){
                     fullSearResultList.add(resultList.get(i));
@@ -92,6 +90,10 @@ public class searchController {
                     fullSearResultList.add(resultList.get(i));
                 }
             }
+            Cookie cookie = new Cookie("resultSession", session.getId());
+            cookie.setMaxAge(86400);//保存一天
+            httpServletResponse.addCookie(cookie);
+
 
             model.addAttribute("resultNum",resultList.size());
             model.addAttribute("resultList",fullSearResultList);
@@ -125,13 +127,12 @@ public class searchController {
         String highPrice=httpServletRequest.getParameter("highPrice");
         String highGrade=httpServletRequest.getParameter("highGrade");
         String lowGrade=httpServletRequest.getParameter("lowGrade");
-        System.out.println(highGrade);
-
+        String rating=httpServletRequest.getParameter("rating");
         List<FullSearResult> fullSearResultList=(List<FullSearResult>) session.getAttribute("originList");
         List<FullSearResult> resultList=service.filterPrice(lowPrice,highPrice,fullSearResultList);
         resultList=service.filterGrade(lowGrade,highGrade,resultList);
+        resultList=service.filterRating(rating,resultList);
         session.setAttribute("resultList",resultList);
-
         return resultList;
     }
 

@@ -78,14 +78,26 @@ public class HotelManageService {
             userManagement.setHotelId(order1.getHotelId());
             userManagement.setOrderTotalFee(order1.getOrderTotalFee());
             userManagement.setRoomnum(order1.getRoomNum());
-
+            userManagement.setDays(order1.getDays());
             userManagement.setUserName(userInfo.getUserName());
             userManagements.add(userManagement);
         }
         return userManagements;
     }
 
+    public OrderInfo findOrderbyPrimaryKey(String orderID){
+        return orderInfoMapper.selectByPrimaryKey(orderID);
+    }
+
     public List<UserInfo> findUserByExample(UserInfoExample userInfoExample) {
         return userInfoMapper.selectByExample(userInfoExample);
+    }
+
+    public void saveOrder(OrderInfo orderInfo) {
+        orderInfoMapper.updateByPrimaryKey(orderInfo);
+    }
+
+    public void deleteOrderByID(String orderID) {
+        orderInfoMapper.deleteByPrimaryKey(orderID);
     }
 }

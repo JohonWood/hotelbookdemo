@@ -117,5 +117,15 @@ public class searchService {
         }
         return resultList;
     }
+    public List<FullSearResult> filterRating(String rating,List<FullSearResult> origin){
+        List<FullSearResult> resultList=new ArrayList<FullSearResult>();
+        for (FullSearResult originResult:origin){
+            if(originResult.getHotelRating()>=Float.parseFloat(rating)){
+                resultList.add(originResult);
+            }
+        }
+
+        return resultList;
+    }
 
 }
