@@ -1,5 +1,6 @@
 package com.uestc.fff.hotel.controller;
 
+import com.uestc.fff.hotel.domain.HotelInfo;
 import com.uestc.fff.hotel.domain.OrderTR;
 import com.uestc.fff.hotel.domain.UserInfo;
 import com.uestc.fff.hotel.domain.order;
@@ -8,10 +9,7 @@ import com.uestc.fff.hotel.service.searchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -107,6 +105,20 @@ public class BookListController {
         return true;
     }
 
+//    @RequestMapping("/bookAction")
+//    public String BookAction(@RequestParam("RoomNum") int RoomN,
+//                             @RequestParam("Se1") String Se1,
+//                             @RequestParam("Se2") String Se2,
+//                             @RequestParam("Se3") String Se3,
+//                             @RequestParam("RoomDay") int RoomD,
+//                             @RequestParam("RoomP") int RoomP,
+//                             @RequestParam("RoomDate") String RoomDate,
+//                             HttpServletResponse response){
+//        //@RequestParam("hid") String HotelId,
+//        String hid="103872";
+//        return "BookConfirm";
+//    }
+
     @RequestMapping("/book")
     public String BookPages(Model model, HttpSession session){
         UserInfo userInfotest = (UserInfo) session.getAttribute("user");
@@ -132,9 +144,18 @@ public class BookListController {
     }
 
     @RequestMapping("/bookconfirm")
-    public String BookConfirmPages(@RequestParam("hid") String hid, Model model, HttpSession session, HttpServletResponse response){
+    public String BookConfirmPages(HotelInfo hotelInfo,
+                                   @RequestParam("RoomN") int RoomN,
+                                   @RequestParam("Se1") String Se1,
+                                   @RequestParam("Se2") String Se2,
+                                   @RequestParam("Se3") String Se3,
+                                   @RequestParam("RoomD") int RoomD,
+                                   @RequestParam("RoomP") int RoomP,
+                                   @RequestParam("RoomDate") String RoomDate,
+                                   Model model, HttpSession session, HttpServletResponse response){
         UserInfo userInfotest = (UserInfo) session.getAttribute("user");
         response.setContentType("text/html;charset=utf-8");
+        String hid = hotelInfo.getHotelId();
 
         try{
             PrintWriter writer = response.getWriter();

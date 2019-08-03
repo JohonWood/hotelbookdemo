@@ -272,14 +272,14 @@
                                                 <td><i class="fa fa-book"></i></td>
                                                 <td th:text="${Room.roomid}"></td>
                                                 <td th:text="${Room.roomType}"></td>
-                                                <td th:text="${Room.roomFee}"></td>
+                                                <td th:text="${'¥'+Room.roomFee}"></td>
                                                 <td th:text="${Room.roomBreakfirst}"></td>
                                             </tr>
                                             <tr  th:each="Room : ${Room2}" th:if="${Room2}">
                                                 <td><i class="fa fa-book"></i></td>
                                                 <td th:text="${Room.roomid}"></td>
                                                 <td th:text="${Room.roomType}"></td>
-                                                <td th:text="${Room.roomFee}"></td>
+                                                <td th:text="${'¥'+Room.roomFee}"></td>
                                                 <td th:text="${Room.roomBreakfirst}"></td>
                                             </tr>
                                             <tr  th:each="Room : ${Room3}" th:if="${Room3}">
