@@ -18,13 +18,14 @@
           th:href="@{/adminlte/bower_components/select2/dist/css/select2.min.css}">
     <link rel="stylesheet" type="text/css" media="all" href="../adminlte/dist/css/AdminLTE.min.css"
           th:href="@{/adminlte/dist/css/AdminLTE.min.css}">
+    <!-- bootstrap datepicker -->
+    <link rel="stylesheet" href="../adminlte/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
 
     <style>
         .picture1{float:right;}
         .word1{float:left;}
         /*.word2{font-size: 16px}*/
         /*.word3{font-size: 16px}*/
-        }
     </style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini layout-top-nav">
@@ -43,7 +44,7 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+                        <li class="dropdown"><a href="#">Link <span class="sr-only">(current)</span></a></li>
                         <li><a href="#">Link</a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
@@ -58,10 +59,33 @@
                             </ul>
                         </li>
                     </ul>
-                    <form class="navbar-form navbar-left" role="search">
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="navbar-search-input" placeholder="Search">
+                    <form class="navbar-form navbar-left" role="search" th:action="@{/504/post}" method="post">
+                        <div class="input-group">
+                            <input type="text" name="hotelKey" class="form-control" placeholder="Search...">
+                            <span class="input-group-btn">
+                                <button type="submit" name="search" id="search-btn" class="btn btn-adn bg-purple-active"><i class="fa fa-search"></i>
+                                </button>
+                                <button type="button" name="search" id="Area-btn" class="btn btn-adn bg-purple-active dropdown-toggle" data-toggle="dropdown"><i class="fa fa-map-pin"></i>
+                                </button>
+                                <ul class="dropdown-menu navbar-static-top" role="menu">
+                                <li>
+                                    <select name="countryKey" class="select2" id="CountrySelect" style="width: 100%">
+                                    <option th:each="country: ${countryList}" th:text="${country}" th:if="${country}!='中国'"></option>
+                                    <option th:each="country: ${countryList}" th:text="${country}" selected="selected" th:if="${country}=='中国'"></option>
+                                    </select>
+                                </li>
+                                <li>
+                                    <select name="cityKey" class="form-control input-lg select2" id="CitySelect" style="width: 100%">
+                                    <!--由JS代码生成-->
+                                    </select>
+
+                                </li>
+                            </ul>
+                            </span>
                         </div>
+                        <!--<div class="form-group">-->
+                        <!--<input type="text" class="form-control" id="navbar-search-input" placeholder="Search">-->
+                        <!--</div>-->
                     </form>
                 </div>
                 <!-- /.navbar-collapse -->
@@ -98,7 +122,7 @@
                                                     <span th:text="${order.hotelName}">酒店</span>
                                                 </h3>
                                                 <p class="text-black">
-                                                    <span th:text="${order.roomType}">sadasd</span>
+                                                    <span><span th:text="${order.roomNum}"></span>间房间</span>
                                                     <span class="pull-right"><i class="fa fa-calendar"></i>
                                             <span class="text-black" th:text='${order.checkInTime}'></span>入住</span>
                                                 </p>
@@ -276,18 +300,18 @@
                                             <thead>
                                                 <tr>
                                                     <th>房间编号</th>
-                                                    <th>房间名称</th>
                                                     <th>房间类型</th>
                                                     <th>有无早餐</th>
+                                                    <th>剩余数量</th>
                                                     <th>价格/天</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr  th:each="Room : ${RoomList}">
                                                     <td th:text="${Room.roomid}"></td>
-                                                    <td th:text="${Room.roomName}"></td>
                                                     <td th:text="${Room.roomType}"></td>
                                                     <td th:text="${Room.roomBreakfirst}"></td>
+                                                    <td th:text="${Room.roomLast}"></td>
                                                     <td th:text="${'¥'+Room.roomFee}"></td>
                                                 </tr>
                                             </tbody>
@@ -296,59 +320,86 @@
                                     <HR align=center color=#987cb9 SIZE=5 class="col-md-12">
                                     <div>
                                         <p th:each="Hotel : ${Hotels}">
-                                            <button type="button" class="btn btn-block btn-success bg-purple"
-                                                    data-th-attr="onclick='BookAction(\'' + ${Hotel.hotelId} + '\')'">
-                                                >>立即预订0<<
-                                            </button>
                                             <!-- 按钮触发模态框 -->
                                             <button class="btn btn-block btn-success bg-purple" data-toggle="modal" data-target="#myModal">
                                                 >>立即预订<<
                                             </button>
                                             <!-- 模态框（Modal） -->
-                                            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog" role="document" style="width: 700px;">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                                                                &times;
-                                                            </button>
-                                                            <h4 class="modal-title" id="myModalLabel">
-                                                                输入信息
-                                                            </h4>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div class="form-group">
-                                                                <label>请选择房间</label>
-                                                                <select class="form-control select2" id="RoomSelect" style="width: 100%;">
-                                                                    <option th:each="Room: ${RoomList}" th:text="${Room.roomName}"></option>
-                                                                </select>
+                                            <form ole="book" action="/mybook/bookconfirm" class="form-horizontal" method="post">
+                                                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog" role="document" style="width: 700px;">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                                                    &times;
+                                                                </button>
+                                                                <h4 class="modal-title" id="myModalLabel">
+                                                                    输入信息
+                                                                </h4>
                                                             </div>
-                                                            <div class="form-group">
-                                                                <label>请输入天数</label>
-                                                                <input class="form-control" id="numOfDays" placeholder="请输入您要预定的天数" style="width: 100%;">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label>请输入人数</label>
-                                                                <input class="form-control" id="numOfCus" placeholder="请输入人数" style="width: 100%;">
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label>请选择入住时间</label>
-                                                                <div class="input-group">
-                                                                    <div class="input-group-addon">
-                                                                        <i class="fa fa-calendar"></i>
+                                                            <div class="modal-body">
+                                                                <form class="form-horizontal" role="form">
+                                                                    <div class="form-group" style="margin:auto" th:object="${Hotels}">
+                                                                        <!--酒店ID-->
+                                                                        <input th:field="${Hotels.hotelId}" type="text" name="HotelId" class="form-control hidden" id="HotelID"  style="width: 100%;">
                                                                     </div>
-                                                                    <input type="text" class="form-control" data-inputmask="'alias': 'mm/dd/yyyy'" data-mask>
-                                                                </div>
-                                                                <!-- /.input group -->
+                                                                    <div class="form-group" style="margin:auto">
+                                                                        <label>请选择房间数量</label>
+                                                                        <select name="RoomN" class="form-control" id="RoomNum" style="width: 100%;">
+                                                                            <option value="1" selected="selected">1</option>
+                                                                            <option value="2">2</option>
+                                                                            <option value="3">3</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="form-group" style="margin:auto">
+                                                                        <label>请选择房间1</label>
+                                                                        <select name="Se1" class="form-control" id="RoomSelect1" style="width: 100%;">
+                                                                            <option text="null" selected="selected"></option>
+                                                                            <option th:each="Room: ${RoomList}" th:text="${Room.roomType}"></option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="form-group" style="margin:auto">
+                                                                        <label>请选择房间2</label>
+                                                                        <select name="Se2" class="form-control" id="RoomSelect2" style="width: 100%;">
+                                                                            <option text="null" selected="selected"></option>
+                                                                            <option th:each="Room: ${RoomList}" th:text="${Room.roomType}"></option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="form-group" style="margin:auto">
+                                                                        <label>请选择房间3</label>
+                                                                        <select name="Se3" class="form-control" id="RoomSelect3" style="width: 100%;">
+                                                                            <option text="null" selected="selected"></option>
+                                                                            <option th:each="Room: ${RoomList}" th:text="${Room.roomType}"></option>
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="form-group" style="margin:auto">
+                                                                        <label>请输入天数</label>
+                                                                        <input name="RoomD" class="form-control" id="numOfDays" placeholder="请输入您要预定的天数" style="width: 100%;">
+                                                                    </div>
+                                                                    <div class="form-group" style="margin:auto">
+                                                                        <label>请输入人数</label>
+                                                                        <input name="RoomP" class="form-control" id="numOfCus" placeholder="请输入人数" style="width: 100%;">
+                                                                    </div>
+                                                                    <div class="form-group" style="margin:auto">
+                                                                        <label>请选择入住日期</label>
+                                                                        <div class="input-group date">
+                                                                            <div class="input-group-addon">
+                                                                                <i class="fa fa-calendar"></i>
+                                                                            </div>
+                                                                            <input name="RoomDate" type="text" class="form-control pull-right" id="datepicker">
+                                                                        </div>
+                                                                        <!-- /.input group -->
+                                                                    </div>
+                                                                </form>
                                                             </div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                                                            <button type="button" class="btn btn-primary">确定</button>
-                                                        </div>
-                                                    </div><!-- /.modal-content -->
-                                                </div><!-- /.modal -->
-                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                                                                <button type="submit" class="btn btn-primary">确定</button>
+                                                            </div>
+                                                        </div><!-- /.modal-content -->
+                                                    </div><!-- /.modal -->
+                                                </div>
+                                            </form>
                                         </p>
                                     </div>
                                     <HR align=center color=#987cb9 SIZE=5 class="col-md-12">
@@ -407,23 +458,32 @@
 <script src="../adminlte/plugins/input-mask/jquery.inputmask.js"></script>
 <script src="../adminlte/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
 <script src="../adminlte/plugins/input-mask/jquery.inputmask.extensions.js"></script>
-
-<script>
-    function BookAction(hotelID) {
-        var clicks = $(this).data('clicks');
-        if (!clicks) {
-            open("/mybook/bookconfirm?hid=" + hotelID);
-        }
-    }
-
-    //Initialize Select2 Elements
-    $('.select2').select2()
-    //Datemask dd/mm/yyyy
-    $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
-    //Datemask2 mm/dd/yyyy
-    $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
-</script>
+<!-- bootstrap datepicker -->
+<script src="../adminlte/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../adminlte/dist/js/demo.js"></script>
+
+<script>
+
+    $(function () {
+        //Date picker
+        $('#datepicker').datepicker({
+            autoclose: true
+        })
+    })
+
+    // function sel() {
+    //     var mySelect = document.getElementById("RoomNum");
+    //     var s2 = document.getElementById("RoomSelect2");
+    //     var s3 = document.getElementById("RoomSelect3");
+    //     if (mySelect.options[1].selected) {
+    //         s3.style = "hidden:'true'"
+    //     }
+    //     else if(mySelect.options[2].selected){
+    //         s2.hidden="hidden";
+    //         s3.hidden="hidden";
+    //     }
+    // }
+</script>
 </body>
 </html>

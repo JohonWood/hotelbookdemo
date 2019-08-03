@@ -29,152 +29,175 @@
 <div class="wrapper">
 
 
-    <!--<header class="main-header">-->
-        <!--<nav class="navbar navbar-static-top bg-purple" role="navigation">-->
-            <!--<div class="container">-->
-                <!--<div class="navbar-header">-->
-                    <!--<a href="/504/host" class="navbar-brand"><b>504</b>订购网</a>-->
-                    <!--<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">-->
-                        <!--<i class="fa fa-bars"></i>-->
-                    <!--</button>-->
-                <!--</div>-->
+    <header class="main-header">
+        <nav class="navbar navbar-static-top bg-purple" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <a href="/504/host" class="navbar-brand"><b>504</b>订购网</a>
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                </div>
 
-                <!--&lt;!&ndash; Collect the nav links, forms, and other content for toggling &ndash;&gt;-->
-                <!--<div class="collapse navbar-collapse pull-left" id="navbar-collapse">-->
-                    <!--<ul class="nav navbar-nav">-->
-                        <!--<li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>-->
-                        <!--<li><a href="#">Link</a></li>-->
-                        <!--<li class="dropdown">-->
-                            <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>-->
-                            <!--<ul class="dropdown-menu" role="menu">-->
-                                <!--<li><a href="#">Action</a></li>-->
-                                <!--<li><a href="#">Another action</a></li>-->
-                                <!--<li><a href="#">Something else here</a></li>-->
-                                <!--<li class="divider"></li>-->
-                                <!--<li><a href="#">Separated link</a></li>-->
-                                <!--<li class="divider"></li>-->
-                                <!--<li><a href="#">One more separated link</a></li>-->
-                            <!--</ul>-->
-                        <!--</li>-->
-                    <!--</ul>-->
-                    <!--<form class="navbar-form navbar-left" role="search">-->
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+                        <li><a href="#">Link</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#">Action</a></li>
+                                <li><a href="#">Another action</a></li>
+                                <li><a href="#">Something else here</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">Separated link</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">One more separated link</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <form class="navbar-form navbar-left" role="search" th:action="@{/504/post}" method="post">
+                        <div class="input-group">
+                            <input type="text" name="hotelKey" class="form-control" placeholder="Search...">
+                            <span class="input-group-btn">
+                                <button type="submit" name="search" id="search-btn" class="btn btn-adn bg-purple-active"><i class="fa fa-search"></i>
+                                </button>
+                                <button type="button" name="search" id="Area-btn" class="btn btn-adn bg-purple-active dropdown-toggle" data-toggle="dropdown"><i class="fa fa-map-pin"></i>
+                                </button>
+                                <ul class="dropdown-menu navbar-static-top" role="menu">
+                                <li>
+                                    <select name="countryKey" class="select2" id="CountrySelect" style="width: 100%">
+                                    <option th:each="country: ${countryList}" th:text="${country}" th:if="${country}!='中国'"></option>
+                                    <option th:each="country: ${countryList}" th:text="${country}" selected="selected" th:if="${country}=='中国'"></option>
+                                    </select>
+                                </li>
+                                <li>
+                                    <select name="cityKey" class="form-control input-lg select2" id="CitySelect" style="width: 100%">
+                                    <!--由JS代码生成-->
+                                    </select>
+
+                                </li>
+                            </ul>
+                            </span>
+                        </div>
                         <!--<div class="form-group">-->
-                            <!--<input type="text" class="form-control" id="navbar-search-input" placeholder="Search">-->
+                        <!--<input type="text" class="form-control" id="navbar-search-input" placeholder="Search">-->
                         <!--</div>-->
-                    <!--</form>-->
-                <!--</div>-->
-                <!--&lt;!&ndash; /.navbar-collapse &ndash;&gt;-->
-                <!--&lt;!&ndash; Navbar Right Menu &ndash;&gt;-->
-                <!--<div class="navbar-custom-menu">-->
-                    <!--<ul class="nav navbar-nav">-->
-                        <!--&lt;!&ndash; Tasks Menu &ndash;&gt;-->
-                        <!--<li class="dropdown tasks-menu" th:if="${isLogin}==true">-->
-                            <!--&lt;!&ndash; Menu Toggle Button &ndash;&gt;-->
-                            <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown">-->
-                                <!--<i class="fa fa-flag-o"></i>-->
-                                <!--<span class="label label-danger" th:text="${numOfOrders}"></span>-->
-                            <!--</a>-->
-                            <!--<ul class="dropdown-menu">-->
-                                <!--<li class="header">你有<span th:text="${numOfOrders}"></span>个酒店订单</li>-->
-                                <!--<li>-->
-                                    <!--&lt;!&ndash; Inner menu: contains the tasks &ndash;&gt;-->
-                                    <!--<ul class="menu">-->
-                                        <!--<li th:if="${numOfOrders}==0">-->
-                                            <!--<a href="#">-->
-                                                <!--&lt;!&ndash; Task title and progress text &ndash;&gt;-->
-                                                <!--<h3>-->
-                                                    <!--无订单-->
-                                                <!--</h3>-->
+                    </form>
+                </div>
+                <!-- /.navbar-collapse -->
+                <!-- Navbar Right Menu -->
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <!-- Tasks Menu -->
+                        <li class="dropdown tasks-menu" th:if="${isLogin}==true">
+                            <!-- Menu Toggle Button -->
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-flag-o"></i>
+                                <span class="label label-danger" th:text="${numOfOrders}"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="header">你有<span th:text="${numOfOrders}"></span>个酒店订单</li>
+                                <li>
+                                    <!-- Inner menu: contains the tasks -->
+                                    <ul class="menu">
+                                        <li th:if="${numOfOrders}==0">
+                                            <a href="#">
+                                                <!-- Task title and progress text -->
+                                                <h3>
+                                                    无订单
+                                                </h3>
 
-                                                <!--</p>-->
-                                            <!--</a>-->
-                                        <!--</li>-->
-                                        <!--<li th:each="order,orderStat: ${orderList}" th:if="${orderStat.count lt 3 && numOfOrders!=0}">-->
-                                            <!--&lt;!&ndash; Task item &ndash;&gt;-->
-                                            <!--<a href="#">-->
-                                                <!--&lt;!&ndash; Task title and progress text &ndash;&gt;-->
-                                                <!--<h3>-->
-                                                    <!--<span th:text="${order.hotelName}">酒店</span>-->
-                                                <!--</h3>-->
-                                                <!--<p class="text-black">-->
-                                                    <!--<span th:text="${order.roomType}">sadasd</span>-->
-                                                    <!--<span class="pull-right"><i class="fa fa-calendar"></i>-->
-                                            <!--<span class="text-black" th:text='${order.checkInTime}'></span>入住</span>-->
-                                                <!--</p>-->
-                                            <!--</a>-->
-                                        <!--</li>-->
-                                        <!--&lt;!&ndash; end task item &ndash;&gt;-->
-                                    <!--</ul>-->
-                                <!--</li>-->
-                                <!--<li class="footer">-->
-                                    <!--<a href="/mybook/booklist">查看所有订单</a>-->
-                                <!--</li>-->
-                            <!--</ul>-->
-                        <!--</li>-->
-                        <!--&lt;!&ndash; User Account Menu &ndash;&gt;-->
-                        <!--<li class="dropdown user user-menu">-->
-                            <!--&lt;!&ndash; Menu Toggle Button &ndash;&gt;-->
-                            <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown">-->
-                                <!--<span class="hidden-xs" th:if="${isLogin}==true" th:text="${User_name}"></span>-->
-                                <!--<span class="hidden-xs" th:if="${isLogin}==false">未登录</span>-->
-                            <!--</a>-->
-                            <!--<ul class="dropdown-menu">-->
-                                <!--<li class="user-header bg-purple">-->
+                                                </p>
+                                            </a>
+                                        </li>
+                                        <li th:each="order,orderStat: ${orderList}" th:if="${orderStat.count lt 3 && numOfOrders!=0}">
+                                            <!-- Task item -->
+                                            <a href="#">
+                                                <!-- Task title and progress text -->
+                                                <h3>
+                                                    <span th:text="${order.hotelName}">酒店</span>
+                                                </h3>
+                                                <p class="text-black">
+                                                    <span><span th:text="${order.roomNum}"></span>间房间</span>
+                                                    <span class="pull-right"><i class="fa fa-calendar"></i>
+                                            <span class="text-black" th:text='${order.checkInTime}'></span>入住</span>
+                                                </p>
+                                            </a>
+                                        </li>
+                                        <!-- end task item -->
+                                    </ul>
+                                </li>
+                                <li class="footer">
+                                    <a href="/mybook/booklist">查看所有订单</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- User Account Menu -->
+                        <li class="dropdown user user-menu">
+                            <!-- Menu Toggle Button -->
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <span class="hidden-xs" th:if="${isLogin}==true" th:text="${User_name}"></span>
+                                <span class="hidden-xs" th:if="${isLogin}==false">未登录</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="user-header bg-purple">
 
-                                    <!--<p th:if="${isLogin}==true">-->
-                                        <!--<span th:text="${User_name}"></span>-->
-                                        <!--<br>-->
-                                        <!--<br>-->
-                                        <!--<small>亲爱的用户，欢迎来到504订房网！</small>-->
-                                    <!--</p>-->
-                                    <!--<p th:if="${isLogin}==false">-->
-                                        <!--<span>用户未登录</span>-->
-                                        <!--<br>-->
-                                        <!--<br>-->
-                                        <!--<small>如果未注册，请注册后登录网站</small>-->
-                                    <!--</p>-->
-                                <!--</li>-->
-                                <!--&lt;!&ndash; Menu Body &ndash;&gt;-->
-                                <!--<li class="user-body" th:if="${isLogin}==true">-->
-                                    <!--<div class="row" style="">-->
-                                        <!--<div class="col-xs-4 text-center">-->
+                                    <p th:if="${isLogin}==true">
+                                        <span th:text="${User_name}"></span>
+                                        <br>
+                                        <br>
+                                        <small>亲爱的用户，欢迎来到504订房网！</small>
+                                    </p>
+                                    <p th:if="${isLogin}==false">
+                                        <span>用户未登录</span>
+                                        <br>
+                                        <br>
+                                        <small>如果未注册，请注册后登录网站</small>
+                                    </p>
+                                </li>
+                                <!-- Menu Body -->
+                                <li class="user-body" th:if="${isLogin}==true">
+                                    <div class="row" style="">
+                                        <div class="col-xs-4 text-center">
 
-                                        <!--</div>-->
-                                        <!--<div class="col-xs-4 text-center">-->
-                                            <!--<a href="/mybook/booklist">我的订单</a>-->
-                                        <!--</div>-->
-                                        <!--<div class="col-xs-4 text-center">-->
-                                            <!--&lt;!&ndash;<a href="#">Friends</a>&ndash;&gt;-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-                                    <!--&lt;!&ndash; /.row &ndash;&gt;-->
-                                <!--</li>-->
-                                <!--&lt;!&ndash; Menu Footer&ndash;&gt;-->
-                                <!--<li class="user-footer" th:if="${isLogin}==true">-->
-                                    <!--<div class="pull-left">-->
-                                        <!--<a href="#" class="btn btn-default btn-flat">个人信息</a>-->
-                                    <!--</div>-->
-                                    <!--<div class="pull-right">-->
-                                        <!--<a href="/user/logoutAction" class="btn btn-default btn-flat">登出</a>-->
-                                    <!--</div>-->
-                                <!--</li>-->
-                                <!--<li class="user-footer" th:if="${isLogin}==false">-->
-                                    <!--<div class="pull-left">-->
-                                        <!--<a href="/user/login" class="btn btn-default btn-flat">登录</a>-->
-                                    <!--</div>-->
-                                    <!--<div class="pull-right">-->
-                                        <!--<a href="/user/register" class="btn btn-default btn-flat">注册</a>-->
-                                    <!--</div>-->
-                                <!--</li>-->
-                            <!--</ul>-->
-                        <!--</li>-->
-                    <!--</ul>-->
-                <!--</div>-->
-                <!--&lt;!&ndash; /.navbar-custom-menu &ndash;&gt;-->
-            <!--</div>-->
-            <!--&lt;!&ndash; /.container-fluid &ndash;&gt;-->
-        <!--</nav>-->
-    <!--</header>-->
+                                        </div>
+                                        <div class="col-xs-4 text-center">
+                                            <a href="/mybook/booklist">我的订单</a>
+                                        </div>
+                                        <div class="col-xs-4 text-center">
+                                            <!--<a href="#">Friends</a>-->
+                                        </div>
+                                    </div>
+                                    <!-- /.row -->
+                                </li>
+                                <!-- Menu Footer-->
+                                <li class="user-footer" th:if="${isLogin}==true">
+                                    <div class="pull-left">
+                                        <a href="#" class="btn btn-default btn-flat">个人信息</a>
+                                    </div>
+                                    <div class="pull-right">
+                                        <a href="/user/logoutAction" class="btn btn-default btn-flat">登出</a>
+                                    </div>
+                                </li>
+                                <li class="user-footer" th:if="${isLogin}==false">
+                                    <div class="pull-left">
+                                        <a href="/user/login" class="btn btn-default btn-flat">登录</a>
+                                    </div>
+                                    <div class="pull-right">
+                                        <a href="/user/register" class="btn btn-default btn-flat">注册</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.navbar-custom-menu -->
+            </div>
+            <!-- /.container-fluid -->
+        </nav>
+    </header>
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper -align-center" th:style="'align-content: center;background: url('+@{/picture/backImg.jpg} + ') no-repeat center center fixed;
@@ -240,7 +263,7 @@
                                                 <th></th>
                                                 <th>房间编号</th>
                                                 <th>房间类型</th>
-                                                <th>房间单价</th>
+                                                <th>房间单价/天</th>
                                                 <th>有无早餐</th>
                                             </tr>
                                             </thead>
@@ -249,21 +272,21 @@
                                                 <td><i class="fa fa-book"></i></td>
                                                 <td th:text="${Room.roomid}"></td>
                                                 <td th:text="${Room.roomType}"></td>
-                                                <td th:text="${Room.roomFee}"></td>
+                                                <td th:text="${'¥'+Room.roomFee}"></td>
                                                 <td th:text="${Room.roomBreakfirst}"></td>
                                             </tr>
                                             <tr  th:each="Room : ${Room2}" th:if="${Room2}">
                                                 <td><i class="fa fa-book"></i></td>
                                                 <td th:text="${Room.roomid}"></td>
                                                 <td th:text="${Room.roomType}"></td>
-                                                <td th:text="${Room.roomFee}"></td>
+                                                <td th:text="${'¥'+Room.roomFee}"></td>
                                                 <td th:text="${Room.roomBreakfirst}"></td>
                                             </tr>
                                             <tr  th:each="Room : ${Room3}" th:if="${Room3}">
                                                 <td><i class="fa fa-book"></i></td>
                                                 <td th:text="${Room.roomid}"></td>
                                                 <td th:text="${Room.roomType}"></td>
-                                                <td th:text="${Room.roomFee}"></td>
+                                                <td th:text="${'¥' + Room.roomFee}"></td>
                                                 <td th:text="${Room.roomBreakfirst}"></td>
                                             </tr>
                                             </tbody>

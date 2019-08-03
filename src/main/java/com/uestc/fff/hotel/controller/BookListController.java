@@ -1,5 +1,6 @@
 package com.uestc.fff.hotel.controller;
 
+import com.uestc.fff.hotel.domain.HotelInfo;
 import com.uestc.fff.hotel.domain.OrderTR;
 import com.uestc.fff.hotel.domain.UserInfo;
 import com.uestc.fff.hotel.domain.order;
@@ -8,10 +9,7 @@ import com.uestc.fff.hotel.service.searchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -40,6 +38,7 @@ public class BookListController {
             }
             else {
                 model.addAttribute("OrderWithHotel",serviceBook.MyListOrder(userInfotest.getUserId()));
+
                 model.addAttribute("User_name",userInfotest.getLoginName());
                 model.addAttribute("numOfOrders",serviceSearch.countOrder(userInfotest.getUserId()));
                 List<order> orderList=serviceSearch.orderList(userInfotest.getUserId());
@@ -84,13 +83,13 @@ public class BookListController {
                 model.addAttribute("Hotels",serviceBook.HotelInfomation(hid));
                 model.addAttribute("Orders",serviceBook.OrderInfomation(oid));
                 model.addAttribute("Users", serviceBook.UserInfomation(uid));
-//                model.addAttribute("User_name",userInfotest.getLoginName());
-//                model.addAttribute("numOfOrders",serviceSearch.countOrder(userInfotest.getUserId()));
-//                List<order> orderList=serviceSearch.orderList(userInfotest.getUserId());
-//                model.addAttribute("orderList",orderList);
-//                model.addAttribute("isLogin",true);
-//                List<String> listOfCountry=serviceSearch.searchCountry();
-//                model.addAttribute("countryList",listOfCountry);
+                model.addAttribute("User_name",userInfotest.getLoginName());
+                model.addAttribute("numOfOrders",serviceSearch.countOrder(userInfotest.getUserId()));
+                List<order> orderList=serviceSearch.orderList(userInfotest.getUserId());
+                model.addAttribute("orderList",orderList);
+                model.addAttribute("isLogin",true);
+                List<String> listOfCountry=serviceSearch.searchCountry();
+                model.addAttribute("countryList",listOfCountry);
             }
         }catch (IOException e) {
             e.printStackTrace();
@@ -105,6 +104,7 @@ public class BookListController {
         serviceBook.DeleteOrder(oid);
         return true;
     }
+
 
     @RequestMapping("/book")
     public String BookPages(Model model, HttpSession session){
@@ -125,15 +125,24 @@ public class BookListController {
         List<String> listOfCountry=serviceSearch.searchCountry();
         model.addAttribute("countryList",listOfCountry);
         model.addAttribute("Hotels",serviceBook.HotelInfomation("108573"));
-        //model.addAttribute("RoomList", serviceBook.RoomInfoList(hid));
+        model.addAttribute("RoomList", serviceBook.RoomInfoList(hid));
 
         return "Book";
     }
 
     @RequestMapping("/bookconfirm")
-    public String BookConfirmPages(@RequestParam("hid") String hid, Model model, HttpSession session, HttpServletResponse response){
+    public String BookConfirmPages(HotelInfo hotelInfo,
+                                   @RequestParam("RoomN") int RoomN,
+                                   @RequestParam("Se1") String Se1,
+                                   @RequestParam("Se2") String Se2,
+                                   @RequestParam("Se3") String Se3,
+                                   @RequestParam("RoomD") int RoomD,
+                                   @RequestParam("RoomP") int RoomP,
+                                   @RequestParam("RoomDate") String RoomDate,
+                                   Model model, HttpSession session, HttpServletResponse response){
         UserInfo userInfotest = (UserInfo) session.getAttribute("user");
         response.setContentType("text/html;charset=utf-8");
+        String hid = hotelInfo.getHotelId();
 
         try{
             PrintWriter writer = response.getWriter();

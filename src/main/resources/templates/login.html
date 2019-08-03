@@ -5,6 +5,20 @@
     <title>登录页面</title>
     <link rel="stylesheet" type="text/css" href="../adminlte/userResource/css/login.css"
           th:href="@{../adminlte/userResource/css/login.css}">
+    <link rel="stylesheet" type="text/css" media="all" href="../adminlte/bower_components/bootstrap/dist/css/bootstrap.min.css"
+          th:href="@{/adminlte/bower_components/bootstrap/dist/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" media="all" href="../adminlte/bower_components/font-awesome/css/font-awesome.min.css"
+          th:href="@{/adminlte/bower_components/font-awesome/css/font-awesome.min.css}"/>
+    <link rel="stylesheet" type="text/css" media="all" href="../adminlte/bower_components/Ionicons/css/ionicons.min.css"
+          th:href="@{/adminlte/bower_components/Ionicons/css/ionicons.min.css}"/>
+    <link rel="stylesheet" type="text/css" media="all" href="../adminlte/dist/css/AdminLTE.min.css"
+          th:href="@{/adminlte/dist/css/AdminLTE.min.css}"/>
+    <link rel="stylesheet" type="text/css" media="all" href="../adminlte/dist/css/skins/skin-blue.min.css"
+          th:href="@{/adminlte/dist/css/skins/skin-blue.min.css}"/>
+    <link rel="stylesheet" type="text/css" media="all" href="../adminlte/bower_components/select2/dist/css/select2.min.css"
+          th:href="@{/adminlte/bower_components/select2/dist/css/select2.min.css}">
+    <link rel="stylesheet" type="text/css" media="all" href="../adminlte/dist/css/AdminLTE.min.css"
+          th:href="@{/adminlte/dist/css/AdminLTE.min.css}">
     <script src="../js/jquery-3.4.1.min.js"></script>
     <!--<script type="text/javascript">
         $(function(){
@@ -25,10 +39,10 @@
     <style>
         div.transbox
         {
-            width: 412px;
-            height: 400px;
-            margin:30px;
-            padding:0;
+            /*width: 412px;*/
+            /*height: 400px;*/
+            /*margin:30px;*/
+            /*padding:0;*/
             background-color: #ffffff;
 
             /* for IE */
@@ -40,13 +54,19 @@
 </head>
 <body>
 <div class="wrapper">
-    <article>
-        <div class="transbox">
-            <h1 style="color: #AF0000"><span>登录</span></h1>
-            <p> </p>
-            <form th:action="@{/user/loginAction}"  method="post">
-                <p class="id"><i></i><input type="text" name="id" id="id" placeholder="请输入身份证号" required="required"></p>
-                <p class="password"><i></i><input type="password" name="password" id="password" placeholder="请输入密码" required="required"></p>
+    <div class="login-box">
+        <div class="login-box-body transbox">
+            <br>
+            <p class="login-box-msg" style="color: #AF0000; font-size: 28px; padding: 0px">登录</p>
+
+            <form th:action="@{/user/loginAction}"  method="post" style="padding: 0px 0px 20px">
+                <p class="id">
+                    <input style="width: 100%;" type="text" name="id" id="id" placeholder="请输入身份证号" required="required">
+                </p>
+                <p class="password">
+                    <i></i>
+                    <input style="width: 100%;" type="password" name="password" id="password" placeholder="请输入密码" required="required">
+                </p>
 <!--                <p class="select">
                     <i></i>
                     <select>
@@ -54,12 +74,14 @@
                         <option value ="管理员">管理员</option>
                     </select>
                 </p>-->
-                <button>登录</button>
+                <br>
+                <button style="color: white; font-size: 16px">登录</button>
                 <p class="register"><a href="./register">注册帐号</a></p>
                 <div class="clear"></div>
             </form>
+
         </div>
-    </article>
+    </div>
 </div>
 </body>
 </html>
