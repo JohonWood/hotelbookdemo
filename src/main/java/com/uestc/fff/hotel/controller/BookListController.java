@@ -105,19 +105,6 @@ public class BookListController {
         return true;
     }
 
-//    @RequestMapping("/bookAction")
-//    public String BookAction(@RequestParam("RoomNum") int RoomN,
-//                             @RequestParam("Se1") String Se1,
-//                             @RequestParam("Se2") String Se2,
-//                             @RequestParam("Se3") String Se3,
-//                             @RequestParam("RoomDay") int RoomD,
-//                             @RequestParam("RoomP") int RoomP,
-//                             @RequestParam("RoomDate") String RoomDate,
-//                             HttpServletResponse response){
-//        //@RequestParam("hid") String HotelId,
-//        String hid="103872";
-//        return "BookConfirm";
-//    }
 
     @RequestMapping("/book")
     public String BookPages(Model model, HttpSession session){

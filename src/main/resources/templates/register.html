@@ -5,14 +5,28 @@
     <title>注册页面</title>
     <link rel="stylesheet" type="text/css" href="../adminlte/userResource/css/regist.css"
           th:href="@{../adminlte/userResource/css/regist.css}">
+    <link rel="stylesheet" type="text/css" media="all" href="../adminlte/bower_components/bootstrap/dist/css/bootstrap.min.css"
+          th:href="@{/adminlte/bower_components/bootstrap/dist/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" media="all" href="../adminlte/bower_components/font-awesome/css/font-awesome.min.css"
+          th:href="@{/adminlte/bower_components/font-awesome/css/font-awesome.min.css}"/>
+    <link rel="stylesheet" type="text/css" media="all" href="../adminlte/bower_components/Ionicons/css/ionicons.min.css"
+          th:href="@{/adminlte/bower_components/Ionicons/css/ionicons.min.css}"/>
+    <link rel="stylesheet" type="text/css" media="all" href="../adminlte/dist/css/AdminLTE.min.css"
+          th:href="@{/adminlte/dist/css/AdminLTE.min.css}"/>
+    <link rel="stylesheet" type="text/css" media="all" href="../adminlte/dist/css/skins/skin-blue.min.css"
+          th:href="@{/adminlte/dist/css/skins/skin-blue.min.css}"/>
+    <link rel="stylesheet" type="text/css" media="all" href="../adminlte/bower_components/select2/dist/css/select2.min.css"
+          th:href="@{/adminlte/bower_components/select2/dist/css/select2.min.css}">
+    <link rel="stylesheet" type="text/css" media="all" href="../adminlte/dist/css/AdminLTE.min.css"
+          th:href="@{/adminlte/dist/css/AdminLTE.min.css}">
     <script src="../js/jquery-3.4.1.min.js"></script>
     <style>
         div.transbox
         {
-            width: 420px;
-            height: 680px;
-            margin:30px;
-            padding:0;
+            /*width: 420px;*/
+            /*height: 680px;*/
+            /*margin:auto;*/
+            /*padding:0;*/
             background-color: #ffffff;
 
             /* for IE */
@@ -24,52 +38,58 @@
 </head>
 <body>
     <div class="wrapper">
-    <article>
-        <div class="transbox">
-            <br>
-        <h1 style="color: #AF0000"><span>注册</span></h1>
-        <div class="main">
-            <form th:action="@{/user/registerAction}" method="post">
-                <div class="userID">
-                    <label for="userID">身份证号（只能输入数字和英文）：</label>
-                    <input type="text" name="userID" id="userID" placeholder="您的身份证号" required="required" maxlength="20"
-                           onkeyup="value=value.replace(/[^\d|chun]/g,'')">
+        <div class="register-box">
+            <div class="register-box-body transbox">
+                <br>
+                <p class="login-box-msg" style="font-size: 24px; color: #AF0000;">注册账号</p>
+                <div class="main" style="padding: 0px 0px 20px;position: relative">
+                    <form th:action="@{/user/registerAction}" method="post">
+                        <div class="userID">
+                            <label for="userID">身份证号（只能输入数字和英文）：</label>
+                            <input type="text" name="userID" id="userID" placeholder="您的身份证号" required="required" maxlength="20"
+                                   onkeyup="value=value.replace(/[^\d|chun]/g,'')">
 
+                        </div>
+
+                        <div class="userName">
+                            <label for="userID">真实姓名(只能输入中文和英文)：</label>
+                            <input type="text" name="userName" id="userName" placeholder="真实姓名" required="required" maxlength="20"
+                                   onkeyup="value=value.replace(/[\d]/g,'') " onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[\d]/g,''))">
+                        </div>
+
+                        <div class="userPhone">
+                            <label for="userID">手机号(只能输入数字)：</label>
+                            <input type="tel" name="userPhone" id="userPhone" placeholder="手机号" required="required" maxlength="18"
+                                   onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+                        </div>
+
+
+                        <div class="loginName">
+                            <label for="userID">用户名(只能输入中文、英文和数字)：</label>
+                            <input type="text" name="loginName" id= "loginName" placeholder="用户名" required="required" maxlength="30"
+                                   onkeyup="value=value.replace(/[^\w\u4E00-\u9FA5]/g, '')">
+                        </div>
+
+                        <div class="loginPassword">
+                            <label for="userID">密码(不超过18位)：</label>
+                            <input type="password" name="loginPassword" id="loginPassword" placeholder="密码" required="required" maxlength="18">
+                        </div>
+
+                        <div class="loginPasswordAgain">
+                            <label for="userID">再次输入密码：</label>
+                            <input type="password" name="loginPasswordAgain" id="loginPasswordAgain" placeholder="再次输入密码" required="required" maxlength="18">
+                        </div>
+                        <button>注册</button>
+                    </form>
                 </div>
-
-                <div class="userName">
-                    <label for="userID">真实姓名(只能输入中文和英文)：</label>
-                    <input type="text" name="userName" id="userName" placeholder="真实姓名" required="required" maxlength="20"
-                           onkeyup="value=value.replace(/[\d]/g,'') " onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[\d]/g,''))">
-                </div>
-
-                <div class="userPhone">
-                    <label for="userID">手机号(只能输入数字)：</label>
-                    <input type="tel" name="userPhone" id="userPhone" placeholder="手机号" required="required" maxlength="18"
-                           onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
-                </div>
-
-
-                <div class="loginName">
-                    <label for="userID">用户名(只能输入中文、英文和数字)：</label>
-                    <input type="text" name="loginName" id= "loginName" placeholder="用户名" required="required" maxlength="30"
-                           onkeyup="value=value.replace(/[^\w\u4E00-\u9FA5]/g, '')">
-                </div>
-
-                <div class="loginPassword">
-                    <label for="userID">密码(不超过18位)：</label>
-                    <input type="password" name="loginPassword" id="loginPassword" placeholder="密码" required="required" maxlength="18">
-                </div>
-
-                <div class="loginPasswordAgain">
-                    <label for="userID">再次输入密码：</label>
-                    <input type="password" name="loginPasswordAgain" id="loginPasswordAgain" placeholder="再次输入密码" required="required" maxlength="18">
-                </div>
-                <button>注册</button>
-            </form>
+            </div>
         </div>
-        </div>
-    </article>
     </div>
+
+<!-- jQuery 3 -->
+<script src="../adminlte/bower_components/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="../adminlte/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
 </body>
 </html>
