@@ -134,15 +134,13 @@
                         <div class="box-body">
                             <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
                                 <div class="row">
-                                    <div class="col-sm-12">
+                                    <div class="col-sm-12" style="padding: 0px;position: relative">
                                         <form th:action="@{/manage/searchHotel}" method="post">
                                             <div class="col-sm-2">
-                                                <div id="example1_filter" class="dataTables_filter">
                                                     <label><input type="text" class="form-control input-sm"
                                                                          placeholder="请输入酒店名字"
                                                                          aria-controls="example1"
                                                                          name="hotelName"></label>
-                                                </div>
                                             </div>
                                             <div class="col-sm-2">
                                                 <button type="submit" class="btn btn-block btn-info"
