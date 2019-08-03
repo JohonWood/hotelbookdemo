@@ -155,8 +155,9 @@ public class UserController {
 
     @GetMapping("/userinfo")
     public String userInfoPages(Model model, HttpSession session){
-        boolean islogin;
+/*        boolean islogin;*/
         UserInfo userInfotest = (UserInfo) session.getAttribute("user");
+/*
         if (userInfotest == null) { islogin = false; }
         else  { islogin = true; }
         model.addAttribute("isLogin",islogin);
@@ -164,15 +165,15 @@ public class UserController {
         model.addAttribute("numOfOrders",serviceSearch.countOrder("1"));
         List<order> orderList=serviceSearch.orderList("1");
         model.addAttribute("orderList",orderList);
-
+*/
         model.addAttribute("userID",userInfotest.getUserId());
         model.addAttribute("userName",userInfotest.getUserName());
         model.addAttribute("userPhone",userInfotest.getUserPhone());
         model.addAttribute("loginName",userInfotest.getLoginName());
-        return "UserInfo";
+        return "UserInfomation";
     }
 
-    @PostMapping("/userinfo")
+    @PostMapping("/changeuserinfo")
     public void changeUserInfo(HttpSession session, HttpServletResponse response,
                                @RequestParam("name") String userName,
                                @RequestParam("phone") String userPhone,
@@ -191,20 +192,6 @@ public class UserController {
         }
     }
 
-    @GetMapping("/changepassword")
-    public String changePasswordPage(Model model, HttpSession session)
-    {
-        boolean islogin;
-        UserInfo userInfotest = (UserInfo) session.getAttribute("user");
-        if (userInfotest == null) { islogin = false; }
-        else  { islogin = true; }
-        model.addAttribute("isLogin",islogin);
-        model.addAttribute("User_name",userInfotest.getLoginName());
-        model.addAttribute("numOfOrders",serviceSearch.countOrder("1"));
-        List<order> orderList=serviceSearch.orderList("1");
-        model.addAttribute("orderList",orderList);
-        return "ChangePassword";
-    }
 
     @PostMapping("/changepassword")
     public void changePassword(HttpSession session, HttpServletResponse response,
@@ -228,7 +215,7 @@ public class UserController {
             {
                 changeUser.setLoginPassword(newPassword);
                 userService.updateUserInfo(changeUser);
-                response.getWriter().write("<script> alert('密码修改成功'); location.href='/user/changepassword';</script>");
+                response.getWriter().write("<script> alert('密码修改成功'); location.href='/user/userinfo';</script>");
             }
         }
         catch (IOException e)

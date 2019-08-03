@@ -337,7 +337,7 @@
                                                                     输入信息
                                                                 </h4>
                                                             </div>
-                                                            <div class="modal-body">
+                                                            <div class="modal-body" style="padding: 10px 30px 10px;">
                                                                 <form class="form-horizontal" role="form">
                                                                     <div class="form-group" style="margin:auto" th:object="${Hotels}">
                                                                         <!--酒店ID-->
@@ -354,21 +354,21 @@
                                                                     <div class="form-group" style="margin:auto">
                                                                         <label>请选择房间1</label>
                                                                         <select name="Se1" class="form-control" id="RoomSelect1" style="width: 100%;">
-                                                                            <option text="null" selected="selected"></option>
+                                                                            <option selected="selected">请选择</option>
                                                                             <option th:each="Room: ${RoomList}" th:text="${Room.roomType}"></option>
                                                                         </select>
                                                                     </div>
                                                                     <div class="form-group" style="margin:auto">
                                                                         <label>请选择房间2</label>
                                                                         <select name="Se2" class="form-control" id="RoomSelect2" style="width: 100%;">
-                                                                            <option text="null" selected="selected"></option>
+                                                                            <option selected="selected">请选择</option>
                                                                             <option th:each="Room: ${RoomList}" th:text="${Room.roomType}"></option>
                                                                         </select>
                                                                     </div>
                                                                     <div class="form-group" style="margin:auto">
                                                                         <label>请选择房间3</label>
                                                                         <select name="Se3" class="form-control" id="RoomSelect3" style="width: 100%;">
-                                                                            <option text="null" selected="selected"></option>
+                                                                            <option selected="selected">请选择</option>
                                                                             <option th:each="Room: ${RoomList}" th:text="${Room.roomType}"></option>
                                                                         </select>
                                                                     </div>
@@ -393,8 +393,8 @@
                                                                 </form>
                                                             </div>
                                                             <div class="modal-footer">
-                                                                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                                                                <button type="submit" class="btn btn-primary">确定</button>
+                                                                <button type="button" class="btn btn-default" style="width: 100px" data-dismiss="modal">取消</button>
+                                                                <button type="submit" class="btn btn-primary" style="width: 100px">确定</button>
                                                             </div>
                                                         </div><!-- /.modal-content -->
                                                     </div><!-- /.modal -->

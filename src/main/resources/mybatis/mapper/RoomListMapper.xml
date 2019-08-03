@@ -18,4 +18,11 @@
     where Hotel_id = #{hotelId,jdbcType=VARCHAR}
     order by RoomID
   </select>
+
+  <select id="selectByType" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select *
+    from room_info
+    where Hotel_id = #{hid} and Room_Type = #{type}
+    order by RoomID
+  </select>
 </mapper>
