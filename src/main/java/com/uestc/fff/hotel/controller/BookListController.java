@@ -102,10 +102,9 @@ public class BookListController {
 
     @GetMapping("/checkout")
     @ResponseBody
-    public Boolean CheckOut(@RequestParam("oid") String oid){
+    public void CheckOut(@RequestParam("oid") String oid){
         //serviceBook.DeleteOrder(oid);
         serviceBook.UpdateDays(oid);
-        return true;
     }
 
 
@@ -113,7 +112,6 @@ public class BookListController {
     public String BookPages(@RequestParam("hotelID") String hid, Model model, HttpSession session){
         UserInfo userInfotest = (UserInfo) session.getAttribute("user");
         boolean islogin;
-        //String hid = "108573";
 
         if (userInfotest == null) { islogin = false; }
         else  {
@@ -223,13 +221,23 @@ public class BookListController {
     }
 
     @PostMapping("/bookAction")
-    public String BookAction(OrderInfo orderInfo0, OrderTR orderTR0,
+    public void BookAction(OrderInfo orderInfo0, OrderTR orderTR0,
                              HttpSession session, HttpServletResponse response, Model model){
         UserInfo userInfotest = (UserInfo) session.getAttribute("user");
         String uid = userInfotest.getUserId();
         OrderInfo orderInfo = new OrderInfo();
         OrderTR orderTR = new OrderTR();
         Date date2 = new Date();
+
+        model.addAttribute("OrderWithHotel",serviceBook.MyListOrder(userInfotest.getUserId()));
+
+        model.addAttribute("User_name",userInfotest.getLoginName());
+        model.addAttribute("numOfOrders",serviceSearch.countOrder(userInfotest.getUserId()));
+        List<order> orderList=serviceSearch.orderList(userInfotest.getUserId());
+        model.addAttribute("orderList",orderList);
+        model.addAttribute("isLogin",true);
+        List<String> listOfCountry=serviceSearch.searchCountry();
+        model.addAttribute("countryList",listOfCountry);
 
         //orderId自动生成
         CreateUuid16 createUuid16 = new CreateUuid16();
@@ -261,17 +269,7 @@ public class BookListController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        writer.write("<script> alert('预定成功');</script>");
-        model.addAttribute("OrderWithHotel",serviceBook.MyListOrder(userInfotest.getUserId()));
-
-        model.addAttribute("User_name",userInfotest.getLoginName());
-        model.addAttribute("numOfOrders",serviceSearch.countOrder(userInfotest.getUserId()));
-        List<order> orderList=serviceSearch.orderList(userInfotest.getUserId());
-        model.addAttribute("orderList",orderList);
-        model.addAttribute("isLogin",true);
-        List<String> listOfCountry=serviceSearch.searchCountry();
-        model.addAttribute("countryList",listOfCountry);
-
-        return "BookList";
+        writer.write("<script> alert('预定成功'); location.href='/mybook/booklist';</script>");
+        writer.flush();
     }
 }
