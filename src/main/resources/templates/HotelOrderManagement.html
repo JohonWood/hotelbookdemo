@@ -121,25 +121,23 @@
                 </div>
                 <!-- /.box-header -->
                 <form th:action="@{/manage/orderSearch(hotelName = ${hotelName},hotelID = ${hotelID})}" method="post">
-                    <div class="container-fluid">
-                        <div class="col-xs-3 col-xs-offset-1" style="padding: 0px;margin-right: 10px">
-                            <select class="form-control select2" style="width: 50%;margin: 0px" name="way">
+                    <div class="container-fluid" style="padding: 0px;margin-right: 0px">
+                        <div class="col-md-2 " style="padding: 0px;margin-left: 5px;margin-right:0px;position: relative;">
+                            <select class="form-control select2" style="width: 85%;margin: 0px;position: relative" name="way">
                                 <option>按订单号查询</option>
                                 <option>按用户名查询</option>
                             </select>
                         </div>
-                        <div class="col-xs-3" style="padding: 0px;margin-right: 0px">
+                        <div class="col-xs-2" style="padding: 0px;margin-left: 0px;margin-right:0px;position: relative;">
                             <input type="text" class="form-control input-sm"
-                                   aria-controls="example1" name="searchInfo" style="width: 145px;margin: 0px">
+                                   aria-controls="example1" name="searchInfo" style="width: 85%;height: 34px;margin: 0px;position: relative">
                         </div>
-                        <div class="col-md-3">
-                            <button type="submit" class="btn btn-block btn-info" style="height: 30px;width: auto;">
+                        <div class="col-md-2" style="padding: 0px;margin-left: 0px;margin-right:0px;position: relative;">
+                            <button type="submit" class="btn btn-block btn-info" style="height: 33.5px;width: auto;">
                                 查询
                             </button>
                         </div>
                     </div>
-
-
                 </form>
                 <div class="box-body">
                     <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">

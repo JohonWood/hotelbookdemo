@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
+    <title>地图展示</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" type="text/css" media="all" href="../bower_components/bootstrap/dist/css/bootstrap.min.css"
+          th:href="@{/adminlte/bower_components/bootstrap/dist/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" media="all" href="../bower_components/font-awesome/css/font-awesome.min.css"
+          th:href="@{/adminlte/bower_components/font-awesome/css/font-awesome.min.css}"/>
+    <link rel="stylesheet" type="text/css" media="all" href="../bower_components/Ionicons/css/ionicons.min.css"
+          th:href="@{/adminlte/bower_components/Ionicons/css/ionicons.min.css}"/>
+    <link rel="stylesheet" href="../../bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css"
+          th:href="@{/adminlte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css}">
+    <link rel="stylesheet" type="text/css" media="all" href="../dist/css/AdminLTE.min.css"
+          th:href="@{/adminlte/dist/css/AdminLTE.min.css}"/>
+    <link rel="stylesheet" type="text/css" media="all" href="../dist/css/skins/skin-blue.min.css"
+          th:href="@{/adminlte/dist/css/skins/skin-blue.min.css}"/>
+    <link rel="stylesheet" type="text/css" media="all"
+          th:href="@{/adminlte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css}"/>
+
+
+    <script th:src="@{/js/jquery-3.4.1.min.js}"></script>
+    <style type="text/css">
+        body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"微软雅黑";}
+    </style>
+    <script type="text/javascript" src="//api.map.baidu.com/api?v=2.0&ak=BGaTB1CHupXuFB82TZ04drzlR0kV13Kn"></script>
+</head>
+<body>
+    <div th:class="col-md-3" style="width: 30%;position: relative">
+        <label for="input1" id="wwww"></label>
+        <input type="text" id="input1" >
+        <button id="sss">搜索</button>
+    </div>
+    <div th:class="col-md-8" id="allmap" style="width: 70%;position:relative;"></div>
+</body>
+</html>
+<script type="text/javascript">
+    var map = new BMap.Map("allmap");
+    map.centerAndZoom("成都", 15);
+    map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
+    var local = new BMap.LocalSearch(map, {
+        renderOptions:{map: map}
+    });
+    var test ;
+    $("#sss").click(function () {
+        test = $("#input1").val();
+        local.search(test);
+    })
+
+</script>

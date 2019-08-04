@@ -36,7 +36,7 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+                        <li class="dropdown"><a href="#">Link <span class="sr-only">(current)</span></a></li>
                         <li><a href="#">Link</a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
@@ -51,10 +51,33 @@
                             </ul>
                         </li>
                     </ul>
-                    <form class="navbar-form navbar-left" role="search">
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="navbar-search-input" placeholder="Search">
+                    <form class="navbar-form navbar-left" role="search" th:action="@{/504/post}" method="post">
+                        <div class="input-group">
+                            <input type="text" name="hotelKey" class="form-control" placeholder="Search...">
+                            <span class="input-group-btn">
+                                <button type="submit" name="search" id="search-btn" class="btn btn-adn bg-purple-active"><i class="fa fa-search"></i>
+                                </button>
+                                <button type="button" name="search" id="Area-btn" class="btn btn-adn bg-purple-active dropdown-toggle" data-toggle="dropdown"><i class="fa fa-map-pin"></i>
+                                </button>
+                                <ul class="dropdown-menu navbar-static-top" role="menu">
+                                <li>
+                                    <select name="countryKey" class="select2" id="CountrySelect" style="width: 100%">
+                                    <option th:each="country: ${countryList}" th:text="${country}" th:if="${country}!='中国'"></option>
+                                    <option th:each="country: ${countryList}" th:text="${country}" selected="selected" th:if="${country}=='中国'"></option>
+                                    </select>
+                                </li>
+                                <li>
+                                    <select name="cityKey" class="form-control input-lg select2" id="CitySelect" style="width: 100%">
+                                    <!--由JS代码生成-->
+                                    </select>
+
+                                </li>
+                            </ul>
+                            </span>
                         </div>
+                        <!--<div class="form-group">-->
+                        <!--<input type="text" class="form-control" id="navbar-search-input" placeholder="Search">-->
+                        <!--</div>-->
                     </form>
                 </div>
                 <!-- /.navbar-collapse -->
@@ -91,7 +114,7 @@
                                                     <span th:text="${order.hotelName}">酒店</span>
                                                 </h3>
                                                 <p class="text-black">
-                                                    <span th:text="${order.roomType}">sadasd</span>
+                                                    <span><span th:text="${order.roomNum}"></span>间房间</span>
                                                     <span class="pull-right"><i class="fa fa-calendar"></i>
                                             <span class="text-black" th:text='${order.checkInTime}'></span>入住</span>
                                                 </p>
@@ -176,7 +199,7 @@
         <section class="content-header">
             <h1>
                 确认订单信息
-                <small>#<span th:text="${numOfAllOrders}+1"></span></small>
+                <!--<small>#<span th:text="${numOfAllOrders}+1"></span></small>-->
             </h1>
             <ol class="breadcrumb">
                 <li><a href="/504/host"><i class="fa fa-dashboard"></i> 主页</a></li>
@@ -202,33 +225,7 @@
                         <small class="pull-right" id = "show_time">
                             <script>
                                 setInterval("fun(show_time)",1);
-                                function fun(timeID){
-                                    var date = new Date();  //创建对象  
-                                    var y = date.getFullYear();     //获取年份  
-                                    var m =date.getMonth()+1;   //获取月份  返回0-11  
-                                    var d = date.getDate(); // 获取日  
-                                    var w = date.getDay();   //获取星期几  返回0-6   (0=星期天) 
-                                    var ww = ' 星期'+'日一二三四五六'.charAt(new Date().getDay()) ;//星期几
-                                    var h = date.getHours();  //时
-                                    var minute = date.getMinutes()  //分
-                                    var s = date.getSeconds(); //秒
-                                    if(m<10){
-                                        m = "0"+m;
-                                    }
-                                    if(d<10){
-                                        d = "0"+d;
-                                    }
-                                    if(h<10){
-                                        h = "0"+h;
-                                    }
-                                    if(minute<10){
-                                        minute = "0"+minute;
-                                    }
-                                    if(s<10){
-                                        s = "0"+s;
-                                    }
-                                    document.getElementById(timeID.id).innerHTML =  y+"-"+m+"-"+d+"   "+h+":"+minute+":"+s+"  "+ww;}
-                            </script> 
+                            </script>
                         </small>
                     </h2>
                 </div>
@@ -236,34 +233,31 @@
             </div>
             <!-- info row -->
             <div class="row invoice-info">
-                <div class="col-sm-4 invoice-col">
-                    From
+                <div class="col-sm-4 invoice-col" th:each="User : ${Users}">
+                    <p style="font-size: 18px">客户信息</p>
                     <address>
-                        <strong>Admin, Inc.</strong><br>
-                        795 Folsom Ave, Suite 600<br>
-                        San Francisco, CA 94107<br>
-                        Phone: (804) 123-5432<br>
-                        Email: info@almasaeedstudio.com
+                        <p><strong th:text="${'姓名: '+User.userName}"></strong></p>
+                        <p th:text="*{'入住人数: '+CusNum+'人'}"></p>
+                        <p th:text="${'电话: '+User.userPhone}"></p>
+                        <p th:text="${'身份证号: '+User.userId}"><br>
+                    </address>
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-4 invoice-col" th:each="Hotel : ${Hotels}">
+                    <p style="font-size: 18px">酒店信息</p>
+                    <address>
+                        <p><strong th:text="${'名称: '+Hotel.hotelName}"></strong></p>
+                        <p th:text="${'邮编: '+Hotel.hotelZipcode}"></p>
+                        <p th:text="${'电话: '+Hotel.hotelPhone}"></p>
+                        <p th:text="${'地址: '+Hotel.hotelAddress}"><br>
                     </address>
                 </div>
                 <!-- /.col -->
                 <div class="col-sm-4 invoice-col">
-                    To
-                    <address>
-                        <strong>John Doe</strong><br>
-                        795 Folsom Ave, Suite 600<br>
-                        San Francisco, CA 94107<br>
-                        Phone: (555) 539-1037<br>
-                        Email: john.doe@example.com
-                    </address>
-                </div>
-                <!-- /.col -->
-                <div class="col-sm-4 invoice-col">
-                    <b>Invoice #007612</b><br>
-                    <br>
-                    <b>Order ID:</b> 4F3S8J<br>
-                    <b>Payment Due:</b> 2/22/2014<br>
-                    <b>Account:</b> 968-34567
+                    <p style="font-size: 18px"><b>订单</b></p>
+                    <p th:object="${Users}"><b>账号: </b><span th:text="*{loginName}"></span></p>
+                    <p><b>下单日期: </b><span id="timefound"></span></p>
+                    <p><b>入住日期: </b><span th:text="*{CheckinDate}"></span></p>
                 </div>
                 <!-- /.col -->
             </div>
@@ -273,43 +267,33 @@
             <div class="row">
                 <div class="col-xs-12 table-responsive">
                     <table class="table table-striped">
+                        <p style="font-size: 18px">房间信息</p>
                         <thead>
                         <tr>
-                            <th>Qty</th>
-                            <th>Product</th>
-                            <th>Serial #</th>
-                            <th>Description</th>
-                            <th>Subtotal</th>
+                            <th>房间</th>
+                            <th>类型</th>
+                            <th>早餐</th>
+                            <th>价格/天</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
+                        <tr th:each="Room1 : ${Type1}">
                             <td>1</td>
-                            <td>Call of Duty</td>
-                            <td>455-981-221</td>
-                            <td>El snort testosterone trophy driving gloves handsome</td>
-                            <td>$64.50</td>
+                            <td th:text="${Room1.roomType}"></td>
+                            <td th:text="${Room1.roomBreakfirst}"></td>
+                            <td th:text="${'¥'+Room1.roomFee}"></td>
                         </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Need for Speed IV</td>
-                            <td>247-925-726</td>
-                            <td>Wes Anderson umami biodiesel</td>
-                            <td>$50.00</td>
+                        <tr th:each="Room2 : ${Type2}" th:if="${Type2}">
+                            <td>2</td>
+                            <td th:text="${Room2.roomType}"></td>
+                            <td th:text="${Room2.roomBreakfirst}"></td>
+                            <td th:text="${'¥'+Room2.roomFee}"></td>
                         </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Monsters DVD</td>
-                            <td>735-845-642</td>
-                            <td>Terry Richardson helvetica tousled street art master</td>
-                            <td>$10.70</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>Grown Ups Blue Ray</td>
-                            <td>422-568-642</td>
-                            <td>Tousled lomo letterpress</td>
-                            <td>$25.99</td>
+                        <tr th:each="Room3 : ${Type3}" th:if="${Type3}">
+                            <td>3</td>
+                            <td th:text="${Room3.roomType}"></td>
+                            <td th:text="${Room3.roomBreakfirst}"></td>
+                            <td th:text="${'¥'+Room3.roomFee}"></td>
                         </tr>
                         </tbody>
                     </table>
@@ -321,38 +305,41 @@
             <div class="row">
                 <!-- accepted payments column -->
                 <div class="col-xs-6">
-                    <p class="lead">Payment Methods:</p>
+                    <p class="lead">支付方法:</p>
                     <img src="../adminlte/dist/img/credit/visa.png" alt="Visa">
                     <img src="../adminlte/dist/img/credit/mastercard.png" alt="Mastercard">
                     <img src="../adminlte/dist/img/credit/american-express.png" alt="American Express">
                     <img src="../adminlte/dist/img/credit/paypal2.png" alt="Paypal">
 
                     <p class="text-muted well well-sm no-shadow" style="margin-top: 10px;">
-                        Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles, weebly ning heekya handango imeem plugg
-                        dopplr jibjab, movity jajah plickers sifteo edmodo ifttt zimbra.
+                        下订单之前，您有机会检查您的订单。
                     </p>
                 </div>
                 <!-- /.col -->
                 <div class="col-xs-6">
-                    <p class="lead">Amount Due 2/22/2014</p>
+                    <p class="lead"><b>订单价格</b></p>
 
                     <div class="table-responsive">
                         <table class="table">
-                            <tr>
-                                <th style="width:50%">Subtotal:</th>
-                                <td>$250.30</td>
+                            <tr th:each="Room1 : ${Type1}">
+                                <th style="width:50%">预定房间1: </th>
+                                <td th:text="${'¥'+Room1.roomFee+'/天'}"></td>
+                            </tr>
+                            <tr th:each="Room2 : ${Type2}" th:if="${Type2}">
+                                <th>预定房间2: </th>
+                                <td th:text="${'¥'+Room2.roomFee+'/天'}"></td>
+                            </tr>
+                            <tr th:each="Room3 : ${Type3}" th:if="${Type3}">
+                                <th>预定房间3: </th>
+                                <td th:text="${'¥'+Room3.roomFee+'/天'}"></td>
                             </tr>
                             <tr>
-                                <th>Tax (9.3%)</th>
-                                <td>$10.34</td>
+                                <th>入住天数: </th>
+                                <td th:text="*{LiveDay}"></td>
                             </tr>
                             <tr>
-                                <th>Shipping:</th>
-                                <td>$5.80</td>
-                            </tr>
-                            <tr>
-                                <th>Total:</th>
-                                <td>$265.24</td>
+                                <th>订单总价: </th>
+                                <td th:text="*{'¥'+TotalPrice}"></td>
                             </tr>
                         </table>
                     </div>
@@ -364,11 +351,11 @@
             <!-- this row will not appear when printing -->
             <div class="row no-print">
                 <div class="col-xs-12">
-                    <a href="invoice-print.html" target="_blank" class="btn btn-default"><i class="fa fa-print"></i> Print</a>
-                    <button type="button" class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> Submit Payment
+                    <button type="button" class="btn btn-success pull-right col-md-2">
+                        <i class="fa fa-credit-card"></i> 提交订单
                     </button>
-                    <button type="button" class="btn btn-primary pull-right" style="margin-right: 5px;">
-                        <i class="fa fa-download"></i> Generate PDF
+                    <button type="button" class="btn btn-danger pull-right col-md-1" style="margin-right: 5px;">
+                        <i class="fa fa-arrow-left"></i> 取消订单
                     </button>
                 </div>
             </div>
@@ -400,5 +387,42 @@
 <script src="../adminlte/dist/js/adminlte.min.js"></script>
 <!-- iCheck -->
 <script src="../adminlte/plugins/iCheck/icheck.min.js"></script>
+
+<script>
+    var TimeNow;
+
+    function fun(timeID){
+        var date = new Date();  //创建对象  
+        var y = date.getFullYear();     //获取年份  
+        var m =date.getMonth()+1;   //获取月份  返回0-11  
+        var d = date.getDate(); // 获取日  
+        var w = date.getDay();   //获取星期几  返回0-6   (0=星期天) 
+        var ww = ' 星期'+'日一二三四五六'.charAt(new Date().getDay()) ;//星期几
+        var h = date.getHours();  //时
+        var minute = date.getMinutes()  //分
+        var s = date.getSeconds(); //秒
+        if(m<10){
+            m = "0"+m;
+        }
+        if(d<10){
+            d = "0"+d;
+        }
+        if(h<10){
+            h = "0"+h;
+        }
+        if(minute<10){
+            minute = "0"+minute;
+        }
+        if(s<10){
+            s = "0"+s;
+        }
+        TimeNow = m+"/"+d+"/"+y;
+        document.getElementById(timeID.id).innerHTML =  y+"-"+m+"-"+d+"   "+h+":"+minute+":"+s+"  "+ww;
+    }
+
+    window.onload = function(){
+            document.getElementById("timefound").innerHTML=TimeNow;
+    }
+</script> 
 </body>
 </html>
