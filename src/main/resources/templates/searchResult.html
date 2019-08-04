@@ -43,12 +43,13 @@
             margin-left: -10px;
             z-index:999
         }
+        #allmap{height:500px;width:100%;}
     </style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini layout-top-nav">
 
 <div class="wrapper">
-    <div id="allmap" style="visibility: hidden"></div>
+
     <header class="main-header">
         <nav class="navbar navbar-static-top bg-purple" role="navigation">
             <div class="container">
@@ -335,30 +336,40 @@
                                 <a href="#" class="whiteToB" id="orderPrice" style="color:white">价格<i id="orderArrow" class="fa fa-angle-down" ></i></a>
                             </li>
                         </ul>
-
                         <form class="navbar-form navbar-left" role="search"  method="post" style="right:50px;position:absolute; ">
-                            <button type="button"   class="btn btn-adn bg-purple-active">距离我</button>
                             <div class="input-group pull-right">
-                                <input type="text" id="locInput" class="form-control" style="width: 60px">
+
                                 <span class="input-group-btn">
-                                    <select type="button" id="locSelect" class="btn btn-adn bg-purple-active" style="margin-left: 2px">
-                                        <option>公里</option>
-                                        <option>米</option>
-                                    </select>
-                                    <button type="button" id="locBtn"  class="btn btn-adn bg-purple-active"><i class="fa fa-search"></i></button>
+                                    <button type="button" id="listSwitch"  class="btn btn-adn bg-purple-active" title="列表显示"><i class="fa fa-list"></i></button>
+                                    <button type="button" id="mapSwitch" class="btn btn-adn bg-purple-active" title="地图显示"><i class="fa fa-map"></i></button>
                                 </span>
                             </div>
                         </form>
+
+                        <!--<form class="navbar-form navbar-left" role="search"  method="post" style="right:50px;position:absolute; ">-->
+                            <!--<button type="button"   class="btn btn-adn bg-purple-active">距离我</button>-->
+                            <!--<div class="input-group pull-right">-->
+                                <!--<input type="text" id="locInput" class="form-control" style="width: 60px">-->
+                                <!--<span class="input-group-btn">-->
+                                    <!--<select type="button" id="locSelect" class="btn btn-adn bg-purple-active" style="margin-left: 2px">-->
+                                        <!--<option>公里</option>-->
+                                        <!--<option>米</option>-->
+                                    <!--</select>-->
+                                    <!--<button type="button" id="locBtn"  class="btn btn-adn bg-purple-active"><i class="fa fa-search"></i></button>-->
+                                <!--</span>-->
+                            <!--</div>-->
+                        <!--</form>-->
                     </div>
 
                 </div>
             </nav>
-
+            <div id="allmap" style="display: none;"></div>
             <!-- Main content -->
             <section id="resultSection"  class="content">
                 <div class="text-center" id="none1"  th:if="${resultNum==0}"><h3>无搜索结果</h3></div>
                 <div class="text-center" id="none2" style="display: none"><h3>无搜索结果</h3></div>
                 <div th:id="'resultList'+${resultStat.count}" class="box box-default fullResultBox" style="margin: 5px auto;" th:each="result,resultStat: ${resultList}" th:if="${resultNum!=0}">
+                    <span th:id="'hotelID'+${resultStat.count}" style="visibility: hidden"; th:text="${result.hotelId}"></span>
                     <div class="box-body" style="padding-left: 10px;position: relative;">
                         <div class="product-img sidebar-menu" style="float: left;margin-right: 20px;margin-top: 30px">
                             <img th:src="${result.hotelPhoto1}" alt="Product Image">
@@ -393,7 +404,7 @@
                             <span class="product-description block">
                                 <p><br>&emsp<span th:text="${result.getHotelOverview()}"></span></p>
                             </span>
-                            <a class="btn bg-purple btn-lg pull-right" href="#">查看详情</a>
+                            <a class="btn bg-purple btn-lg pull-right infBtn" href="#" th:id="'resultBtn'+${resultStat.count}">查看详情</a>
                         </div>
                     </div>
                 </div>
@@ -456,6 +467,7 @@
     var map = new BMap.Map("allmap");
     var point = new BMap.Point(116.331398,39.897445);
     map.centerAndZoom(point,12);
+    map.centerAndZoom("成都",11);
     $("#topArrow").click(function(){
         $(document).scrollTop(0);
     })
@@ -481,72 +493,45 @@
 
 
     })
+    $('.infBtn').click(function () {
+        var index=$(this).attr("id").substring(9)
+        $("#hotelID"+index).text()
+        window.location.href = "/mybook/book?hotelID=" +$("#hotelID"+index).text() ;
+    })
 
-    $('#locBtn').click(function(){
-        if (!($('#locInput').val()=="")) {
-            if (isNumber(parseInt($('#locInput').val()))){
-                xmlhttp.open("GET", "/504/location", true);
-                xmlhttp.send();
-                xmlhttp.onreadystatechange = function () {
-                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                        var text;
-                        text = xmlhttp.responseText;
-                        text = JSON.parse(text)
-                        var num = parseInt(text.length)
-                        $('#numOfHotel').text(num);
-                        $('.fullResultBox').remove();
-                        if (num == 0) {
-                            $('.downList').hide()
-                            $('#none2').show();
-                        } 
-                        else {
-                            if ($('#locSelect').val()=="公里"){
-                                var distance=$('#locInput').val()*1000
-                            }
-                            else{
-                                var distance=$('#locInput').val()
-                            }
-                            var pointA=new BMap.Point()
-                            var pointB=new BMap.Point(0,0)
-                            var geolocation = new BMap.Geolocation();
-                            geolocation.getCurrentPosition(function(r){
-
-                                if(this.getStatus() == 0){
-                                    var mk = new BMap.Marker(r.point);
-                                    map.addOverlay(mk);
-                                    map.panTo(r.point);
-                                    console.log(r.point)
-                                    var local = new BMap.LocalSearch(map, {
-                                        renderOptions:{map: map}
-                                    });
-
-                                    local.search(text[0]);
-                                    local.setSearchCompleteCallback(function(rs){
-                                        if(local.getStatus() == BMAP_STATUS_SUCCESS){
-                                            pointB = rs.getPoi(0).point;
-
-                                        }
-                                    });
-                                    console.log(pointA)
-                                    console.log(pointB)
-                                    alert('从大渡口区到江北区的距离是：'+(map.getDistance(pointA,pointB))+' 米。');
-                                }
-                                else {
-                                    alert('failed'+this.getStatus());
-                                }
-                            },{enableHighAccuracy: true})
-
-
-                        }
-                        
-
-                    }
+    $('#listSwitch').click(function(){
+        $('#allmap').slideUp(500,function () {
+            $('#resultSection').slideDown(1000,function () {
+                if ($('#numOfHotel').text()=="0") {
+                    $('.downList').slideDown(1000);
                 }
+                else {
+                    $('.fullResultBox').slideDown(1000,function () {
+                        $('.downList').slideDown(1000);
+                    })
+                }
+
+            })
+        })
+
+    })
+    $('#mapSwitch').click(function(){
+        $('.downList').slideUp();
+
+            if($('#numOfHotel').text()=="0"){
+                $('#resultSection').slideUp(1000,function () {
+                    $('#allmap').slideDown(500)
+                })
             }
             else{
-                alert("请在距离搜索栏中输入正确的数字")
+                $('.fullResultBox').slideUp(1000,function () {
+                    $('#resultSection').slideUp(1000,function () {
+                        $('#allmap').slideDown(500)
+                    })
+                })
             }
-        }
+
+
     })
 
     var xmlhttp;
@@ -641,6 +626,7 @@
                     var x = 0;
                     $('#none2').after(
                         '<div id="resultList' + (parseInt(x) + 1) + '" class="box box-default fullResultBox" style="margin: 5px auto;">\n' +
+                        '    <span id="hotelID'+(parseInt(x) + 1)+ '"style="visibility: hidden"; >'+text[x]["hotelId"]+'</span>' +
                         '    <div class="box-body" style="padding-left: 10px;position: relative;">\n' +
                         '        <div class="product-img sidebar-menu" style="float: left;margin-right: 20px;margin-top: 30px">\n' +
                         '            <img src="' + text[x]["hotelPhoto1"] + '" alt="Product Image">\n' +
@@ -660,7 +646,7 @@
                         '            <span class="product-description block">\n' +
                         '                <p><br>&emsp;&emsp;<span>' + text[x]["hotelOverview"] + '</span></p>\n' +
                         '            </span>\n' +
-                        '            <a class="btn bg-purple btn-lg pull-right" href="#">查看详情</a>\n' +
+                        '            <a class="btn bg-purple btn-lg pull-right infBtn" href="#" id="resultBtn'+(parseInt(x) + 1)+'">查看详情</a>\n' +
                         '        </div>\n' +
                         '    </div>\n' +
                         '</div>'
@@ -673,6 +659,7 @@
                         console.log(text[x])
                         $('#resultList' + (parseInt(x))).after(
                             '<div id="resultList' + (parseInt(x) + 1) + '" class="box box-default fullResultBox" style="margin: 5px auto;">\n' +
+                            '    <span id="hotelID'+(parseInt(x) + 1)+ '"style="visibility: hidden"; >'+text[x]["hotelId"]+'</span>' +
                             '    <div class="box-body" style="padding-left: 10px;position: relative;">\n' +
                             '        <div class="product-img sidebar-menu" style="float: left;margin-right: 20px;margin-top: 30px">\n' +
                             '            <img src="' + text[x]["hotelPhoto1"] + '" alt="Product Image">\n' +
@@ -692,7 +679,7 @@
                             '            <span class="product-description block">\n' +
                             '                <p><br>&emsp;&emsp;<span>' + text[x]["hotelOverview"] + '</span></p>\n' +
                             '            </span>\n' +
-                            '            <a class="btn bg-purple btn-lg pull-right" href="#">查看详情</a>\n' +
+                            '            <a class="btn bg-purple btn-lg pull-right infBtn" href="#" id="resultBtn\'+(parseInt(x) + 1)+\'">查看详情</a>\n' +
                             '        </div>\n' +
                             '    </div>\n' +
                             '</div>'
@@ -708,6 +695,7 @@
                     var x = 0;
                     $('#none2').after(
                         '<div id="resultList' + (parseInt(x) + 1) + '" class="box box-default fullResultBox" style="margin: 5px auto;">\n' +
+                        '    <span id="hotelID'+(parseInt(x) + 1)+ '"style="visibility: hidden"; >'+text[x]["hotelId"]+'</span>' +
                         '    <div class="box-body" style="padding-left: 10px;position: relative;">\n' +
                         '        <div class="product-img sidebar-menu" style="float: left;margin-right: 20px;margin-top: 30px">\n' +
                         '            <img src="' + text[x]["hotelPhoto1"] + '" alt="Product Image">\n' +
@@ -727,7 +715,7 @@
                         '            <span class="product-description block">\n' +
                         '                <p><br>&emsp;&emsp;<span>' + text[x]["hotelOverview"] + '</span></p>\n' +
                         '            </span>\n' +
-                        '            <a class="btn bg-purple btn-lg pull-right" href="#">查看详情</a>\n' +
+                        '            <a class="btn bg-purple btn-lg pull-right infBtn" href="#" id="resultBtn\'+(parseInt(x) + 1)+\'">查看详情</a>\n' +
                         '        </div>\n' +
                         '    </div>\n' +
                         '</div>'
@@ -740,6 +728,7 @@
                         console.log(text[x])
                         $('#resultList' + (parseInt(x))).after(
                             '<div id="resultList' + (parseInt(x) + 1) + '" class="box box-default fullResultBox" style="margin: 5px auto;">\n' +
+                            '    <span id="hotelID'+(parseInt(x) + 1)+ '"style="visibility: hidden"; >'+text[x]["hotelId"]+'</span>' +
                             '    <div class="box-body" style="padding-left: 10px;position: relative;">\n' +
                             '        <div class="product-img sidebar-menu" style="float: left;margin-right: 20px;margin-top: 30px">\n' +
                             '            <img src="' + text[x]["hotelPhoto1"] + '" alt="Product Image">\n' +
@@ -759,7 +748,7 @@
                             '            <span class="product-description block">\n' +
                             '                <p><br>&emsp;&emsp;<span>' + text[x]["hotelOverview"] + '</span></p>\n' +
                             '            </span>\n' +
-                            '            <a class="btn bg-purple btn-lg pull-right" href="#">查看详情</a>\n' +
+                            '            <a class="btn bg-purple btn-lg pull-right infBtn" href="#" id="resultBtn\'+(parseInt(x) + 1)+\'">查看详情</a>\n' +
                             '        </div>\n' +
                             '    </div>\n' +
                             '</div>'
@@ -874,6 +863,7 @@
                             var x = 0;
                             $('#none2').after(
                                 '<div id="resultList' + (parseInt(x) + 1) + '" class="box box-default fullResultBox" style="margin: 5px auto;">\n' +
+                                '    <span id="hotelID'+(parseInt(x) + 1)+ '"style="visibility: hidden"; >'+text[x]["hotelId"]+'</span>' +
                                 '    <div class="box-body" style="padding-left: 10px;position: relative;">\n' +
                                 '        <div class="product-img sidebar-menu" style="float: left;margin-right: 20px;margin-top: 30px">\n' +
                                 '            <img src="' + text[x]["hotelPhoto1"] + '" alt="Product Image">\n' +
@@ -893,7 +883,7 @@
                                 '            <span class="product-description block">\n' +
                                 '                <p><br>&emsp;&emsp;<span>' + text[x]["hotelOverview"] + '</span></p>\n' +
                                 '            </span>\n' +
-                                '            <a class="btn bg-purple btn-lg pull-right" href="#">查看详情</a>\n' +
+                                '            <a class="btn bg-purple btn-lg pull-right infBtn" href="#" id="resultBtn\'+(parseInt(x) + 1)+\'">查看详情</a>\n' +
                                 '        </div>\n' +
                                 '    </div>\n' +
                                 '</div>'
@@ -906,6 +896,7 @@
                                 console.log(text[x])
                                 $('#resultList' + (parseInt(x))).after(
                                     '<div id="resultList' + (parseInt(x) + 1) + '" class="box box-default fullResultBox" style="margin: 5px auto;">\n' +
+                                    '    <span id="hotelID'+(parseInt(x) + 1)+ '"style="visibility: hidden"; >'+text[x]["hotelId"]+'</span>' +
                                     '    <div class="box-body" style="padding-left: 10px;position: relative;">\n' +
                                     '        <div class="product-img sidebar-menu" style="float: left;margin-right: 20px;margin-top: 30px">\n' +
                                     '            <img src="' + text[x]["hotelPhoto1"] + '" alt="Product Image">\n' +
@@ -925,7 +916,7 @@
                                     '            <span class="product-description block">\n' +
                                     '                <p><br>&emsp;&emsp;<span>' + text[x]["hotelOverview"] + '</span></p>\n' +
                                     '            </span>\n' +
-                                    '            <a class="btn bg-purple btn-lg pull-right" href="#">查看详情</a>\n' +
+                                    '            <a class="btn bg-purple btn-lg pull-right infBtn" href="#" id="resultBtn\'+(parseInt(x) + 1)+\'">查看详情</a>\n' +
                                     '        </div>\n' +
                                     '    </div>\n' +
                                     '</div>'
@@ -941,6 +932,7 @@
                             var x = 0;
                             $('#none2').after(
                                 '<div id="resultList' + (parseInt(x) + 1) + '" class="box box-default fullResultBox" style="margin: 5px auto;">\n' +
+                                '    <span id="hotelID'+(parseInt(x) + 1)+ '"style="visibility: hidden"; >'+text[x]["hotelId"]+'</span>' +
                                 '    <div class="box-body" style="padding-left: 10px;position: relative;">\n' +
                                 '        <div class="product-img sidebar-menu" style="float: left;margin-right: 20px;margin-top: 30px">\n' +
                                 '            <img src="' + text[x]["hotelPhoto1"] + '" alt="Product Image">\n' +
@@ -960,7 +952,7 @@
                                 '            <span class="product-description block">\n' +
                                 '                <p><br>&emsp;&emsp;<span>' + text[x]["hotelOverview"] + '</span></p>\n' +
                                 '            </span>\n' +
-                                '            <a class="btn bg-purple btn-lg pull-right" href="#">查看详情</a>\n' +
+                                '            <a class="btn bg-purple btn-lg pull-right infBtn" href="#" id="resultBtn\'+(parseInt(x) + 1)+\'">查看详情</a>\n' +
                                 '        </div>\n' +
                                 '    </div>\n' +
                                 '</div>'
@@ -973,6 +965,7 @@
                                 console.log(text[x])
                                 $('#resultList' + (parseInt(x))).after(
                                     '<div id="resultList' + (parseInt(x) + 1) + '" class="box box-default fullResultBox" style="margin: 5px auto;">\n' +
+                                    '    <span id="hotelID'+(parseInt(x) + 1)+ '"style="visibility: hidden"; >'+text[x]["hotelId"]+'</span>' +
                                     '    <div class="box-body" style="padding-left: 10px;position: relative;">\n' +
                                     '        <div class="product-img sidebar-menu" style="float: left;margin-right: 20px;margin-top: 30px">\n' +
                                     '            <img src="' + text[x]["hotelPhoto1"] + '" alt="Product Image">\n' +
@@ -992,7 +985,7 @@
                                     '            <span class="product-description block">\n' +
                                     '                <p><br>&emsp;&emsp;<span>' + text[x]["hotelOverview"] + '</span></p>\n' +
                                     '            </span>\n' +
-                                    '            <a class="btn bg-purple btn-lg pull-right" href="#">查看详情</a>\n' +
+                                    '            <a class="btn bg-purple btn-lg pull-right infBtn" href="#" id="resultBtn\'+(parseInt(x) + 1)+\'">查看详情</a>\n' +
                                     '        </div>\n' +
                                     '    </div>\n' +
                                     '</div>'
@@ -1035,6 +1028,7 @@
                         console.log(text[x]["hotelName"])
                         $('#resultList'+(parseInt(x)+indexOfList)).after(
                             '<div id="resultList'+(parseInt(x)+indexOfList+1)+'" class="box box-default fullResultBox" style="margin: 5px auto;">\n' +
+                            '    <span id="hotelID'+(parseInt(x) + 1)+ '"style="visibility: hidden"; >'+text[x]["hotelId"]+'</span>' +
                             '    <div class="box-body" style="padding-left: 10px;position: relative;">\n' +
                             '        <div class="product-img sidebar-menu" style="float: left;margin-right: 20px;margin-top: 30px">\n' +
                             '            <img src="'+text[x]["hotelPhoto1"]+'" alt="Product Image">\n' +
@@ -1054,7 +1048,7 @@
                             '            <span class="product-description block">\n' +
                             '                <p><br>&emsp;&emsp;<span>'+text[x]["hotelOverview"]+'</span></p>\n' +
                             '            </span>\n' +
-                            '            <a class="btn bg-purple btn-lg pull-right" href="#">查看详情</a>\n' +
+                            '            <a class="btn bg-purple btn-lg pull-right infBtn" href="#" id="resultBtn\'+(parseInt(x) + 1)+\'">查看详情</a>\n' +
                             '        </div>\n' +
                             '    </div>\n' +
                             '</div>'

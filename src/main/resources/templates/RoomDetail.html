@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>酒店详情</title>
+
+    <link rel="stylesheet" type="text/css" media="all" href="../adminlte/bower_components/bootstrap/dist/css/bootstrap.min.css"
+          th:href="@{/adminlte/bower_components/bootstrap/dist/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" media="all" href="../adminlte/bower_components/font-awesome/css/font-awesome.min.css"
+          th:href="@{/adminlte/bower_components/font-awesome/css/font-awesome.min.css}"/>
+    <link rel="stylesheet" type="text/css" media="all" href="../adminlte/bower_components/Ionicons/css/ionicons.min.css"
+          th:href="@{/adminlte/bower_components/Ionicons/css/ionicons.min.css}"/>
+    <link rel="stylesheet" type="text/css" media="all" href="../adminlte/dist/css/AdminLTE.min.css"
+          th:href="@{/adminlte/dist/css/AdminLTE.min.css}"/>
+    <link rel="stylesheet" type="text/css" media="all" href="../adminlte/dist/css/skins/skin-blue.min.css"
+          th:href="@{/adminlte/dist/css/skins/skin-blue.min.css}"/>
+    <link rel="stylesheet" type="text/css" media="all" href="../adminlte/bower_components/select2/dist/css/select2.min.css"
+          th:href="@{/adminlte/bower_components/select2/dist/css/select2.min.css}">
+    <link rel="stylesheet" type="text/css" media="all" href="../adminlte/dist/css/AdminLTE.min.css"
+          th:href="@{/adminlte/dist/css/AdminLTE.min.css}">
+    <!-- bootstrap datepicker -->
+    <link rel="stylesheet" href="../adminlte/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+
+    <style>
+        .picture1{float:right;}
+        .word1{float:left;}
+        /*.word2{font-size: 16px}*/
+        /*.word3{font-size: 16px}*/
+    </style>
+</head>
+<body class="hold-transition skin-blue sidebar-mini layout-top-nav">
+<div class="wrapper">
+
+    <header class="main-header">
+        <nav class="navbar navbar-static-top bg-purple" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <a href="/504/host" class="navbar-brand"><b>504</b>订购网</a>
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+                        <li><a href="#">Link</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#">Action</a></li>
+                                <li><a href="#">Another action</a></li>
+                                <li><a href="#">Something else here</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">Separated link</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">One more separated link</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <form class="navbar-form navbar-left" role="search" th:action="@{/504/post}" method="post">
+                        <div class="input-group">
+                            <input type="text" name="hotelKey" class="form-control" placeholder="Search...">
+                            <span class="input-group-btn">
+                                <button type="submit" name="search" id="search-btn" class="btn btn-adn bg-purple-active"><i class="fa fa-search"></i>
+                                </button>
+                                <button type="button" name="search" id="Area-btn" class="btn btn-adn bg-purple-active dropdown-toggle" data-toggle="dropdown"><i class="fa fa-map-pin"></i>
+                                </button>
+                                <ul class="dropdown-menu navbar-static-top" role="menu">
+                                <li>
+                                    <select name="countryKey" class="select2" id="CountrySelect" style="width: 100%">
+                                    <option th:each="country: ${countryList}" th:text="${country}" th:if="${country}!='中国'"></option>
+                                    <option th:each="country: ${countryList}" th:text="${country}" selected="selected" th:if="${country}=='中国'"></option>
+                                    </select>
+                                </li>
+                                <li>
+                                    <select name="cityKey" class="form-control input-lg select2" id="CitySelect" style="width: 100%">
+                                    <!--由JS代码生成-->
+                                    </select>
+
+                                </li>
+                            </ul>
+                            </span>
+                        </div>
+                        <!--<div class="form-group">-->
+                        <!--<input type="text" class="form-control" id="navbar-search-input" placeholder="Search">-->
+                        <!--</div>-->
+                    </form>
+                </div>
+                <!-- /.navbar-collapse -->
+                <!-- Navbar Right Menu -->
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <!-- Tasks Menu -->
+                        <li class="dropdown tasks-menu" th:if="${isLogin}==true">
+                            <!-- Menu Toggle Button -->
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-flag-o"></i>
+                                <span class="label label-danger" th:text="${numOfOrders}"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="header">你有<span th:text="${numOfOrders}"></span>个酒店订单</li>
+                                <li>
+                                    <!-- Inner menu: contains the tasks -->
+                                    <ul class="menu">
+                                        <li th:if="${numOfOrders}==0">
+                                            <a href="#">
+                                                <!-- Task title and progress text -->
+                                                <h3>
+                                                    无订单
+                                                </h3>
+
+                                                </p>
+                                            </a>
+                                        </li>
+                                        <li th:each="order,orderStat: ${orderList}" th:if="${orderStat.count lt 3 && numOfOrders!=0}">
+                                            <!-- Task item -->
+                                            <a href="#">
+                                                <!-- Task title and progress text -->
+                                                <h3>
+                                                    <span th:text="${order.hotelName}">酒店</span>
+                                                </h3>
+                                                <p class="text-black">
+                                                    <span><span th:text="${order.roomNum}"></span>间房间</span>
+                                                    <span class="pull-right"><i class="fa fa-calendar"></i>
+                                            <span class="text-black" th:text='${order.checkInTime}'></span>入住</span>
+                                                </p>
+                                            </a>
+                                        </li>
+                                        <!-- end task item -->
+                                    </ul>
+                                </li>
+                                <li class="footer">
+                                    <a href="/mybook/booklist">查看所有订单</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- User Account Menu -->
+                        <li class="dropdown user user-menu">
+                            <!-- Menu Toggle Button -->
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <span class="hidden-xs" th:if="${isLogin}==true" th:text="${User_name}"></span>
+                                <span class="hidden-xs" th:if="${isLogin}==false">未登录</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="user-header bg-purple">
+
+                                    <p th:if="${isLogin}==true">
+                                        <span th:text="${User_name}"></span>
+                                        <br>
+                                        <br>
+                                        <small>亲爱的用户，欢迎来到504订房网！</small>
+                                    </p>
+                                    <p th:if="${isLogin}==false">
+                                        <span>用户未登录</span>
+                                        <br>
+                                        <br>
+                                        <small>如果未注册，请注册后登录网站</small>
+                                    </p>
+                                </li>
+                                <!-- Menu Body -->
+                                <li class="user-body" th:if="${isLogin}==true">
+                                    <div class="row" style="">
+                                        <div class="col-xs-4 text-center">
+
+                                        </div>
+                                        <div class="col-xs-4 text-center">
+                                            <a href="/mybook/booklist">我的订单</a>
+                                        </div>
+                                        <div class="col-xs-4 text-center">
+                                            <!--<a href="#">Friends</a>-->
+                                        </div>
+                                    </div>
+                                    <!-- /.row -->
+                                </li>
+                                <!-- Menu Footer-->
+                                <li class="user-footer" th:if="${isLogin}==true">
+                                    <div class="pull-left">
+                                        <a href="#" class="btn btn-default btn-flat">个人信息</a>
+                                    </div>
+                                    <div class="pull-right">
+                                        <a href="/user/logoutAction" class="btn btn-default btn-flat">登出</a>
+                                    </div>
+                                </li>
+                                <li class="user-footer" th:if="${isLogin}==false">
+                                    <div class="pull-left">
+                                        <a href="/user/login" class="btn btn-default btn-flat">登录</a>
+                                    </div>
+                                    <div class="pull-right">
+                                        <a href="/user/register" class="btn btn-default btn-flat">注册</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.navbar-custom-menu -->
+            </div>
+            <!-- /.container-fluid -->
+        </nav>
+    </header>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper -align-center" th:style="'align-content: center;background: url('+@{/picture/backImg.jpg} + ') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;'">
+
+        <div class="container-fluid">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    房间详情
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="/504/host"><i class="fa fa-dashboard"></i> 主页</a></li>
+                    <li><a href="/504/host">酒店列表</a></li>
+                    <li><a href="#">酒店详情</a></li>
+                    <li><a href="#">房间详情</a></li>
+                </ol>
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="row">
+                    <!-- /.col -->
+                    <div class="col-md-12">
+                        <div class="box box-primary">
+                            <!-- /.box-header -->
+                            <div class="box-body no-padding">
+                                <div id = "div1" class="table-responsive BookListBox-messages">
+                                    <h4></h4>
+                                    <div id="demo" class="carousel slide picture1 col-md-3" data-ride="carousel">
+                                        <!-- 指示符 -->
+                                        <ul class="carousel-indicators">
+                                            <li data-target="#demo" data-slide-to="0" class="active"></li>
+                                            <li data-target="#demo" data-slide-to="1"></li>
+                                            <li data-target="#demo" data-slide-to="2"></li>
+                                            <li data-target="#demo" data-slide-to="3"></li>
+                                            <li data-target="#demo" data-slide-to="4"></li>
+                                        </ul>
+                                        <!-- 轮播图片 -->
+                                        <div class="carousel-inner" th:each="Hotel : ${Hotels}">
+                                            <div class="item active">
+                                        <img th:src="${Hotel.hotelPhoto1}">
+                                            </div>
+                                            <div class="item">
+                                                <img th:src="${Hotel.hotelPhoto2}">
+                                            </div>
+                                            <div class="item">
+                                                <img th:src="${Hotel.hotelPhoto3}">
+                                            </div>
+                                            <div class="item">
+                                                <img th:src="${Hotel.hotelPhoto4}">
+                                            </div>
+                                            <div class="item">
+                                                <img th:src="${Hotel.hotelPhoto5}">
+                                            </div>
+                                        </div>
+                                        <!-- 左右切换按钮 -->
+                                        <a class="left carousel-control" href="#demo" role="button" data-slide="prev">
+                                            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                                        </a>
+                                        <a class="right carousel-control" href="#demo" role="button" data-slide="next">
+                                            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                        </a>
+                                    </div>
+
+                                    <div class="word1 col-md-9">
+
+                                        <table class="table table-hover table-striped">
+                                            <h4>房间介绍：<span th:text="${RoomType}"></span></h4>
+                                            <tbody>
+                                            <tr>
+                                                <td th:text="${'建筑面积: '+RoomArea}"></td>
+                                                <td th:text="${'楼层:'+Floor}"></td>
+                                            </tr>
+                                            <tr>
+                                                <td th:text="${'床型: '+BedType}"></td>
+                                                <td th:text="${'窗户：'+Window}"></td></tr>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                        <table class="table table-hover table-striped">
+                                            <tbody>
+                                            <tr> <td>房间声明</td> </tr>
+                                            <tr> <td th:text="${RoomOverview}"></td></tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <HR align=center color=#987cb9 SIZE=5 class="col-md-12">
+                                    <div class="word2 col-md-12">
+                                        <table class="table table-hover table-striped">
+                                            <h4>房间信息</h4>
+                                            <tbody>
+                                            <tr> <td>便利设施:</td> </tr>
+                                            <tr> <td th:text="${RoomThings}"></td> </tr>
+                                            <tr> <td>媒体科技:</td> </tr>
+                                            <tr> <td th:text="${RoomMedia}"></td> </tr>
+                                            <tr> <td>食品饮品:</td> </tr>
+                                            <tr> <td th:text="${RoomFood}"></td> </tr>
+                                            <tr> <td>浴室设施:</td> </tr>
+                                            <tr> <td th:text="${RoomShower}"></td> </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <HR align=center color=#987cb9 SIZE=5 class="col-md-12">
+                                        <button class="btn btn-block btn-success bg-purple">
+                                            返回
+                                            <a href="#" onclick="javascript:history.go(-1);"></a>
+                                        </button>
+                                    <HR align=center color=#987cb9 SIZE=5 class="col-md-12">
+                                    <br>
+                                </div>
+                                <!-- /.mail-box-messages -->
+                            </div>
+                            <!-- /.box-body -->
+                        </div>
+                        <!-- /. box -->
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </section>
+        </div>
+        <!-- /.content -->
+    </div>
+
+    <footer class="main-footer fixed">
+        <!-- To the right -->
+        <div class="pull-right hidden-xs">
+            电子科技大学第22组
+        </div>
+        <!-- Default to the left -->
+        <strong>Copyright &copy; 2019 <a href="https://www.uestc.edu.cn/">电子科技大学</a>.</strong> All rights reserved.
+    </footer>
+</div>
+<!-- ./wrapper -->
+
+<script type="text/javascript" th:src="@{/adminlte/bower_components/jquery/dist/jquery.min.js}"
+        src="../adminlte/bower_components/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" th:src="@{/adminlte/bower_components/bootstrap/dist/js/bootstrap.min.js}"
+        src="../adminlte/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" th:src="@{/adminlte/dist/js/adminlte.min.js}"
+        src="../adminlte/dist/js/adminlte.min.js"></script>
+<script src="../adminlte/bower_components/select2/dist/js/select2.full.min.js" type="text/javascript"
+        th:src="@{/adminlte/bower_components/select2/dist/js/select2.full.min.js}"></script>
+<!-- DataTables -->
+<script src="../adminlte/bower_components/datatables.net/js/jquery.dataTables.min.js" type="text/javascript"
+        th:src="@{/adminlte/bower_components/datatables.net/js/jquery.dataTables.min.js}"></script>
+<script src="../adminlte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js" type="text/javascript"
+        th:src="@{/adminlte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js}"></script>
+<!-- SlimScroll -->
+<script src="../adminlte/bower_components/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"
+        th:src="@{/adminlte/bower_components/jquery-slimscroll/jquery.slimscroll.min.js}"></script>
+<!-- FastClick -->
+<script src="../adminlte/bower_components/fastclick/lib/fastclick.js" type="text/javascript"
+        th:src="@{/adminlte/bower_components/fastclick/lib/fastclick.js}"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../adminlte/dist/js/demo.js" type="text/javascript"
+        th:src="@{/adminlte/dist/js/demo.js}"></script>
+<!-- Select2 -->
+<script src="../adminlte/bower_components/select2/dist/js/select2.full.min.js"></script>
+<!-- InputMask -->
+<script src="../adminlte/plugins/input-mask/jquery.inputmask.js"></script>
+<script src="../adminlte/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+<script src="../adminlte/plugins/input-mask/jquery.inputmask.extensions.js"></script>
+<!-- bootstrap datepicker -->
+<script src="../adminlte/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="../adminlte/dist/js/demo.js"></script>
+
+<script>
+
+    $(function () {
+        //Date picker
+        $('#datepicker').datepicker({
+            autoclose: true
+        })
+    })
+
+</script>
+</body>
+</html>

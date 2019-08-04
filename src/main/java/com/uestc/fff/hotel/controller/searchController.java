@@ -28,7 +28,7 @@ public class searchController {
     @Autowired
     searchService service;
     @RequestMapping("test")
-    public String test(Model model){
+    public String test(Model model,HttpServletRequest httpServletRequest){
         return "test";
     }
     @RequestMapping("/host")
