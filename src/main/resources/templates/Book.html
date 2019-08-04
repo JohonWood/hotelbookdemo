@@ -374,11 +374,13 @@
                                                                     </div>
                                                                     <div class="form-group" style="margin:auto">
                                                                         <label>请输入天数</label>
-                                                                        <input name="RoomD" class="form-control" id="numOfDays" placeholder="请输入您要预定的天数" style="width: 100%;" required="required">
+                                                                        <input name="RoomD" class="form-control" id="numOfDays" placeholder="请输入您要预定的天数" style="width: 100%;" required="required"
+                                                                               onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
                                                                     </div>
                                                                     <div class="form-group" style="margin:auto">
                                                                         <label>请输入人数</label>
-                                                                        <input name="RoomP" class="form-control" id="numOfCus" placeholder="请输入人数" style="width: 100%;" required="required">
+                                                                        <input name="RoomP" class="form-control" id="numOfCus" placeholder="请输入人数" style="width: 100%;" required="required"
+                                                                               onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
                                                                     </div>
                                                                     <div class="form-group" style="margin:auto">
                                                                         <label>请选择入住日期</label>
