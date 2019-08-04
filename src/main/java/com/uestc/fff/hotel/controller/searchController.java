@@ -27,6 +27,10 @@ import java.util.Map;
 public class searchController {
     @Autowired
     searchService service;
+    @RequestMapping("test")
+    public String test(Model model){
+        return "test";
+    }
     @RequestMapping("/host")
     public String hostPages(Model model, HttpSession session){
         //service.selectArea();
@@ -133,6 +137,35 @@ public class searchController {
         resultList=service.filterGrade(lowGrade,highGrade,resultList);
         resultList=service.filterRating(rating,resultList);
         session.setAttribute("resultList",resultList);
+        return resultList;
+    }
+    @RequestMapping("/order")
+    @ResponseBody
+    public List<FullSearResult> orderResult(Model model ,HttpServletRequest httpServletRequest,HttpServletResponse httpServletResponse,HttpSession session){
+        String orderChoose=httpServletRequest.getParameter("orderChoose");
+
+        List<FullSearResult> resultList=(List<FullSearResult>) session.getAttribute("resultList");
+        if(orderChoose.equals("1")){
+            resultList=service.orderRating(resultList);
+        }
+        else if(orderChoose.equals("2")){
+            resultList=service.orderGrade(resultList);
+        }
+        else if(orderChoose.equals("3.5")){
+            resultList=service.orderPriceHTL(resultList);
+
+        }
+        else if(orderChoose.equals("3")){
+            resultList=service.orderPriceLTH(resultList);
+        }
+        session.setAttribute("resultList",resultList);
+        return resultList;
+    }
+
+    @RequestMapping("/location")
+    @ResponseBody
+    public List<FullSearResult> locResult(Model model ,HttpServletRequest httpServletRequest,HttpServletResponse httpServletResponse,HttpSession session){
+        List<FullSearResult> resultList=(List<FullSearResult>) session.getAttribute("resultList");
         return resultList;
     }
 

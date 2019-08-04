@@ -48,6 +48,7 @@
 <body class="hold-transition skin-blue sidebar-mini layout-top-nav">
 
 <div class="wrapper">
+    <div id="allmap" style="visibility: hidden"></div>
     <header class="main-header">
         <nav class="navbar navbar-static-top bg-purple" role="navigation">
             <div class="container">
@@ -331,25 +332,20 @@
                             <li class="dropdown"><a class="whiteToB" href="#" style="color:white">评分</a></li>
                             <li class="dropdown"><a class="whiteToB" href="#" style="color:white">星级</a></li>
                             <li class="dropdown">
-                                <a  href="#" class="dropdown-toggle whiteToB" data-toggle="dropdown" style="color:white">价格 <span class="caret"></span></a>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a href="#">Action</a></li>
-                                    <li><a href="#">Another action</a></li>
-                                    <li><a href="#">Something else here</a></li>
-                                    <li class="divider"></li>
-                                    <li><a href="#">Separated link</a></li>
-                                    <li class="divider"></li>
-                                    <li><a href="#">One more separated link</a></li>
-                                </ul>
+                                <a href="#" class="whiteToB" id="orderPrice" style="color:white">价格<i id="orderArrow" class="fa fa-angle-down" ></i></a>
                             </li>
                         </ul>
+
                         <form class="navbar-form navbar-left" role="search"  method="post" style="right:50px;position:absolute; ">
+                            <button type="button"   class="btn btn-adn bg-purple-active">距离我</button>
                             <div class="input-group pull-right">
-                                <input type="text" name="hotelKey" class="form-control" placeholder="Search...">
+                                <input type="text" id="locInput" class="form-control" style="width: 60px">
                                 <span class="input-group-btn">
-                                    <button type="button" name="search"  class="btn btn-adn bg-purple-active"><i class="fa fa-search"></i></button>
-                                    <button type="button" name="search"  class="btn btn-adn bg-purple-active dropdown-toggle" data-toggle="dropdown"><i class="fa fa-map-pin"></i></button>
-                                    <ul class="dropdown-menu navbar-static-top" role="menu"></ul>
+                                    <select type="button" id="locSelect" class="btn btn-adn bg-purple-active" style="margin-left: 2px">
+                                        <option>公里</option>
+                                        <option>米</option>
+                                    </select>
+                                    <button type="button" id="locBtn"  class="btn btn-adn bg-purple-active"><i class="fa fa-search"></i></button>
                                 </span>
                             </div>
                         </form>
@@ -447,11 +443,19 @@
         th:src="@{/adminlte/dist/js/demo.js}"></script>
 <script src="../adminlte/dist/js/jquery.rotate.js" type="text/javascript"
         th:src="@{/adminlte/dist/js/jquery.rotate.js}"></script>
+<script type="text/javascript" src="//api.map.baidu.com/api?v=2.0&ak=LBOzhmG9GVhaCYHvbFduFievcCVNBZje"></script>
+<script src="../adminlte/plugins/input-mask/jquery.inputmask.js"></script>
+<script src="../adminlte/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+<script src="../adminlte/plugins/input-mask/jquery.inputmask.extensions.js"></script>
 
 <script th:inline="javascript">
     var indexOfList=10;
     var filterAni=false;
-
+    var orderArrow=false;
+    var orderClick=false;
+    var map = new BMap.Map("allmap");
+    var point = new BMap.Point(116.331398,39.897445);
+    map.centerAndZoom(point,12);
     $("#topArrow").click(function(){
         $(document).scrollTop(0);
     })
@@ -469,7 +473,7 @@
         else{
             $('#FilterDiv').animate({left:'15px'},function (){
                 $('#filterContent').show(500,function () {
-                    $('#filterBtn').rotate({animateTo: 180,duration:500});
+                    $('#filterBtn').rotate({animateTo: 0,duration:500});
                 })
             })
             filterAni=false;
@@ -478,15 +482,79 @@
 
     })
 
+    $('#locBtn').click(function(){
+        if (!($('#locInput').val()=="")) {
+            if (isNumber(parseInt($('#locInput').val()))){
+                xmlhttp.open("GET", "/504/location", true);
+                xmlhttp.send();
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        var text;
+                        text = xmlhttp.responseText;
+                        text = JSON.parse(text)
+                        var num = parseInt(text.length)
+                        $('#numOfHotel').text(num);
+                        $('.fullResultBox').remove();
+                        if (num == 0) {
+                            $('.downList').hide()
+                            $('#none2').show();
+                        } 
+                        else {
+                            if ($('#locSelect').val()=="公里"){
+                                var distance=$('#locInput').val()*1000
+                            }
+                            else{
+                                var distance=$('#locInput').val()
+                            }
+                            var pointA=new BMap.Point()
+                            var pointB=new BMap.Point(0,0)
+                            var geolocation = new BMap.Geolocation();
+                            geolocation.getCurrentPosition(function(r){
+
+                                if(this.getStatus() == 0){
+                                    var mk = new BMap.Marker(r.point);
+                                    map.addOverlay(mk);
+                                    map.panTo(r.point);
+                                    console.log(r.point)
+                                    var local = new BMap.LocalSearch(map, {
+                                        renderOptions:{map: map}
+                                    });
+
+                                    local.search(text[0]);
+                                    local.setSearchCompleteCallback(function(rs){
+                                        if(local.getStatus() == BMAP_STATUS_SUCCESS){
+                                            pointB = rs.getPoi(0).point;
+
+                                        }
+                                    });
+                                    console.log(pointA)
+                                    console.log(pointB)
+                                    alert('从大渡口区到江北区的距离是：'+(map.getDistance(pointA,pointB))+' 米。');
+                                }
+                                else {
+                                    alert('failed'+this.getStatus());
+                                }
+                            },{enableHighAccuracy: true})
+
+
+                        }
+                        
+
+                    }
+                }
+            }
+            else{
+                alert("请在距离搜索栏中输入正确的数字")
+            }
+        }
+    })
+
     var xmlhttp;
     if (window.XMLHttpRequest) {
         xmlhttp = new XMLHttpRequest();
     } else {
         xmlhttp = new ActiveXObject();
     }
-
-
-
 
     $(function () {
         xmlhttp.open("GET", "/504/city?country=" + encodeURI(encodeURI($("#CountrySelect").val())), true);
@@ -512,10 +580,233 @@
 
     $(".whiteToB").mouseenter(function () {
         $(this).css("color","black")
+        $(this).css("background","white")
     })
 
     $(".whiteToB").mouseleave(function () {
-        $(".whiteToB").css("color","white")
+        $(this).css("color","white")
+        $(this).css("background","#605ca8")
+    })
+    $(".whiteToB").click(function () {
+        if (orderClick==false){
+            $(".whiteToB").css("color","white")
+            $(".whiteToB").css("background","#605ca8")
+            $(this).css("background","white")
+            $(this).css("color","black")
+            $(this).unbind("mouseleave")
+            orderClick=true;
+        }
+        else{
+            $(".whiteToB").css("color","white")
+            $(".whiteToB").css("background","#605ca8")
+            $(".whiteToB").bind("mouseleave",function () {
+                $(this).css("color","white")
+                $(this).css("background","#605ca8")
+            })
+            $(this).css("background","white")
+            $(this).css("color","black")
+            $(this).unbind("mouseleave")
+        }
+        
+        if ($(this).text()=="评分"){
+            var orderChoose=1;
+        }
+        else if ($(this).text()=="星级"){
+            var orderChoose=2;
+        }
+        else if ($(this).text()=="价格"){
+
+            if (orderArrow==false) {
+                var orderChoose=3.5;
+            }
+            else{
+                var orderChoose=3.0;
+            }
+        }
+
+        xmlhttp.open("GET", "/504/order?orderChoose="+orderChoose, true);
+        xmlhttp.send();
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                var text;
+                text = xmlhttp.responseText;
+                text = JSON.parse(text)
+                var num = parseInt(text.length)
+                $('#numOfHotel').text(num);
+                $('.fullResultBox').remove();
+                if (parseInt(num) == 0) {
+                    $('.downList').hide()
+                    $('#none2').show();
+                } else if (num < 10) {
+                    var x = 0;
+                    $('#none2').after(
+                        '<div id="resultList' + (parseInt(x) + 1) + '" class="box box-default fullResultBox" style="margin: 5px auto;">\n' +
+                        '    <div class="box-body" style="padding-left: 10px;position: relative;">\n' +
+                        '        <div class="product-img sidebar-menu" style="float: left;margin-right: 20px;margin-top: 30px">\n' +
+                        '            <img src="' + text[x]["hotelPhoto1"] + '" alt="Product Image">\n' +
+                        '        </div>\n' +
+                        '        <div class="product-info" style="margin-right: 10px;overflow: hidden">\n' +
+                        '            <h3><i class="fa fa-fw fa-bed"></i>\n' +
+                        '                <a href="javascript:void(0)" class="product-title"><span>' + text[x]["hotelName"] + '</span> </a>\n' +
+                        '                <span class="pull-right"><a class="btn btn-warning" style="height: 40px;padding-top: 0px;font-size:25px;width:90px" href="#">\n' +
+                        '                <i class="fa fa-thumbs-up"></i><span>' + text[x]["hotelRating"] + '</span></a></span>\n' +
+                        '            </h3>\n' +
+                        '            <h3><span class="pull-right text-red"><i class="fa fa-fw fa-cny"></i><span class="hotelFee">' + text[x]["leastPrice"] + '</span>起</span></h3>\n' +
+                        '            <p id="hotelStar"><span  class="label label-warning">品质保证</span>\n' +
+                        '                <span id="hotelGradeStar' + (parseInt(x) + 1) + '">\n' +
+                        '                </span>\n' +
+                        '            </p>\n' +
+                        '            <small><span>' + text[x]["hotelAddress"] + '</span> </small>\n' +
+                        '            <span class="product-description block">\n' +
+                        '                <p><br>&emsp;&emsp;<span>' + text[x]["hotelOverview"] + '</span></p>\n' +
+                        '            </span>\n' +
+                        '            <a class="btn bg-purple btn-lg pull-right" href="#">查看详情</a>\n' +
+                        '        </div>\n' +
+                        '    </div>\n' +
+                        '</div>'
+                    );
+                    for (var i = 0; i < parseInt(text[x]["hotelGrade"]); i++) {
+                        $('#hotelGradeStar' + (parseInt(x) + 1)).append('<i class="fa fa-fw fa-star" ></i>')
+                    }
+                    x = x + 1;
+                    for (x; x < num; x++) {
+                        console.log(text[x])
+                        $('#resultList' + (parseInt(x))).after(
+                            '<div id="resultList' + (parseInt(x) + 1) + '" class="box box-default fullResultBox" style="margin: 5px auto;">\n' +
+                            '    <div class="box-body" style="padding-left: 10px;position: relative;">\n' +
+                            '        <div class="product-img sidebar-menu" style="float: left;margin-right: 20px;margin-top: 30px">\n' +
+                            '            <img src="' + text[x]["hotelPhoto1"] + '" alt="Product Image">\n' +
+                            '        </div>\n' +
+                            '        <div class="product-info" style="margin-right: 10px;overflow: hidden">\n' +
+                            '            <h3><i class="fa fa-fw fa-bed"></i>\n' +
+                            '                <a href="javascript:void(0)" class="product-title"><span>' + text[x]["hotelName"] + '</span> </a>\n' +
+                            '                <span class="pull-right"><a class="btn btn-warning" style="height: 40px;padding-top: 0px;font-size:25px;width:90px" href="#">\n' +
+                            '                <i class="fa fa-thumbs-up"></i><span>' + text[x]["hotelRating"] + '</span></a></span>\n' +
+                            '            </h3>\n' +
+                            '            <h3><span class="pull-right text-red"><i class="fa fa-fw fa-cny"></i><span class="hotelFee">' + text[x]["leastPrice"] + '</span>起</span></h3>\n' +
+                            '            <p id="hotelStar"><span  class="label label-warning">品质保证</span>\n' +
+                            '                <span id="hotelGradeStar' + (parseInt(x) + 1) + '">\n' +
+                            '                </span>\n' +
+                            '            </p>\n' +
+                            '            <small><span>' + text[x]["hotelAddress"] + '</span> </small>\n' +
+                            '            <span class="product-description block">\n' +
+                            '                <p><br>&emsp;&emsp;<span>' + text[x]["hotelOverview"] + '</span></p>\n' +
+                            '            </span>\n' +
+                            '            <a class="btn bg-purple btn-lg pull-right" href="#">查看详情</a>\n' +
+                            '        </div>\n' +
+                            '    </div>\n' +
+                            '</div>'
+                        );
+                        for (var i = 0; i < parseInt(text[x]["hotelGrade"]); i++) {
+                            $('#hotelGradeStar' + (parseInt(x) + 1)).append('<i class="fa fa-fw fa-star" ></i>')
+                        }
+                    }
+                    $('.downList').hide()
+                    $('#none2').hide();
+                } else {
+                    $('#none2').hide();
+                    var x = 0;
+                    $('#none2').after(
+                        '<div id="resultList' + (parseInt(x) + 1) + '" class="box box-default fullResultBox" style="margin: 5px auto;">\n' +
+                        '    <div class="box-body" style="padding-left: 10px;position: relative;">\n' +
+                        '        <div class="product-img sidebar-menu" style="float: left;margin-right: 20px;margin-top: 30px">\n' +
+                        '            <img src="' + text[x]["hotelPhoto1"] + '" alt="Product Image">\n' +
+                        '        </div>\n' +
+                        '        <div class="product-info" style="margin-right: 10px;overflow: hidden">\n' +
+                        '            <h3><i class="fa fa-fw fa-bed"></i>\n' +
+                        '                <a href="javascript:void(0)" class="product-title"><span>' + text[x]["hotelName"] + '</span> </a>\n' +
+                        '                <span class="pull-right"><a class="btn btn-warning" style="height: 40px;padding-top: 0px;font-size:25px;width:90px" href="#">\n' +
+                        '                <i class="fa fa-thumbs-up"></i><span>' + text[x]["hotelRating"] + '</span></a></span>\n' +
+                        '            </h3>\n' +
+                        '            <h3><span class="pull-right text-red"><i class="fa fa-fw fa-cny"></i><span class="hotelFee">' + text[x]["leastPrice"] + '</span>起</span></h3>\n' +
+                        '            <p id="hotelStar"><span  class="label label-warning">品质保证</span>\n' +
+                        '                <span id="hotelGradeStar' + (parseInt(x) + 1) + '">\n' +
+                        '                </span>\n' +
+                        '            </p>\n' +
+                        '            <small><span>' + text[x]["hotelAddress"] + '</span> </small>\n' +
+                        '            <span class="product-description block">\n' +
+                        '                <p><br>&emsp;&emsp;<span>' + text[x]["hotelOverview"] + '</span></p>\n' +
+                        '            </span>\n' +
+                        '            <a class="btn bg-purple btn-lg pull-right" href="#">查看详情</a>\n' +
+                        '        </div>\n' +
+                        '    </div>\n' +
+                        '</div>'
+                    );
+                    for (var i = 0; i < parseInt(text[x]["hotelGrade"]); i++) {
+                        $('#hotelGradeStar' + (parseInt(x) + 1)).append('<i class="fa fa-fw fa-star" ></i>')
+                    }
+                    x = x + 1;
+                    for (x; x < 10; x++) {
+                        console.log(text[x])
+                        $('#resultList' + (parseInt(x))).after(
+                            '<div id="resultList' + (parseInt(x) + 1) + '" class="box box-default fullResultBox" style="margin: 5px auto;">\n' +
+                            '    <div class="box-body" style="padding-left: 10px;position: relative;">\n' +
+                            '        <div class="product-img sidebar-menu" style="float: left;margin-right: 20px;margin-top: 30px">\n' +
+                            '            <img src="' + text[x]["hotelPhoto1"] + '" alt="Product Image">\n' +
+                            '        </div>\n' +
+                            '        <div class="product-info" style="margin-right: 10px;overflow: hidden">\n' +
+                            '            <h3><i class="fa fa-fw fa-bed"></i>\n' +
+                            '                <a href="javascript:void(0)" class="product-title"><span>' + text[x]["hotelName"] + '</span> </a>\n' +
+                            '                <span class="pull-right"><a class="btn btn-warning" style="height: 40px;padding-top: 0px;font-size:25px;width:90px" href="#">\n' +
+                            '                <i class="fa fa-thumbs-up"></i><span>' + text[x]["hotelRating"] + '</span></a></span>\n' +
+                            '            </h3>\n' +
+                            '            <h3><span class="pull-right text-red"><i class="fa fa-fw fa-cny"></i><span class="hotelFee">' + text[x]["leastPrice"] + '</span>起</span></h3>\n' +
+                            '            <p id="hotelStar"><span  class="label label-warning">品质保证</span>\n' +
+                            '                <span id="hotelGradeStar' + (parseInt(x) + 1) + '">\n' +
+                            '                </span>\n' +
+                            '            </p>\n' +
+                            '            <small><span>' + text[x]["hotelAddress"] + '</span> </small>\n' +
+                            '            <span class="product-description block">\n' +
+                            '                <p><br>&emsp;&emsp;<span>' + text[x]["hotelOverview"] + '</span></p>\n' +
+                            '            </span>\n' +
+                            '            <a class="btn bg-purple btn-lg pull-right" href="#">查看详情</a>\n' +
+                            '        </div>\n' +
+                            '    </div>\n' +
+                            '</div>'
+                        );
+                        for (var i = 0; i < parseInt(text[x]["hotelGrade"]); i++) {
+                            $('#hotelGradeStar' + (parseInt(x) + 1)).append('<i class="fa fa-fw fa-star" ></i>')
+                        }
+                    }
+                    if (num == 10) {
+                        $('.downList').hide();
+                    } else {
+                        $('.downList').show();
+                    }
+
+                    //indexOfList=parseInt($('#numOfHotel').text())
+                    indexOfList = 10;
+                }
+
+            }
+        }
+
+
+        
+    })
+
+    $('#orderArrow').click(function () {
+        if (orderArrow==false){
+            $(this).rotate(180)
+            orderArrow=true
+        }
+        else{
+            $(this).rotate(360);
+            orderArrow=false
+        }
+    })
+
+
+    $(".whiteToB").dblclick(function () {
+        if (orderClick==true){
+            $(".whiteToB").css("color","white")
+            $(".whiteToB").css("background","#605ca8")
+            $(".whiteToB").bind("mouseleave",function () {
+                $(this).css("color","white")
+                $(this).css("background","#605ca8")
+            })
+            orderClick=false;
+        }
     })
 
 
