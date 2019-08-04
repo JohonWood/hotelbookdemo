@@ -205,11 +205,13 @@ public class UserController {
         {
             if(!changeUser.getLoginPassword().equals(originPassword))
             {
-                response.getWriter().write("<script> alert('原密码不正确'); history.go(-1);</script>");
+                response.getWriter().write("<script> alert('原密码不正确'); location.href='/user/userinfo';</script>");
+                return;
             }
             if (!newPassword.equals(newPassword2))
             {
-                response.getWriter().write("<script> alert('两次新密码输入不一致'); history.go(-1);</script>");
+                response.getWriter().write("<script> alert('两次新密码输入不一致'); location.href='/user/userinfo';</script>");
+                return;
             }
             else
             {
