@@ -1,5 +1,6 @@
 package com.uestc.fff.hotel.controller;
 
+import com.sun.tools.corba.se.idl.constExpr.Or;
 import com.uestc.fff.hotel.domain.*;
 import com.uestc.fff.hotel.service.BookListService;
 import com.uestc.fff.hotel.service.searchService;
@@ -76,9 +77,9 @@ public class BookListController {
                 String rid2 = RoomNumInfo.getRoomId2();
                 String rid3 = RoomNumInfo.getRoomId3();
                 model.addAttribute("Room1",serviceBook.RoomInfomation(rid1));
-                if(!rid2.equals(null)) { model.addAttribute("Room2", serviceBook.RoomInfomation(rid2)); }
+                if(rid2!=null) { model.addAttribute("Room2", serviceBook.RoomInfomation(rid2)); }
                 else { model.addAttribute("Room2", false); }
-                if(!rid3.equals(null)) { model.addAttribute("Room3", serviceBook.RoomInfomation(rid3)); }
+                if(rid3!=null) { model.addAttribute("Room3", serviceBook.RoomInfomation(rid3)); }
                 else { model.addAttribute("Room3", false); }
 
                 model.addAttribute("Hotels",serviceBook.HotelInfomation(hid));
@@ -102,7 +103,8 @@ public class BookListController {
     @GetMapping("/checkout")
     @ResponseBody
     public Boolean CheckOut(@RequestParam("oid") String oid){
-        serviceBook.DeleteOrder(oid);
+        //serviceBook.DeleteOrder(oid);
+        serviceBook.UpdateDays(oid);
         return true;
     }
 
@@ -111,7 +113,7 @@ public class BookListController {
     public String BookPages(Model model, HttpSession session){
         UserInfo userInfotest = (UserInfo) session.getAttribute("user");
         boolean islogin;
-        String hid = "108387";
+        String hid = "108573";
 
         if (userInfotest == null) { islogin = false; }
         else  {
@@ -154,6 +156,9 @@ public class BookListController {
             e.printStackTrace();
         }
 
+        OrderInfo orderInfo = new OrderInfo();
+        OrderTR orderTR = new OrderTR();
+
         String hid = hotelInfo.getHotelId();
         String uid = userInfotest.getUserId();
 
@@ -171,59 +176,102 @@ public class BookListController {
         RoomInfo r1 = serviceBook.RoomByType(hid,Se1);
         model.addAttribute("Type1", r1);
         Float price = r1.getRoomFee();
+        orderTR.setRoomId1(r1.getRoomid());
         if(!Se2.equals("请选择")) {
             RoomInfo r2 = serviceBook.RoomByType(hid,Se2);
             price += r2.getRoomFee();
+            orderTR.setRoomId2(r2.getRoomid());
             model.addAttribute("Type2", r2);
         }
         else { model.addAttribute("Type2", false); }
         if(!Se3.equals("请选择")) {
             RoomInfo r3 = serviceBook.RoomByType(hid,Se3);
             price += r3.getRoomFee();
+            orderTR.setRoomId3(r3.getRoomid());
             model.addAttribute("Type3", r3);
         }
         else { model.addAttribute("Type3", false); }
         price *= RoomD;
 
+        String d1 = RoomDate.substring(0,5);
+        String d2 = RoomDate.substring(6);
+        String cdate = d2+'/'+d1+" 00:00:00";
+        //用于显示确认订单信息
         model.addAttribute("RoomNums",RoomN);
-        model.addAttribute("CheckinDate",RoomDate);
+        model.addAttribute("CheckinDate",cdate);
         model.addAttribute("CusNum", RoomP);
         model.addAttribute("LiveDay", RoomD);
         model.addAttribute("TotalPrice", price);
 
+        //为创建订单作准备
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");//格式时间对象
+        Date date1 = new Date();
+        try{
+            date1=sdf.parse(cdate);
+        }catch(ParseException e){}
+        orderInfo.setHotelId(hid);
+        orderInfo.setRoomNum(RoomN);
+        orderInfo.setCheckinTime(date1);
+        orderInfo.setOrderTotalFee(price);
+        orderInfo.setCustomNum(RoomP);
+        orderInfo.setDays(RoomD);
+
+        model.addAttribute("OrderInfo",orderInfo);
+        model.addAttribute("OtrInfo",orderTR);
+
         return "BookConfirm";
     }
 
-    @GetMapping("/bookAction")
-    @ResponseBody
-    public Boolean BookAction(@RequestParam("hid") String hid,
-                              @RequestParam("roomNum") int rn,
-                              @RequestParam("createTime") String ct,
-                              @RequestParam("checkinTime") String cht,
-                              @RequestParam("cusNum") int cn,
-                              @RequestParam("days") int da,
-                              @RequestParam("fee") float fee){
+    @PostMapping("/bookAction")
+    public String BookAction(OrderInfo orderInfo0, OrderTR orderTR0,
+                             HttpSession session, HttpServletResponse response, Model model){
+        UserInfo userInfotest = (UserInfo) session.getAttribute("user");
+        String uid = userInfotest.getUserId();
         OrderInfo orderInfo = new OrderInfo();
         OrderTR orderTR = new OrderTR();
-
-        SimpleDateFormat sdf=new SimpleDateFormat("MM/dd/yyyy");//格式时间对象
-        Date date1 = new Date();
         Date date2 = new Date();
-        sdf.setTimeZone(TimeZone.getTimeZone("Asia/Tokyo"));
-        try{
-            date1=sdf.parse(ct);
-            date2=sdf.parse(cht);
-        }catch(ParseException e){}
 
-        orderInfo.setHotelId(hid);
-        orderInfo.setCreateTime(date1);
-        orderInfo.setCheckinTime(date2);
-        orderInfo.setCustomNum(cn);
-        orderInfo.setDays(da);
-        orderInfo.setOrderTotalFee(fee);
+        //orderId自动生成
+        CreateUuid16 createUuid16 = new CreateUuid16();
+        createUuid16.setUuid16();
+        String oid = createUuid16.uuid16;
 
+        orderInfo.setOrderId(oid);
+        orderInfo.setUserId(uid);
+        orderInfo.setHotelId(orderInfo0.getHotelId());
+        orderInfo.setRoomNum(orderInfo0.getRoomNum());
+        orderInfo.setCreateTime(date2);
+        orderInfo.setOrderTotalFee(orderInfo0.getOrderTotalFee());
+        orderInfo.setCheckinTime(orderInfo0.getCheckinTime());
+        orderInfo.setCustomNum(orderInfo0.getCustomNum());
+        orderInfo.setDays(orderInfo0.getDays());
+
+        orderTR.setOrderId(oid);
+        orderTR.setRoomId1(orderTR0.getRoomId1());
+        orderTR.setRoomId2(orderTR0.getRoomId2());
+        orderTR.setRoomId3(orderTR0.getRoomId3());
 
         serviceBook.SaveOrder(orderInfo);
-        return true;
+        serviceBook.SaveOrderTR(orderTR);
+
+        response.setContentType("text/html;charset=utf-8");
+        PrintWriter writer = null;
+        try {
+            writer = response.getWriter();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        writer.write("<script> alert('预定成功');</script>");
+        model.addAttribute("OrderWithHotel",serviceBook.MyListOrder(userInfotest.getUserId()));
+
+        model.addAttribute("User_name",userInfotest.getLoginName());
+        model.addAttribute("numOfOrders",serviceSearch.countOrder(userInfotest.getUserId()));
+        List<order> orderList=serviceSearch.orderList(userInfotest.getUserId());
+        model.addAttribute("orderList",orderList);
+        model.addAttribute("isLogin",true);
+        List<String> listOfCountry=serviceSearch.searchCountry();
+        model.addAttribute("countryList",listOfCountry);
+
+        return "BookList";
     }
 }

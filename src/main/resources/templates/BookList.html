@@ -239,9 +239,12 @@
                                 <td th:text="${#dates.format(Order.checkinTime, 'yyyy-MM-dd')}"></td>
                                 <td th:text="${'￥'+Order.orderTotalFee}"></td>
                                 <td>
-                                    <button type="button" class="btn btn-info btn-sm"
+                                    <button type="button" class="btn btn-info btn-block" th:if="${Order.days ne -1}"
                                             data-th-attr="onclick='SeeInfo(\'' + ${Order.orderId} + '\')'">
                                         查看详细
+                                    </button >
+                                    <button type="button" class="btn btn-danger btn-block disabled" th:if="${Order.days eq -1}">
+                                        已退房
                                     </button >
                                 </td>
                             </tr>
