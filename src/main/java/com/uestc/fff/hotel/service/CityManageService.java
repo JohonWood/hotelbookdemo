@@ -41,4 +41,10 @@ public class CityManageService {
         city.setCountryCode("CN");
         cityMapper.insert(city);
     }
+
+    public List<City> findCityByCountryCode(String countryCode) {
+        CityExample cityExample = new CityExample();
+        cityExample.createCriteria().andCountryCodeEqualTo(countryCode);
+        return cityMapper.selectByExample(cityExample);
+    }
 }

@@ -71,6 +71,12 @@ public class ManageController {
         return "redirect:/manage/country";
     }
 
+    @GetMapping("/countrytoCity")
+    public String countryToCity(@RequestParam String countryCode,Model model) {
+        model.addAttribute("listCity", cityManageService.findCityByCountryCode(countryCode));
+        return "CityTable";
+    }
+
 
     /************************************/
     /**********CityManagement************/
