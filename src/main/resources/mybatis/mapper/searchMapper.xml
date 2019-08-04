@@ -50,6 +50,7 @@
         <result column="Hotel_photo1" jdbcType="VARCHAR" property="hotelPhoto1"/>
         <result column="Hotel_rating" jdbcType="REAL" property="hotelRating"/>
         <result column="Hotel_overview" jdbcType="LONGVARCHAR" property="hotelOverview"/>
+
     </resultMap>
 
     <sql id="Example_Where_Clause">

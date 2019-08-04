@@ -1,73 +1,129 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!doctype html>
+<html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="keywords" content="百度地图,百度地图API，百度地图自定义工具，百度地图所见即所得工具" />
-    <meta name="description" content="百度地图API自定义地图，帮助用户在可视化操作下生成百度地图" />
-    <title>百度地图API自定义地图</title>
-    <!--引用百度地图API-->
-    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=LBOzhmG9GVhaCYHvbFduFievcCVNBZje"></script>
-</head>
-
+    <meta charset="utf-8">
+    <meta http-equiav="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>浏览器精确定位</title>
+    <link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css" />
+    <style>
+        html,body,#container{
+            height:100%;
+        }
+        .info{
+            width:26rem;
+        }
+    </style>
 <body>
-<!--百度地图容器-->
-<div style="width:700px;height:550px;border:#ccc solid 1px;font-size:12px" id="map"></div>
-<p style="color:red;font-weight:600">地图生成工具基于百度地图JS api v2.0版本开发，使用请申请密匙。
-    <a href="http://developer.baidu.com/map/index.php?title=jspopular/guide/introduction" style="color:#2f83c7" target="_blank">了解如何申请密匙</a>
-    <a href="http://lbsyun.baidu.com/apiconsole/key?application=key" style="color:#2f83c7" target="_blank">申请密匙</a>
-</p>
-</body>
+<div id='container'></div>
+<div class="info">
+    <h4 id='status'></h4><hr>
+    <p id='result'></p><hr>
+    <p >由于众多浏览器已不再支持非安全域的定位请求，为保位成功率和精度，请升级您的站点到HTTPS。</p>
+</div>
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=	651de3d7f4aaa54f8a78b371de9694b7"></script>
 <script type="text/javascript">
-    //创建和初始化地图函数：
-    function initMap(){
-        createMap();//创建地图
-        setMapEvent();//设置地图事件
-        addMapControl();//向地图添加控件
-        addMapOverlay();//向地图添加覆盖物
-    }
-    function createMap(){
-        map = new BMap.Map("map");
-        map.centerAndZoom(new BMap.Point(116.403874,39.914889),12);
-    }
-    function setMapEvent(){
-        map.enableScrollWheelZoom();
-        map.enableKeyboard();
-        map.enableDragging();
-        map.enableDoubleClickZoom()
-    }
-    function addClickHandler(target,window){
-        target.addEventListener("click",function(){
-            target.openInfoWindow(window);
-        });
-    }
-    function addMapOverlay(){
-    }
-    //向地图添加控件
-    function addMapControl(){
-        var scaleControl = new BMap.ScaleControl({anchor:BMAP_ANCHOR_BOTTOM_LEFT});
-        scaleControl.setUnit(BMAP_UNIT_IMPERIAL);
-        map.addControl(scaleControl);
-        var navControl = new BMap.NavigationControl({anchor:BMAP_ANCHOR_TOP_LEFT,type:BMAP_NAVIGATION_CONTROL_LARGE});
-        map.addControl(navControl);
-        var overviewControl = new BMap.OverviewMapControl({anchor:BMAP_ANCHOR_BOTTOM_RIGHT,isOpen:true});
-        map.addControl(overviewControl);
-    }
-    var map;
-    initMap();
+    $('#locBtn').click(function(){
+        if (!($('#locInput').val()=="")) {
+            if (isNumber(parseInt($('#locInput').val()))){
+                xmlhttp.open("GET", "/504/location", true);
+                xmlhttp.send();
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        var text;
+                        text = xmlhttp.responseText;
+                        text = JSON.parse(text)
+                        var num = parseInt(text.length)
+                        $('#numOfHotel').text(num);
+                        $('.fullResultBox').remove();
+                        if (num == 0) {
+                            $('.downList').hide()
+                            $('#none2').show();
+                        }
+                        else {
+                            if ($('#locSelect').val()=="公里"){
+                                var distance=$('#locInput').val()*1000
+                            }
+                            else{
+                                var distance=$('#locInput').val()
+                            }
+                            var pointA=new BMap.Point(text[0].lng,text[0].lat)
+                            console.log(pointA)
+                            var options = {
+                                enableHighAccuracy: true,
+                                timeout: 5000,
+                                maximumAge: 0
+                            };
+                            Geolocation()
 
-    var local = new BMap.LocalSearch(map, {
-        renderOptions:{map: map}
-    });
-    local.search("成都世纪城天堂洲际大饭店");
-    local.setSearchCompleteCallback(function(rs){
-        if(local.getStatus() == BMAP_STATUS_SUCCESS){
+                            function Geolocation() {
+                                if(navigator.geolocation){
+                                    console.log("success")
+                                    navigator.geolocation.getCurrentPosition(
+                                        function (position) {//传入了对象position
+                                            console.log("success1")
+                                            console.log(position.coords.latitude+position.coords.longitude);
+                                        },
+                                        function (err) {//传入了error对象
+                                            console.log("error")
+                                            console.log( err.code + '\n'+err.message);//Firefox3.6以上不支持error对象的message属性
+                                            //error对象的code属性有如下属性值:
+                                            //PERMISSION_DENIED(1):(permission_denied):用户单机信息条上的“不共享”按钮或直接拒绝被获取位置信息
+                                            //POSITION_UNAVAILABLE(2):(position_unavailable):(position_unavailable)网络不可用或者无法连接到获取位置信息的卫星
+                                            //TIMEOUT(3):(timeout)网络可用但在计算机用户的位置上花费过长时间
+                                            //UNKNOWN_ERROR(0):(unknown_error)发生其他未知错误
+                                        },
+                                        {
+                                            enableHighAccuracy:false,
+                                            timeout: 5000,
+                                            maximumAge: 0
+                                        })
+                                }else {
+                                    console.log("您当前使用的浏览器不支持地理定位服务");
+                                }
+                            }
 
-            for(var i= 0 ; i < rs.getCurrentNumPois();i++){
-                var poi = rs.getPoi(i).point;
-                console.log(poi)
+                            // var geolocation = new BMap.Geolocation();
+                            // geolocation.getCurrentPosition(function(r){
+                            //     if(this.getStatus() == BMAP_STATUS_SUCCESS){
+                            //         var mk = new BMap.Marker(r.point);
+                            //         map.addOverlay(mk);
+                            //         map.panTo(r.point);
+                            //         console.log(r.point)
+                            //         alert('从大渡口区到江北区的距离是：'+(map.getDistance(pointA,r.point))+' 米。');
+                            //     }
+                            //     else {
+                            //         alert('failed'+this.getStatus());
+                            //     }
+                            // },{enableHighAccuracy: true})
+                            // // var geolocation = new BMap.Geolocation();
+                            // // geolocation.getCurrentPosition(function(r){
+                            // //     if(this.getStatus() == 0){
+                            // //         var mk = new BMap.Marker(r.point);
+                            // //         map.addOverlay(mk);
+                            // //         map.panTo(r.point);
+                            // //         console.log(r.point)
+                            // //         console.log(pointA)
+                            // //         alert('从大渡口区到江北区的距离是：'+(map.getDistance(pointA,r.point))+' 米。');
+                            // //     }
+                            // //     else {
+                            // //         alert('failed'+this.getStatus());
+                            // //     }
+                            // // },{enableHighAccuracy: true})
+                            // //
 
+                        }
+
+
+                    }
+                }
+            }
+            else{
+                alert("请在距离搜索栏中输入正确的数字")
             }
         }
-    });
+    })
+    }
 </script>
+</body>
 </html>
