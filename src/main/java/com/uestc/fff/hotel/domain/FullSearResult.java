@@ -9,6 +9,8 @@ public class FullSearResult {
     private float hotelRating;
     private String hotelOverview;
     private Float leastPrice;
+    private double lng;
+    private double lat;
 
     public String getHotelId() {
         return hotelId;
@@ -72,5 +74,21 @@ public class FullSearResult {
 
     public void setLeastPrice(Float leastPrice) {
         this.leastPrice = leastPrice;
+    }
+
+    public double getLng() {
+        return lng;
+    }
+
+    public void setLng(double lng) {
+        this.lng = lng;
+    }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
     }
 }

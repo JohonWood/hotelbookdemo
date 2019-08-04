@@ -10,6 +10,8 @@
         <result column="Hotel_rating" jdbcType="REAL" property="hotelRating"/>
         <result column="Hotel_overview" jdbcType="LONGVARCHAR" property="hotelOverview"/>
         <result column="LeastFee" jdbcType="REAL" property="leastPrice"/>
+        <result column="Hotel_longitude" jdbcType="DOUBLE" property="lng"/>
+        <result column="Hotel_latitude" jdbcType="DOUBLE" property="lat"/>
     </resultMap>
 
 
@@ -105,12 +107,12 @@
     </select>
     <select id="fullResultSearch" parameterType="com.uestc.fff.hotel.domain.Key" resultMap="FullSearchResultMap">
         SELECT
-        h.Hotel_id,h.Hotel_name,h.Hotel_grade,h.Hotel_address,h.Hotel_photo1,h.Hotel_rating,h.Hotel_overview,MIN(r.Room_Fee) AS LeastFee
+        h.Hotel_id,h.Hotel_name,h.Hotel_grade,h.Hotel_address,h.Hotel_photo1,h.Hotel_rating,h.Hotel_overview,MIN(r.Room_Fee) AS LeastFee,h.Hotel_longitude,h.Hotel_latitude
         FROM hotel_info h,country co,city ci,room_info r
         WHERE ci.Country_Code=co.Country_Code AND co.Country_Name=#{countryKey,jdbcType=VARCHAR} AND ci.City_Name=#{cityKey,jdbcType=VARCHAR} AND h.City_ID=ci.City_ID AND h.Hotel_name LIKE #{hotelKey,jdbcType=VARCHAR} AND r.Hotel_id=h.Hotel_id GROUP BY h.Hotel_id;
     </select>
     <select id="filterResult" parameterType="com.uestc.fff.hotel.domain.FilterRule" resultMap="FullSearchResultMap">
-        h.Hotel_id,h.Hotel_name,h.Hotel_grade,h.Hotel_address,h.Hotel_photo1,h.Hotel_rating,h.Hotel_overview,MIN(r.Room_Fee) AS LeastFee
+        h.Hotel_id,h.Hotel_name,h.Hotel_grade,h.Hotel_address,h.Hotel_photo1,h.Hotel_rating,h.Hotel_overview,MIN(r.Room_Fee) AS LeastFee,h.Hotel_longitude,h.Hotel_latitude
         FROM hotel_info h,country co,city ci,room_info r
         WHERE ci.Country_Code=co.Country_Code AND co.Country_Name=#{countryKey,jdbcType=VARCHAR} AND ci.City_Name=#{cityKey,jdbcType=VARCHAR} AND h.City_ID=ci.City_ID AND h.Hotel_name LIKE #{hotelKey,jdbcType=VARCHAR} AND r.Hotel_id=h.Hotel_id GROUP BY h.Hotel_id;
     </select>
