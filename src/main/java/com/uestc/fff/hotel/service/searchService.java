@@ -127,5 +127,99 @@ public class searchService {
 
         return resultList;
     }
+    public List<FullSearResult> orderRating(List<FullSearResult> origin){
+        List<FullSearResult> ordered=new ArrayList<FullSearResult>();
+        int temp=0;
+        int i=0;
+        Float temp1=0F;
+        int t=origin.size();
+        int s=t;
+        for(int j=0;j<t;j++){
+            temp1=0F;
+            temp=0;
+            for(int k=0;k<origin.size();k++){
+                if(origin.get(k).getHotelRating()>=temp1){
+                    temp=k;
+                    temp1=origin.get(k).getHotelRating();
+                }
+            }
+            ordered.add(origin.get(temp));
+            origin.remove(temp);
+        }
+
+        return ordered;
+
+    }
+
+    public List<FullSearResult> orderGrade(List<FullSearResult> origin){
+        List<FullSearResult> ordered=new ArrayList<FullSearResult>();
+        int temp=0;
+        int i=0;
+        int temp1=0;
+        int t=origin.size();
+        int s=t;
+        for(int j=0;j<t;j++){
+            temp1=0;
+            temp=0;
+            for(int k=0;k<origin.size();k++){
+                if(origin.get(k).getHotelGrade()>=temp1){
+                    temp=k;
+                    temp1=origin.get(k).getHotelGrade();
+                }
+            }
+            ordered.add(origin.get(temp));
+            origin.remove(temp);
+        }
+
+        return ordered;
+
+    }
+
+    public List<FullSearResult> orderPriceHTL(List<FullSearResult> origin){
+        List<FullSearResult> ordered=new ArrayList<FullSearResult>();
+        int temp=0;
+        int i=0;
+        Float temp1=0F;
+        int t=origin.size();
+        int s=t;
+        for(int j=0;j<t;j++){
+            temp1=0F;
+            temp=0;
+            for(int k=0;k<origin.size();k++){
+                if(origin.get(k).getLeastPrice()>=temp1){
+                    temp=k;
+                    temp1=origin.get(k).getLeastPrice();
+                }
+            }
+            ordered.add(origin.get(temp));
+            origin.remove(temp);
+        }
+
+        return ordered;
+
+    }
+    public List<FullSearResult> orderPriceLTH(List<FullSearResult> origin){
+        List<FullSearResult> ordered=new ArrayList<FullSearResult>();
+        int temp=0;
+        int i=0;
+        Float temp1=0F;
+        int t=origin.size();
+        int s=t;
+        for(int j=0;j<t;j++){
+            temp1=origin.get(0).getLeastPrice();
+            temp=0;
+            for(int k=0;k<origin.size();k++){
+                if(origin.get(k).getLeastPrice()<=temp1){
+                    temp=k;
+                    temp1=origin.get(k).getLeastPrice();
+                }
+            }
+            ordered.add(origin.get(temp));
+            origin.remove(temp);
+        }
+
+        return ordered;
+
+    }
 
 }
