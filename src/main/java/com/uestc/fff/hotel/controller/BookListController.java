@@ -110,10 +110,10 @@ public class BookListController {
 
 
     @RequestMapping("/book")
-    public String BookPages(Model model, HttpSession session){
+    public String BookPages(@RequestParam("hotelID") String hid, Model model, HttpSession session){
         UserInfo userInfotest = (UserInfo) session.getAttribute("user");
         boolean islogin;
-        String hid = "108573";
+        //String hid = "108573";
 
         if (userInfotest == null) { islogin = false; }
         else  {
@@ -127,7 +127,7 @@ public class BookListController {
         model.addAttribute("isLogin",islogin);
         List<String> listOfCountry=serviceSearch.searchCountry();
         model.addAttribute("countryList",listOfCountry);
-        model.addAttribute("Hotels",serviceBook.HotelInfomation("108573"));
+        model.addAttribute("Hotels",serviceBook.HotelInfomation(hid));
         model.addAttribute("RoomList", serviceBook.RoomInfoList(hid));
 
         return "Book";

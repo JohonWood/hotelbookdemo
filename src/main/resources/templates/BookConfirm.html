@@ -369,7 +369,8 @@
                                 <input th:field="${OtrInfo.roomId3}" type="text" class="form-control">
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-success pull-right col-md-2">
+                        <button type="submit" class="btn btn-success pull-right col-md-2"
+                                data-th-attr="onclick='golist()'">
                             <i class="fa fa-credit-card"></i> 提交订单
                         </button>
                     </form>
@@ -447,7 +448,13 @@
     function goback() {
         var clicks = $(this).data('clicks');
         if (!clicks) {
-            open("/mybook/book");
+            history.go(-1);
+        }
+    }
+    function golist() {
+        var clicks = $(this).data('clicks');
+        if (!clicks) {
+            history.go(-1);
         }
     }
 </script> 
