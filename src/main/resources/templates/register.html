@@ -47,14 +47,14 @@
                         <div class="userID">
                             <label for="userID">身份证号（只能输入数字和英文）：</label>
                             <input type="text" name="userID" id="userID" placeholder="您的身份证号" required="required" maxlength="20"
-                                   onkeyup="value=value.replace(/[^\d|chun]/g,'')">
+                                   onkeyup="value=value.replace(/[^\w\.\/]/ig,'')">
 
                         </div>
 
                         <div class="userName">
                             <label for="userID">真实姓名(只能输入中文和英文)：</label>
                             <input type="text" name="userName" id="userName" placeholder="真实姓名" required="required" maxlength="20"
-                                   onkeyup="value=value.replace(/[\d]/g,'') " onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[\d]/g,''))">
+                                   onkeyup="this.value=this.value.replace(/[^\w\u4e00-\u9fa5]+/g,'')">
                         </div>
 
                         <div class="userPhone">

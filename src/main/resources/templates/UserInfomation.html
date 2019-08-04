@@ -69,7 +69,7 @@
                                 <div class="form-group">
                                     <label>您的姓名</label>
                                     <input type="text" name="name" id="name" class="form-control"  th:value="${userName}" data-rule="maxlen:20" required="required" data-msg="不超过20个字节"
-                                           onkeyup="value=value.replace(/[\d]/g,'') " onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[\d]/g,''))">
+                                           onkeyup="this.value=this.value.replace(/[^\w\u4e00-\u9fa5]+/g,'')">
                                     <div class="validate"></div>
                                 </div>
                                 <div class="form-group">
