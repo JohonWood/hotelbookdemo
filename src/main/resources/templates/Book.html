@@ -212,7 +212,7 @@
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h1>
-                    我的订单列表
+                    酒店详情
                 </h1>
                 <ol class="breadcrumb">
                     <li><a href="/504/host"><i class="fa fa-dashboard"></i> 主页</a></li>
@@ -281,8 +281,8 @@
                                                 <td th:text="${'Tel: '+Hotel.hotelPhone}"></td></tr>
                                             </tr>
                                             <tr>
-                                                <td th:text="${'上班时间: '+Hotel.hotelCheckin}"></td>
-                                                <td th:text="${'下班时间: '+Hotel.hotelCheckout}"></td>
+                                                <td th:text="${'入住时间: '+Hotel.hotelCheckin}"></td>
+                                                <td th:text="${'退房时间: '+Hotel.hotelCheckout}"></td>
                                             </tr>
                                             </tbody>
                                         </table>
@@ -313,8 +313,8 @@
                                                     <td th:text="${Room.roomBreakfirst}"></td>
                                                     <td th:text="${Room.roomLast}"></td>
                                                     <td th:text="${'¥'+Room.roomFee}"></td>
-                                                    <td>
-                                                        <button type="button" class="btn btn-info btn-block"
+                                                    <td align="center" valign="middle">
+                                                        <button type="button" class="btn btn-info" style="width: 50%"
                                                                 data-th-attr="onclick='SeeInfo(\'' + ${Room.roomid} + '\',\'' + ${Room.hotelId} + '\')'">
                                                             查看详细
                                                         </button>
@@ -327,9 +327,17 @@
                                     <div>
                                         <p th:each="Hotel : ${Hotels}">
                                             <!-- 按钮触发模态框 -->
-                                            <button class="btn btn-block btn-success bg-purple" data-toggle="modal" data-target="#myModal">
-                                                >>立即预订<<
-                                            </button>
+                                            <div class="col-md-6 pull-left">
+                                                <button type="button" class="btn btn-default btn-block" style="margin-right: 5px;"
+                                                        data-th-attr="onclick='goback()'">
+                                                    <i class="fa fa-arrow-left"></i> 返回
+                                                </button>
+                                            </div>
+                                            <div class="col-md-6 pull-right">
+                                                <button class="btn btn-block btn-success bg-purple pull-right col-md-5" data-toggle="modal" data-target="#myModal">
+                                                    >>立即预订<<
+                                                </button>
+                                            </div>
                                             <!-- 模态框（Modal） -->
                                             <form role="book" action="/mybook/bookconfirm" class="form-horizontal" method="post">
                                                 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -483,6 +491,13 @@
         var clicks = $(this).data('clicks');
         if (!clicks) {
             open("/room/roomdetail?rid=" + roomID + "&hid=" + hotelID);
+        }
+    }
+    function goback() {
+        var clicks = $(this).data('clicks');
+        if (!clicks) {
+            history.go(-1)
+            //open("/mybook/booklist")
         }
     }
     function JudgeSel() {
