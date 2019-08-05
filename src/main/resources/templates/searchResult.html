@@ -18,6 +18,8 @@
           th:href="@{/adminlte/bower_components/select2/dist/css/select2.min.css}">
     <link rel="stylesheet" type="text/css" media="all" href="../adminlte/dist/css/AdminLTE.min.css"
           th:href="@{/adminlte/dist/css/AdminLTE.min.css}">
+    <link rel="stylesheet" href="../adminlte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="../adminlte/dist/css/skins/_all-skins.min.css">
     <style>
         a:hover {
             text-decoration: underline
@@ -43,7 +45,10 @@
             margin-left: -10px;
             z-index:999
         }
-        #allmap{height:500px;width:100%;}
+        #allmap{height:500px;width:700px;}
+        td{
+            heigh:30px;
+        }
     </style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini layout-top-nav">
@@ -363,7 +368,38 @@
 
                 </div>
             </nav>
-            <div id="allmap" style="display: none;"></div>
+
+            <div id="mapBox"  class="box pull-left" style="display: none;width: 437px;height: 500px;">
+                <div class="box box-widget widget-user-2" style="width: 437px;">
+                    <!-- Add the bg color to the header using any of the bg-* classes -->
+                    <div class="widget-user-header bg-yellow">
+                        <div class="widget-user-image">
+
+                        </div>
+                        <!-- /.widget-user-image -->
+                        <h3 class="widget-user-username">Nadia Carmichael</h3>
+                        <h5 class="widget-user-desc">Lead Developer</h5>
+                    </div>
+                    <div class="box-footer no-padding">
+                        <table id="example2" class="table table-bordered table-hover">
+                            <thead style="display: none">
+                            <tr>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ><td><a class="liBtn"  >Projects 5<span class="pull-right badge bg-blue">31</span></a></td></tr>
+                            <tr ><td><a class="liBtn"  >Projects 2<span class="pull-right badge bg-blue">31</span></a></td></tr>
+                            <tr ><td><a class="liBtn"  >Projects 3<span class="pull-right badge bg-blue">31</span></a></td></tr>
+                            <tr ><td><a class="liBtn"  >Projects 4<span class="pull-right badge bg-blue">31</span></a></td></tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+
+            <div id="allmap" class="pull-right" style="display: none;margin-top: 5px;margin-bottom: 20px;margin-top:3px"></div>
             <!-- Main content -->
             <section id="resultSection"  class="content">
                 <div class="text-center" id="none1"  th:if="${resultNum==0}"><h3>无搜索结果</h3></div>
@@ -404,7 +440,7 @@
                             <span class="product-description block">
                                 <p><br>&emsp<span th:text="${result.getHotelOverview()}"></span></p>
                             </span>
-                            <a class="btn bg-purple btn-lg pull-right infBtn" href="#" th:id="'resultBtn'+${resultStat.count}">查看详情</a>
+                            <a class="btn bg-purple btn-lg pull-right infBtn" th:href="'/mybook/book?hotelID='+${result.hotelId}" th:id="'resultBtn'+${resultStat.count}">查看详情</a>
                         </div>
                     </div>
                 </div>
@@ -454,10 +490,11 @@
         th:src="@{/adminlte/dist/js/demo.js}"></script>
 <script src="../adminlte/dist/js/jquery.rotate.js" type="text/javascript"
         th:src="@{/adminlte/dist/js/jquery.rotate.js}"></script>
-<script type="text/javascript" src="//api.map.baidu.com/api?v=2.0&ak=LBOzhmG9GVhaCYHvbFduFievcCVNBZje"></script>
+<script type="text/javascript" src="//api.map.baidu.com/api?v=3.0&ak=LBOzhmG9GVhaCYHvbFduFievcCVNBZje"></script>
 <script src="../adminlte/plugins/input-mask/jquery.inputmask.js"></script>
 <script src="../adminlte/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
 <script src="../adminlte/plugins/input-mask/jquery.inputmask.extensions.js"></script>
+<script src="../adminlte/dist/js/demo.js"></script>
 
 <script th:inline="javascript">
     var indexOfList=10;
@@ -467,7 +504,15 @@
     var map = new BMap.Map("allmap");
     var point = new BMap.Point(116.331398,39.897445);
     map.centerAndZoom(point,12);
-    map.centerAndZoom("成都",11);
+
+    map.setMapStyleV2({
+        styleId: '5744eefececb47cb102e5995c308a0f3'
+    });
+
+    $("td").click(function () {
+        $('td').animate({height:'30px'},250)
+        $(this).animate({height:'100px'},250)
+    })
     $("#topArrow").click(function(){
         $(document).scrollTop(0);
     })
@@ -493,13 +538,10 @@
 
 
     })
-    $('.infBtn').click(function () {
-        var index=$(this).attr("id").substring(9)
-        $("#hotelID"+index).text()
-        window.location.href = "/mybook/book?hotelID=" +$("#hotelID"+index).text() ;
-    })
+
 
     $('#listSwitch').click(function(){
+        $('#mapBox').slideUp(500)
         $('#allmap').slideUp(500,function () {
             $('#resultSection').slideDown(1000,function () {
                 if ($('#numOfHotel').text()=="0") {
@@ -521,12 +563,14 @@
             if($('#numOfHotel').text()=="0"){
                 $('#resultSection').slideUp(1000,function () {
                     $('#allmap').slideDown(500)
+                    $('#mapBox').slideDown(500)
                 })
             }
             else{
                 $('.fullResultBox').slideUp(1000,function () {
                     $('#resultSection').slideUp(1000,function () {
                         $('#allmap').slideDown(500)
+                        $('#mapBox').slideDown(500)
                     })
                 })
             }
@@ -542,6 +586,14 @@
     }
 
     $(function () {
+        $('#example2').DataTable({
+            'paging'      : true,
+            'lengthChange': false,
+            'searching'   : false,
+            'ordering'    : false,
+            'info'        : true,
+            'autoWidth'   : false
+        })
         xmlhttp.open("GET", "/504/city?country=" + encodeURI(encodeURI($("#CountrySelect").val())), true);
         xmlhttp.send();
         xmlhttp.onreadystatechange = function () {
@@ -646,7 +698,7 @@
                         '            <span class="product-description block">\n' +
                         '                <p><br>&emsp;&emsp;<span>' + text[x]["hotelOverview"] + '</span></p>\n' +
                         '            </span>\n' +
-                        '            <a class="btn bg-purple btn-lg pull-right infBtn" href="#" id="resultBtn'+(parseInt(x) + 1)+'">查看详情</a>\n' +
+                        '            <a class="btn bg-purple btn-lg pull-right infBtn" href="/mybook/book?hotelID='+text[x]["hotelId"]+'" id="resultBtn'+(parseInt(x) + 1)+'">查看详情</a>\n' +
                         '        </div>\n' +
                         '    </div>\n' +
                         '</div>'
@@ -679,7 +731,7 @@
                             '            <span class="product-description block">\n' +
                             '                <p><br>&emsp;&emsp;<span>' + text[x]["hotelOverview"] + '</span></p>\n' +
                             '            </span>\n' +
-                            '            <a class="btn bg-purple btn-lg pull-right infBtn" href="#" id="resultBtn\'+(parseInt(x) + 1)+\'">查看详情</a>\n' +
+                            '            <a class="btn bg-purple btn-lg pull-right infBtn" href="/mybook/book?hotelID='+text[x]["hotelId"]+'" id="resultBtn'+(parseInt(x) + 1)+'">查看详情</a>\n' +
                             '        </div>\n' +
                             '    </div>\n' +
                             '</div>'
@@ -715,7 +767,7 @@
                         '            <span class="product-description block">\n' +
                         '                <p><br>&emsp;&emsp;<span>' + text[x]["hotelOverview"] + '</span></p>\n' +
                         '            </span>\n' +
-                        '            <a class="btn bg-purple btn-lg pull-right infBtn" href="#" id="resultBtn\'+(parseInt(x) + 1)+\'">查看详情</a>\n' +
+                        '            <a class="btn bg-purple btn-lg pull-right infBtn" href="/mybook/book?hotelID='+text[x]["hotelId"]+'" id="resultBtn'+(parseInt(x) + 1)+'">查看详情</a>\n' +
                         '        </div>\n' +
                         '    </div>\n' +
                         '</div>'
@@ -748,7 +800,7 @@
                             '            <span class="product-description block">\n' +
                             '                <p><br>&emsp;&emsp;<span>' + text[x]["hotelOverview"] + '</span></p>\n' +
                             '            </span>\n' +
-                            '            <a class="btn bg-purple btn-lg pull-right infBtn" href="#" id="resultBtn\'+(parseInt(x) + 1)+\'">查看详情</a>\n' +
+                            '            <a class="btn bg-purple btn-lg pull-right infBtn" href="/mybook/book?hotelID='+text[x]["hotelId"]+'" id="resultBtn'+(parseInt(x) + 1)+'">查看详情</a>\n' +
                             '        </div>\n' +
                             '    </div>\n' +
                             '</div>'
@@ -883,7 +935,7 @@
                                 '            <span class="product-description block">\n' +
                                 '                <p><br>&emsp;&emsp;<span>' + text[x]["hotelOverview"] + '</span></p>\n' +
                                 '            </span>\n' +
-                                '            <a class="btn bg-purple btn-lg pull-right infBtn" href="#" id="resultBtn\'+(parseInt(x) + 1)+\'">查看详情</a>\n' +
+                                '            <a class="btn bg-purple btn-lg pull-right infBtn" href="/mybook/book?hotelID='+text[x]["hotelId"]+'" id="resultBtn'+(parseInt(x) + 1)+'">查看详情</a>\n' +
                                 '        </div>\n' +
                                 '    </div>\n' +
                                 '</div>'
@@ -916,7 +968,7 @@
                                     '            <span class="product-description block">\n' +
                                     '                <p><br>&emsp;&emsp;<span>' + text[x]["hotelOverview"] + '</span></p>\n' +
                                     '            </span>\n' +
-                                    '            <a class="btn bg-purple btn-lg pull-right infBtn" href="#" id="resultBtn\'+(parseInt(x) + 1)+\'">查看详情</a>\n' +
+                                    '            <a class="btn bg-purple btn-lg pull-right infBtn" href="/mybook/book?hotelID='+text[x]["hotelId"]+'" id="resultBtn'+(parseInt(x) + 1)+'">查看详情</a>\n' +
                                     '        </div>\n' +
                                     '    </div>\n' +
                                     '</div>'
@@ -952,7 +1004,7 @@
                                 '            <span class="product-description block">\n' +
                                 '                <p><br>&emsp;&emsp;<span>' + text[x]["hotelOverview"] + '</span></p>\n' +
                                 '            </span>\n' +
-                                '            <a class="btn bg-purple btn-lg pull-right infBtn" href="#" id="resultBtn\'+(parseInt(x) + 1)+\'">查看详情</a>\n' +
+                                '            <a class="btn bg-purple btn-lg pull-right infBtn" href="/mybook/book?hotelID='+text[x]["hotelId"]+'" id="resultBtn'+(parseInt(x) + 1)+'">查看详情</a>\n' +
                                 '        </div>\n' +
                                 '    </div>\n' +
                                 '</div>'
@@ -985,7 +1037,7 @@
                                     '            <span class="product-description block">\n' +
                                     '                <p><br>&emsp;&emsp;<span>' + text[x]["hotelOverview"] + '</span></p>\n' +
                                     '            </span>\n' +
-                                    '            <a class="btn bg-purple btn-lg pull-right infBtn" href="#" id="resultBtn\'+(parseInt(x) + 1)+\'">查看详情</a>\n' +
+                                    '            <a class="btn bg-purple btn-lg pull-right infBtn" href="/mybook/book?hotelID='+text[x]["hotelId"]+'" id="resultBtn'+(parseInt(x) + 1)+'">查看详情</a>\n' +
                                     '        </div>\n' +
                                     '    </div>\n' +
                                     '</div>'
@@ -1048,7 +1100,7 @@
                             '            <span class="product-description block">\n' +
                             '                <p><br>&emsp;&emsp;<span>'+text[x]["hotelOverview"]+'</span></p>\n' +
                             '            </span>\n' +
-                            '            <a class="btn bg-purple btn-lg pull-right infBtn" href="#" id="resultBtn\'+(parseInt(x) + 1)+\'">查看详情</a>\n' +
+                            '            <a class="btn bg-purple btn-lg pull-right infBtn" href="/mybook/book?hotelID='+text[x]["hotelId"]+'" id="resultBtn'+(parseInt(x) + 1)+'">查看详情</a>\n' +
                             '        </div>\n' +
                             '    </div>\n' +
                             '</div>'
