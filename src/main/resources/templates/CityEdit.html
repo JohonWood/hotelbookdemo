@@ -14,15 +14,15 @@
           th:href="@{/adminlte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css}">
     <link rel="stylesheet" type="text/css" media="all" href="../dist/css/AdminLTE.min.css"
           th:href="@{/adminlte/dist/css/AdminLTE.min.css}"/>
-    <link rel="stylesheet" type="text/css" media="all" href="../dist/css/skins/skin-blue.min.css"
-          th:href="@{/adminlte/dist/css/skins/skin-blue.min.css}"/>
+    <link rel="stylesheet" type="text/css" media="all" href="../dist/css/skins/_all-skins.min.css"
+          th:href="@{/adminlte/dist/css/skins/_all-skins.min.css}"/>
     <link rel="stylesheet" type="text/css" media="all"
           th:href="@{/adminlte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css}"/>
     <script th:src="@{/js/jquery-3.4.1.min.js}"></script>
 </head>
 </head>
 
-<body class="hold-transition skin-yellow sidebar-mini">
+<body class="hold-transition skin-blue-light sidebar-mini">
 <div class="wrapper">
 
     <!-- Main Header -->
@@ -93,17 +93,7 @@
                         <li><a href="/manage/country"><i class="fa fa-map-signs"></i>国家数据管理</a></li>
                         <li><a href="/manage/city"><i class="fa fa-map-signs"></i>城市数据管理</a></li>
                         <li><a href="/manage/hotel"><i class="fa fa-map-signs"></i>酒店数据管理</a></li>
-                    </ul>
-                </li>
-                <li class="treeview">
-                    <a href="#"><i class="fa fa-link"></i> <span>订单管理</span>
-                        <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="#"><i class="fa fa-map-signs"></i> 菜单一</a></li>
-                        <li><a href="#"><i class="fa fa-map-signs"></i> 菜单二</a></li>
+                        <li><a href="/manage/user"><i class="fa fa-map-signs"></i>用户数据管理</a></li>
                     </ul>
                 </li>
             </ul>

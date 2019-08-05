@@ -1,10 +1,12 @@
 
 package com.uestc.fff.hotel.controller;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import com.uestc.fff.hotel.domain.*;
 import com.uestc.fff.hotel.service.CityManageService;
 import com.uestc.fff.hotel.service.CountryManageService;
 import com.uestc.fff.hotel.service.HotelManageService;
+import com.uestc.fff.hotel.service.UserManageService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +25,8 @@ public class ManageController {
     private CityManageService cityManageService;
     @Autowired
     private HotelManageService hotelManageService;
+    @Autowired
+    private UserManageService userManageService;
 
     /************************************/
     /**********CountryManagement*********/
@@ -69,6 +73,12 @@ public class ManageController {
     public String saveCountry(Country country) {
         countryManageService.saveCountry(country);
         return "redirect:/manage/country";
+    }
+
+    @GetMapping("/countrytoCity")
+    public String countryToCity(@RequestParam String countryCode,Model model) {
+        model.addAttribute("listCity", cityManageService.findCityByCountryCode(countryCode));
+        return "CityTable";
     }
 
 
@@ -278,5 +288,49 @@ public class ManageController {
     public Boolean deleteOrder(@RequestParam String orderID) {
         hotelManageService.deleteOrderByID(orderID);
         return true;
+    }
+
+    /************************************/
+    /**********UserManagement**********/
+    /************************************/
+
+    @GetMapping("/user")
+    public String userTable(Model model) {
+        model.addAttribute("listUser", userManageService.listUser(new UserInfoExample()));
+        return "UserTable";
+    }
+
+    @PostMapping("/searchUser")
+    public String searchUser(@RequestParam String userName, Model model) {
+        UserInfoExample userInfoExample = new UserInfoExample();
+        userInfoExample.createCriteria().andUserNameLike("%" + userName + "%");
+        model.addAttribute("listUser", userManageService.listUser(userInfoExample));
+        return "UserTable";
+    }
+
+    @GetMapping("/deleteUser")
+    @ResponseBody
+    public Boolean deleteUser(@RequestParam String userCode){
+        userManageService.deleteUserByUserID(userCode);
+        return true;
+    }
+
+    @GetMapping("/editUser")
+    public String editUser(@RequestParam String userId, Model model) {
+        UserInfoExample userInfoExample = new UserInfoExample();
+        userInfoExample.createCriteria().andUserIdEqualTo(userId);
+        UserInfo userInfo = userManageService.listUser(userInfoExample).get(0);
+        model.addAttribute("userID", userInfo.getUserId());
+        model.addAttribute("listUser", userInfo);
+        return "UserEdit";
+    }
+
+    @PostMapping("/editUser")
+    public String updateUser(@RequestParam String userCode, UserInfo listUser) {
+        UserInfoExample userInfoExample = new UserInfoExample();
+        userInfoExample.createCriteria().andUserIdEqualTo(userCode);
+        System.out.println(userCode);
+        userManageService.updateUserById(listUser, userInfoExample);
+        return "redirect:/manage/user";
     }
 }

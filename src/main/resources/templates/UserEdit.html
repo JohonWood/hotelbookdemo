@@ -111,43 +111,31 @@
                     <!-- general form elements -->
                     <div class="box box-primary">
                         <div class="box-header with-border">
-                            <h3 class="box-title" th:text="'编辑用户订单 - '+(${hotelName})"></h3>
+                            <h3 class="box-title">编辑用户数据</h3>
                         </div>
                         <!-- /.box-header -->
                         <!-- form start -->
-                        <form th:action="@{/manage/orderEdit(hotelName = ${hotelName},hotelID = ${hotelID})}" method="post"  th:object="${OrderInfo}" role="form">
+                        <form th:action="@{/manage/editUser(userCode=${userID})}" method="post"  th:object="${listUser}" role="form">
                             <div class="box-body">
                                 <div class="form-group">
-                                    <label for="type">订单号：[[*{orderId}]]</label>
-                                    <input type="hidden" class="form-control" th:field="*{orderId}">
+                                    <label for="code">用户ID</label>
+                                    <input type="text" class="form-control" id="code" th:field="*{userId}" placeholder="输入用户ID">
                                 </div>
                                 <div class="form-group">
-                                    <input type="hidden" class="form-control" th:field="*{userId}">
+                                    <label for="Ccode">用户姓名</label>
+                                    <input type="text" class="form-control" id="Ccode" th:field="*{userName}" placeholder="输入用户姓名">
                                 </div>
                                 <div class="form-group">
-                                    <input type="hidden" class="form-control" th:field="*{hotelId}">
+                                    <label for="name">用户电话</label>
+                                    <input type="text" class="form-control" id="name" th:field="*{userPhone}" placeholder="输入用户电话">
                                 </div>
                                 <div class="form-group">
-                                    <input type="hidden" class="form-control" th:field="*{createTime}">
+                                    <label for="lname">用户昵称</label>
+                                    <input type="text" class="form-control" id="lname"  th:field="*{loginName}" placeholder="输入用户昵称">
                                 </div>
                                 <div class="form-group">
-                                    <input type="hidden" class="form-control" th:field="*{checkinTime}">
-                                </div>
-                                <div class="form-group">
-                                    <label for="type">房间数量</label>
-                                    <input type="text" class="form-control" id="type" name="type" th:field="*{roomNum}" placeholder="输入房间数量">
-                                </div>
-                                <div class="form-group">
-                                    <label for="fee">总费用</label>
-                                    <input type="text" class="form-control" id="fee" name="fee" th:field="*{orderTotalFee}" placeholder="输入房间总费用">
-                                </div>
-                                <div class="form-group">
-                                    <label for="last">住客数量</label>
-                                    <input type="text" class="form-control" id="last" name="last" th:field="*{customNum}" placeholder="输入住客数量">
-                                </div>
-                                <div class="form-group">
-                                    <label for="name">入住天数</label>
-                                    <input type="text" class="form-control" id="name" name="name" th:field="*{days}" placeholder="输入早餐类型">
+                                    <label for="state">用户密码</label>
+                                    <input type="text" class="form-control" id="state" name="state" th:field="*{loginPassword}" placeholder="输入用户密码">
                                 </div>
                             </div>
                             <!-- /.box-body -->
@@ -180,5 +168,4 @@
         src="../dist/js/adminlte.min.js"></script>
 
 </body>
-
 </html>
