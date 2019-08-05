@@ -86,13 +86,14 @@
                 <li class="treeview active">
                     <a href="#"><i class="fa fa-link"></i> <span>资源库管理</span>
                         <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
                     </a>
                     <ul class="treeview-menu">
                         <li><a href="/manage/country"><i class="fa fa-map-signs"></i>国家数据管理</a></li>
                         <li><a href="/manage/city"><i class="fa fa-map-signs"></i>城市数据管理</a></li>
                         <li><a href="/manage/hotel"><i class="fa fa-map-signs"></i>酒店数据管理</a></li>
+                        <li><a href="/manage/user"><i class="fa fa-map-signs"></i>用户数据管理</a></li>
                     </ul>
                 </li>
             </ul>
@@ -114,23 +115,25 @@
                         <div class="row">
                             <div class="col-sm-12" style="padding: 0px;position: relative">
                                 <form th:action="@{/manage/searchCountry}" method="post">
-                                    <div class="col-sm-2" >
+                                    <div class="col-sm-2">
                                         <div id="example1_filter" class="dataTables_filter">
                                             <label><input type="text" class="form-control input-sm"
-                                                                 placeholder="请输入国家名字"
-                                                                 aria-controls="example1" name="countryName"></label>
+                                                          placeholder="请输入国家名字"
+                                                          aria-controls="example1" name="countryName"></label>
                                         </div>
                                     </div>
                                     <div class="col-sm-2">
-                                            <button type="submit" class="btn btn-block btn-info" style="height: 30px">
-                                                查询
-                                            </button>
+                                        <button type="submit" class="btn btn-block btn-info" style="height: 30px">
+                                            查询
+                                        </button>
                                     </div>
                                 </form>
                                 <div class="col-sm-2">
-                                    <a th:href="@{/manage/addCountry}" method="get"><button class="btn btn-block btn-info" style="height: 30px">
-                                        添加国家
-                                    </button></a>
+                                    <a th:href="@{/manage/addCountry}" method="get">
+                                        <button class="btn btn-block btn-info" style="height: 30px">
+                                            添加国家
+                                        </button>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -222,7 +225,7 @@
                 $(elem).parent().parent().parent().remove();
             },
             fail: function (data) {
-                    console.log('fial delete country')
+                console.log('fial delete country')
             }
         })
     }
@@ -230,15 +233,15 @@
 <script>
     $(function () {
         $('#example1').DataTable({
-            'searching'   : false
+            'searching': false
         })
         $('#example2').DataTable({
-            'paging'      : true,
+            'paging': true,
             'lengthChange': false,
-            'searching'   : false,
-            'ordering'    : true,
-            'info'        : true,
-            'autoWidth'   : false
+            'searching': false,
+            'ordering': true,
+            'info': true,
+            'autoWidth': false
         })
     })
 </script>
