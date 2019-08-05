@@ -14,15 +14,15 @@
           th:href="@{/adminlte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css}">
     <link rel="stylesheet" type="text/css" media="all" href="../dist/css/AdminLTE.min.css"
           th:href="@{/adminlte/dist/css/AdminLTE.min.css}"/>
-    <link rel="stylesheet" type="text/css" media="all" href="../dist/css/skins/skin-blue.min.css"
-          th:href="@{/adminlte/dist/css/skins/skin-blue.min.css}"/>
+    <link rel="stylesheet" type="text/css" media="all" href="../dist/css/skins/_all-skins.min.css"
+          th:href="@{/adminlte/dist/css/skins/_all-skins.min.css}"/>
     <link rel="stylesheet" type="text/css" media="all"
           th:href="@{/adminlte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css}"/>
     <script th:src="@{/js/jquery-3.4.1.min.js}"></script>
 </head>
 </head>
 
-<body class="hold-transition skin-yellow sidebar-mini">
+<body class="hold-transition skin-blue-light sidebar-mini">
 <div class="wrapper">
 
     <!-- Main Header -->
@@ -144,6 +144,9 @@
                                             用户名字
                                         </th>
                                         <th style="width: 266.6px;">
+                                            用户昵称
+                                        </th>
+                                        <th style="width: 266.6px;">
                                             用户电话
                                         </th>
                                         <th style="width: 266.6px;">
@@ -161,8 +164,9 @@
                                     <tr th:each="user : ${listUser}">
                                         <td th:text="${user.userId}"></td>
                                         <td th:text="${user.userName}"></td>
+                                        <td th:text="${user.loginName}"></td>
                                         <td th:text="${user.userPhone}"></td>
-                                        <td th:text="${user.loginPassword}"></td>
+                                        <td id="userPassword" type="password" th:text="${user.loginPassword}"></td>
                                         <td><a th:href="@{/manage/editUser(userId = ${user.userId})}">
                                             <button type="button" class="btn btn-block btn-info">编辑</button>
                                         </a></td>
@@ -178,6 +182,7 @@
                                     <tr>
                                         <th rowspan="1" colspan="1">用户ID</th>
                                         <th rowspan="1" colspan="1">用户名字</th>
+                                        <th rowspan="1" colspan="1">用户昵称</th>
                                         <th rowspan="1" colspan="1">用户电话</th>
                                         <th rowspan="1" colspan="1">用户登陆密码</th>
                                     </tr>

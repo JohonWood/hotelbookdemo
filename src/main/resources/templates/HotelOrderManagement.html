@@ -14,15 +14,15 @@
           th:href="@{/adminlte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css}">
     <link rel="stylesheet" type="text/css" media="all" href="../dist/css/AdminLTE.min.css"
           th:href="@{/adminlte/dist/css/AdminLTE.min.css}"/>
-    <link rel="stylesheet" type="text/css" media="all" href="../dist/css/skins/skin-blue.min.css"
-          th:href="@{/adminlte/dist/css/skins/skin-blue.min.css}"/>
+    <link rel="stylesheet" type="text/css" media="all" href="../dist/css/skins/_all-skins.min.css"
+          th:href="@{/adminlte/dist/css/skins/_all-skins.min.css}"/>
     <link rel="stylesheet" type="text/css" media="all"
           th:href="@{/adminlte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css}"/>
     <script th:src="@{/js/jquery-3.4.1.min.js}"></script>
 </head>
 </head>
 
-<body class="hold-transition skin-yellow sidebar-mini">
+<body class="hold-transition skin-blue-light sidebar-mini">
 <div class="wrapper">
 
     <!-- Main Header -->
@@ -118,7 +118,9 @@
         <section class="content container-fluid">
             <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title" th:text="'订单管理 - '+${hotelName}"></h3>
+                    <a th:href="@{/manage/descriptionCity(hotelID = ${hotelID})}">
+                        <h3 class="box-title" th:text="'订单管理 - '+${hotelName}"></h3>
+                    </a>
                 </div>
                 <!-- /.box-header -->
                 <form th:action="@{/manage/orderSearch(hotelName = ${hotelName},hotelID = ${hotelID})}" method="post">

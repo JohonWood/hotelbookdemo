@@ -14,15 +14,15 @@
           th:href="@{/adminlte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css}">
     <link rel="stylesheet" type="text/css" media="all" href="../dist/css/AdminLTE.min.css"
           th:href="@{/adminlte/dist/css/AdminLTE.min.css}"/>
-    <link rel="stylesheet" type="text/css" media="all" href="../dist/css/skins/skin-blue.min.css"
-          th:href="@{/adminlte/dist/css/skins/skin-blue.min.css}"/>
+    <link rel="stylesheet" type="text/css" media="all" href="../dist/css/skins/_all-skins.min.css"
+          th:href="@{/adminlte/dist/css/skins/_all-skins.min.css}"/>
     <link rel="stylesheet" type="text/css" media="all"
           th:href="@{/adminlte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css}"/>
     <script th:src="@{/js/jquery-3.4.1.min.js}"></script>
 </head>
 </head>
 
-<body class="hold-transition skin-yellow sidebar-mini">
+<body class="hold-transition skin-blue-light sidebar-mini">
 <div class="wrapper">
 
     <!-- Main Header -->
@@ -130,7 +130,8 @@
                                     <input type="text" class="form-control" id="name" th:field="*{userPhone}" placeholder="输入用户电话">
                                 </div>
                                 <div class="form-group">
-                                    <input type="hidden" class="form-control" id="lname"  th:field="*{loginName}" >
+                                    <label for="lname">用户昵称</label>
+                                    <input type="text" class="form-control" id="lname"  th:field="*{loginName}" placeholder="输入用户昵称">
                                 </div>
                                 <div class="form-group">
                                     <label for="state">用户密码</label>
