@@ -313,6 +313,12 @@
                                                     <td th:text="${Room.roomBreakfirst}"></td>
                                                     <td th:text="${Room.roomLast}"></td>
                                                     <td th:text="${'¥'+Room.roomFee}"></td>
+                                                    <td>
+                                                        <button type="button" class="btn btn-info btn-block"
+                                                                data-th-attr="onclick='SeeInfo(\'' + ${Room.roomid} + '\',\'' + ${Room.hotelId} + '\')'">
+                                                            查看详细
+                                                        </button>
+                                                    </td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -473,6 +479,12 @@
             autoclose: true
         })
     })
+    function SeeInfo(roomID, hotelID) {
+        var clicks = $(this).data('clicks');
+        if (!clicks) {
+            open("/room/roomdetail?rid=" + roomID + "&hid=" + hotelID);
+        }
+    }
     function JudgeSel() {
         var slt=document.getElementById("RoomNum");
 
