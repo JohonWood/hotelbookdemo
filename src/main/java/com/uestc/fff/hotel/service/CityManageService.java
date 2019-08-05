@@ -47,4 +47,5 @@ public class CityManageService {
         cityExample.createCriteria().andCountryCodeEqualTo(countryCode);
         return cityMapper.selectByExample(cityExample);
     }
+
 }
