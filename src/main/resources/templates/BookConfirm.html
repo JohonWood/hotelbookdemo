@@ -257,7 +257,7 @@
                     <p style="font-size: 18px"><b>订单</b></p>
                     <p th:object="${Users}"><b>账号: </b><span th:text="*{loginName}"></span></p>
                     <p><b>下单日期: </b><span id="timefound"></span></p>
-                    <p><b>入住日期: </b><span th:text="*{CheckinDate}"></span></p>
+                    <p><b>入住日期: </b><span th:text="*{#dates.format(CheckinDate, 'yyyy-MM-dd')}"></span></p>
                 </div>
                 <!-- /.col -->
             </div>
@@ -351,10 +351,30 @@
             <!-- this row will not appear when printing -->
             <div class="row no-print">
                 <div class="col-xs-12">
-                    <button type="button" class="btn btn-success pull-right col-md-2">
-                        <i class="fa fa-credit-card"></i> 提交订单
-                    </button>
-                    <button type="button" class="btn btn-danger pull-right col-md-1" style="margin-right: 5px;">
+                    <form action="/mybook/bookAction" method="post" role="form">
+                        <div class="hidden">
+                            <div class="form-group" th:object="${OrderInfo}">
+                                <!--order表-->
+                                <input th:field="${OrderInfo.hotelId}" type="text" class="form-control">
+                                <input th:field="${OrderInfo.roomNum}" type="text" class="form-control">
+                                <input th:field="${OrderInfo.orderTotalFee}" type="text" class="form-control">
+                                <input th:field="${OrderInfo.checkinTime}" type="text" class="form-control">
+                                <input th:field="${OrderInfo.customNum}" type="text" class="form-control">
+                                <input th:field="${OrderInfo.days}" type="text" class="form-control">
+                            </div>
+                            <div class="form-group" th:object="${OtrInfo}">
+                                <!--orderTR表-->
+                                <input th:field="${OtrInfo.roomId1}" type="text" class="form-control">
+                                <input th:field="${OtrInfo.roomId2}" type="text" class="form-control">
+                                <input th:field="${OtrInfo.roomId3}" type="text" class="form-control">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success pull-right col-md-2">
+                            <i class="fa fa-credit-card"></i> 提交订单
+                        </button>
+                    </form>
+                    <button type="button" class="btn btn-danger pull-right col-md-1" style="margin-right: 5px;"
+                            data-th-attr="onclick='goback()'">
                         <i class="fa fa-arrow-left"></i> 取消订单
                     </button>
                 </div>
@@ -416,12 +436,19 @@
         if(s<10){
             s = "0"+s;
         }
-        TimeNow = m+"/"+d+"/"+y;
+        TimeNow = y+"/"+m+"/"+d+" "+h+":"+minute+":"+s;
         document.getElementById(timeID.id).innerHTML =  y+"-"+m+"-"+d+"   "+h+":"+minute+":"+s+"  "+ww;
     }
 
     window.onload = function(){
             document.getElementById("timefound").innerHTML=TimeNow;
+    }
+
+    function goback() {
+        var clicks = $(this).data('clicks');
+        if (!clicks) {
+            history.go(-1);
+        }
     }
 </script> 
 </body>

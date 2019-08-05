@@ -38,7 +38,6 @@ public class BookListService {
         return roomInfoMapper.selectByPrimaryKey(rid);
     }
 
-
     public OrderTR RoomNumInfo(String oid){ return RoomNumInfoMapper.selectByOid(oid); }
 
     public List<RoomInfo> RoomInfoList(String hid) { return  roomListMapper.selectByHotel(hid); }
@@ -51,10 +50,17 @@ public class BookListService {
 
     public UserInfo UserInfomation(String uid)  { return userInfoMapper.selectByPrimaryKey(uid); }
 
-    public void DeleteOrder(String oid){ orderInfoMapper.deleteByPrimaryKey(oid); }
+    //public void DeleteOrder(String oid){ orderInfoMapper.deleteByPrimaryKey(oid); }
 
-    public void SaveOrder(OrderInfo orderInfo){ orderInfoMapper.insert(orderInfo); }
+    public void UpdateDays(String oid){
+        OrderInfo orderInfo = new OrderInfo();
+        orderInfo.setOrderId(oid);
+        orderInfo.setDays(-1);
+        orderInfoMapper.updateByPrimaryKeySelective(orderInfo);
+    }
 
-    public void SaveOrderTR(OrderTR orderTR){ orderTRMapper.insert(orderTR); }
+    public void SaveOrder(OrderInfo orderInfo){ orderInfoMapper.insertSelective(orderInfo); }
+
+    public void SaveOrderTR(OrderTR orderTR){ orderTRMapper.insertSelective(orderTR); }
 }
 

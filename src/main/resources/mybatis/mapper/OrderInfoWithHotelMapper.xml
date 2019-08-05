@@ -32,6 +32,8 @@
     <result column="Hotel_rating" jdbcType="REAL" property="hotelRating" />
     <result column="Hotel_currency" jdbcType="VARCHAR" property="hotelCurrency" />
     <result column="Hotel_reviewnum" jdbcType="INTEGER" property="hotelReviewnum" />
+    <result column="Hotel_longitude" jdbcType="DOUBLE" property="hotelLongitude" />
+    <result column="Hotel_latitude" jdbcType="DOUBLE" property="hotelLatitude" />
   </resultMap>
 
   <select id="selectOne" parameterType="java.lang.String" resultMap="BaseResultMap">

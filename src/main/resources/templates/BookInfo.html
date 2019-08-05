@@ -238,9 +238,12 @@
                                                 <td th:text="${'客户电话: '+User.userPhone}"></td>
                                                 <td th:text="${'身份证号: '+User.userId}"></td>
                                                 <td th:each="Order : ${Orders}">
-                                                    <button type="button" class="btn btn-block btn-danger"
+                                                    <button type="button" class="btn btn-block btn-danger" th:if="${Order.days ne -1}"
                                                              data-th-attr="onclick='CheckOut(\'' + ${Order.orderId} + '\')'">
                                                         退房
+                                                    </button>
+                                                    <button type="button" class="btn btn-block btn-danger disabled" th:if="${Order.days eq -1}">
+                                                        已退房
                                                     </button>
                                                 </td>
                                             </tr>
@@ -268,21 +271,21 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <tr  th:each="Room : ${Room1}">
+                                            <tr th:each="Room : ${Room1}">
                                                 <td><i class="fa fa-book"></i></td>
                                                 <td th:text="${Room.roomid}"></td>
                                                 <td th:text="${Room.roomType}"></td>
                                                 <td th:text="${'¥'+Room.roomFee}"></td>
                                                 <td th:text="${Room.roomBreakfirst}"></td>
                                             </tr>
-                                            <tr  th:each="Room : ${Room2}" th:if="${Room2}">
+                                            <tr th:each="Room : ${Room2}" th:if="${Room2}">
                                                 <td><i class="fa fa-book"></i></td>
                                                 <td th:text="${Room.roomid}"></td>
                                                 <td th:text="${Room.roomType}"></td>
                                                 <td th:text="${'¥'+Room.roomFee}"></td>
                                                 <td th:text="${Room.roomBreakfirst}"></td>
                                             </tr>
-                                            <tr  th:each="Room : ${Room3}" th:if="${Room3}">
+                                            <tr th:each="Room : ${Room3}" th:if="${Room3}">
                                                 <td><i class="fa fa-book"></i></td>
                                                 <td th:text="${Room.roomid}"></td>
                                                 <td th:text="${Room.roomType}"></td>
