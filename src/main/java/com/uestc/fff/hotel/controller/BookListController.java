@@ -27,6 +27,7 @@ public class BookListController {
     @Autowired
     private searchService serviceSearch;
 
+/******************************************************订单列表页面******************************************************/
     @RequestMapping("/booklist")
     public String BookListPages(Model model, HttpSession session, HttpServletResponse response){
         UserInfo userInfotest = (UserInfo) session.getAttribute("user");
@@ -56,6 +57,8 @@ public class BookListController {
         return "BookList";
     }
 
+/*******************************************************订单详情页面******************************************************/
+
     @RequestMapping("/bookinfo")
     public String BookInfoPages(@RequestParam("oid") String oid, Model model, HttpSession session, HttpServletResponse response){
         UserInfo userInfotest = (UserInfo) session.getAttribute("user");
@@ -73,6 +76,7 @@ public class BookListController {
                 String hid = serviceBook.OrderInfomation(oid).getHotelId();
 
                 OrderTR RoomNumInfo = serviceBook.RoomNumInfo(oid);
+                model.addAttribute("RoomAll",RoomNumInfo);
                 String rid1 = RoomNumInfo.getRoomId1();
                 String rid2 = RoomNumInfo.getRoomId2();
                 String rid3 = RoomNumInfo.getRoomId3();
@@ -99,14 +103,34 @@ public class BookListController {
 
         return "BookInfo";
     }
-
-    @GetMapping("/checkout")
-    @ResponseBody
-    public void CheckOut(@RequestParam("oid") String oid){
+    /****************************************退房操作*****************************************/
+    @PostMapping("/checkout")
+    public void CheckOut(OrderInfo orderInfo, OrderTR orderTR, HttpServletResponse response){
         //serviceBook.DeleteOrder(oid);
-        serviceBook.UpdateDays(oid);
+        String rid1 = orderTR.getRoomId1();
+        String rid2 = orderTR.getRoomId2();
+        String rid3 = orderTR.getRoomId3();
+        serviceBook.UpdateDays(orderInfo.getOrderId());
+        serviceBook.IncreaseLastRooms(rid1);
+        if(!rid2.equals("")){
+            serviceBook.IncreaseLastRooms(orderTR.getRoomId2());
+        }
+        if(!rid3.equals("")){
+            serviceBook.IncreaseLastRooms(orderTR.getRoomId3());
+        }
+
+        response.setContentType("text/html;charset=utf-8");
+        PrintWriter writer = null;
+        try {
+            writer = response.getWriter();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        writer.write("<script> alert('退房成功'); location.href='/mybook/booklist';</script>");
+        writer.flush();
     }
 
+/*******************************************************酒店详情页面******************************************************/
 
     @RequestMapping("/book")
     public String BookPages(@RequestParam("hotelID") String hid, Model model, HttpSession session){
@@ -131,6 +155,8 @@ public class BookListController {
         return "Book";
     }
 
+/*******************************************************确认订单页面******************************************************/
+
     @RequestMapping("/bookconfirm")
     public String BookConfirmPages(HotelInfo hotelInfo,
                                    @RequestParam("RoomN") int RoomN,
@@ -143,9 +169,10 @@ public class BookListController {
                                    Model model, HttpSession session, HttpServletResponse response){
         UserInfo userInfotest = (UserInfo) session.getAttribute("user");
         response.setContentType("text/html;charset=utf-8");
+        PrintWriter writer = null;
 
         try{
-            PrintWriter writer = response.getWriter();
+            writer = response.getWriter();
             if (userInfotest == null) {
                 writer.write("<script> alert('请先登录');</script>");
                 return "login";
@@ -172,18 +199,31 @@ public class BookListController {
         model.addAttribute("Hotels",serviceBook.HotelInfomation(hid));
 
         RoomInfo r1 = serviceBook.RoomByType(hid,Se1);
+        Float price = r1.getRoomFee();//计算总价
         model.addAttribute("Type1", r1);
-        Float price = r1.getRoomFee();
+        if(r1.getRoomLast()==0){
+            writer.write("<script> alert('该房型已被预定完，请选择其他房型'); history.go(-1);</script>");
+            writer.flush();
+        }
+
         orderTR.setRoomId1(r1.getRoomid());
-        if(!Se2.equals("请选择")) {
+        if(!Se2.equals("")) {
             RoomInfo r2 = serviceBook.RoomByType(hid,Se2);
+            if(r2.getRoomLast()==0){
+                writer.write("<script> alert('该房型已被预定完，请选择其他房型'); history.go(-1);</script>");
+                writer.flush();
+            }
             price += r2.getRoomFee();
             orderTR.setRoomId2(r2.getRoomid());
             model.addAttribute("Type2", r2);
         }
         else { model.addAttribute("Type2", false); }
-        if(!Se3.equals("请选择")) {
+        if(!Se3.equals("")) {
             RoomInfo r3 = serviceBook.RoomByType(hid,Se3);
+            if(r3.getRoomLast()==0){
+                writer.write("<script> alert('该房型已被预定完，请选择其他房型'); history.go(-1);</script>");
+                writer.flush();
+            }
             price += r3.getRoomFee();
             orderTR.setRoomId3(r3.getRoomid());
             model.addAttribute("Type3", r3);
@@ -219,7 +259,7 @@ public class BookListController {
 
         return "BookConfirm";
     }
-
+    /*****************************************下单操作*****************************************/
     @PostMapping("/bookAction")
     public void BookAction(OrderInfo orderInfo0, OrderTR orderTR0,
                              HttpSession session, HttpServletResponse response, Model model){
@@ -244,6 +284,10 @@ public class BookListController {
         createUuid16.setUuid16();
         String oid = createUuid16.uuid16;
 
+        String rid1 = orderTR0.getRoomId1();
+        String rid2 = orderTR0.getRoomId2();
+        String rid3 = orderTR0.getRoomId3();
+
         orderInfo.setOrderId(oid);
         orderInfo.setUserId(uid);
         orderInfo.setHotelId(orderInfo0.getHotelId());
@@ -255,12 +299,19 @@ public class BookListController {
         orderInfo.setDays(orderInfo0.getDays());
 
         orderTR.setOrderId(oid);
-        orderTR.setRoomId1(orderTR0.getRoomId1());
-        orderTR.setRoomId2(orderTR0.getRoomId2());
-        orderTR.setRoomId3(orderTR0.getRoomId3());
+        orderTR.setRoomId1(rid1);
+        orderTR.setRoomId2(rid2);
+        orderTR.setRoomId3(rid3);
 
         serviceBook.SaveOrder(orderInfo);
         serviceBook.SaveOrderTR(orderTR);
+        serviceBook.DecreaseLastRooms(rid1);
+        if(!rid2.equals("")){
+            serviceBook.DecreaseLastRooms(rid2);
+        }
+        if(!rid3.equals("")){
+            serviceBook.DecreaseLastRooms(rid3);
+        }
 
         response.setContentType("text/html;charset=utf-8");
         PrintWriter writer = null;
