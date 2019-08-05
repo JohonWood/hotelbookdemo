@@ -29,6 +29,7 @@ public class searchController {
     searchService service;
     @RequestMapping("test")
     public String test(Model model,HttpServletRequest httpServletRequest){
+        System.out.println(httpServletRequest.getParameter("hotelID"));
         return "test";
     }
     @RequestMapping("/host")

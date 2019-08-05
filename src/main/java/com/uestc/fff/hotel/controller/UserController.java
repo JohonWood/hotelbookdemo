@@ -157,15 +157,6 @@ public class UserController {
     public String userInfoPages(Model model, HttpSession session){
 /*        boolean islogin;*/
         UserInfo userInfotest = (UserInfo) session.getAttribute("user");
-/*
-        if (userInfotest == null) { islogin = false; }
-        else  { islogin = true; }
-        model.addAttribute("isLogin",islogin);
-        model.addAttribute("User_name",userInfotest.getLoginName());
-        model.addAttribute("numOfOrders",serviceSearch.countOrder("1"));
-        List<order> orderList=serviceSearch.orderList("1");
-        model.addAttribute("orderList",orderList);
-*/
         model.addAttribute("userID",userInfotest.getUserId());
         model.addAttribute("userName",userInfotest.getUserName());
         model.addAttribute("userPhone",userInfotest.getUserPhone());
