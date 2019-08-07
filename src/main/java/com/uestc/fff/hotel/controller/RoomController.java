@@ -28,7 +28,6 @@ public class RoomController {
 
         UserInfo userInfotest = (UserInfo) session.getAttribute("user");
         boolean islogin;
-        //String hid = "108387";
         if (userInfotest == null) { islogin = false; }
         else  {
             islogin = true;
@@ -43,7 +42,6 @@ public class RoomController {
         model.addAttribute("countryList",listOfCountry);
         model.addAttribute("Hotels",serviceBook.HotelInfomation(hid));
 
-        //String rid = "171";//需要传值
         model.addAttribute("RoomType",serviceBook.RoomInfomation(rid).getRoomType());
         model.addAttribute("RoomArea","50平方米");
         model.addAttribute("Floor","6楼");
