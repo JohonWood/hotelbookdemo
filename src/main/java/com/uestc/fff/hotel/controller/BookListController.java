@@ -207,7 +207,7 @@ public class BookListController {
         }
 
         orderTR.setRoomId1(r1.getRoomid());
-        if(!Se2.equals("")) {
+        if(RoomN==2 || RoomN==3){
             RoomInfo r2 = serviceBook.RoomByType(hid,Se2);
             if(r2.getRoomLast()==0){
                 writer.write("<script> alert('该房型已被预定完，请选择其他房型'); history.go(-1);</script>");
@@ -216,19 +216,41 @@ public class BookListController {
             price += r2.getRoomFee();
             orderTR.setRoomId2(r2.getRoomid());
             model.addAttribute("Type2", r2);
+            if(RoomN==3){
+                RoomInfo r3 = serviceBook.RoomByType(hid,Se3);
+                if(r3.getRoomLast()==0){
+                    writer.write("<script> alert('该房型已被预定完，请选择其他房型'); history.go(-1);</script>");
+                    writer.flush();
+                }
+                price += r3.getRoomFee();
+                orderTR.setRoomId3(r3.getRoomid());
+                model.addAttribute("Type3", r3);
+            }
+            else { model.addAttribute("Type3", false); }
         }
         else { model.addAttribute("Type2", false); }
-        if(!Se3.equals("")) {
-            RoomInfo r3 = serviceBook.RoomByType(hid,Se3);
-            if(r3.getRoomLast()==0){
-                writer.write("<script> alert('该房型已被预定完，请选择其他房型'); history.go(-1);</script>");
-                writer.flush();
-            }
-            price += r3.getRoomFee();
-            orderTR.setRoomId3(r3.getRoomid());
-            model.addAttribute("Type3", r3);
-        }
-        else { model.addAttribute("Type3", false); }
+//        if(!Se2.equals("")) {
+//            RoomInfo r2 = serviceBook.RoomByType(hid,Se2);
+//            if(r2.getRoomLast()==0){
+//                writer.write("<script> alert('该房型已被预定完，请选择其他房型'); history.go(-1);</script>");
+//                writer.flush();
+//            }
+//            price += r2.getRoomFee();
+//            orderTR.setRoomId2(r2.getRoomid());
+//            model.addAttribute("Type2", r2);
+//        }
+//        else { model.addAttribute("Type2", false); }
+//        if(!Se3.equals("")) {
+//            RoomInfo r3 = serviceBook.RoomByType(hid,Se3);
+//            if(r3.getRoomLast()==0){
+//                writer.write("<script> alert('该房型已被预定完，请选择其他房型'); history.go(-1);</script>");
+//                writer.flush();
+//            }
+//            price += r3.getRoomFee();
+//            orderTR.setRoomId3(r3.getRoomid());
+//            model.addAttribute("Type3", r3);
+//        }
+//        else { model.addAttribute("Type3", false); }
         price *= RoomD;
 
         String d1 = RoomDate.substring(0,5);

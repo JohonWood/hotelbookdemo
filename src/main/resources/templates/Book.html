@@ -503,18 +503,18 @@
     function JudgeSel() {
         var slt=document.getElementById("RoomNum");
 
+        if(slt.value=="1"){
+            document.getElementById("Sel2").style.display="none";
+            document.getElementById("Sel3").style.display="none";
+        }
+
         if(slt.value=="2"){
             document.getElementById("Sel2").style.display="block";
-            document.getElementById("RoomSelect2").required="required"
-
             document.getElementById("Sel3").style.display="none";
         }
         if(slt.value=="3"){
             document.getElementById("Sel2").style.display="block";
-            document.getElementById("RoomSelect2").required="required"
-
             document.getElementById("Sel3").style.display="block";
-            document.getElementById("RoomSelect3").required="required"
         }
     }
 </script>
