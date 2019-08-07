@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.uestc.fff.hotel.domain.pass.decryptBasedDes;
+import static com.uestc.fff.hotel.domain.pass.encryptBasedDes;
+
 @Controller
 @RequestMapping("/manage")
 public class ManageController {
@@ -320,6 +323,11 @@ public class ManageController {
         UserInfoExample userInfoExample = new UserInfoExample();
         userInfoExample.createCriteria().andUserIdEqualTo(userId);
         UserInfo userInfo = userManageService.listUser(userInfoExample).get(0);
+
+        String pass =  userInfo.getLoginPassword();
+        pass = decryptBasedDes(pass);
+        userInfo.setLoginPassword(pass);
+
         model.addAttribute("userID", userInfo.getUserId());
         model.addAttribute("listUser", userInfo);
         return "UserEdit";
@@ -329,6 +337,11 @@ public class ManageController {
     public String updateUser(@RequestParam String userCode, UserInfo listUser) {
         UserInfoExample userInfoExample = new UserInfoExample();
         userInfoExample.createCriteria().andUserIdEqualTo(userCode);
+
+        String pass =  listUser.getLoginPassword();
+        pass = encryptBasedDes(pass);
+        listUser.setLoginPassword(pass);
+
         System.out.println(userCode);
         userManageService.updateUserById(listUser, userInfoExample);
         return "redirect:/manage/user";
