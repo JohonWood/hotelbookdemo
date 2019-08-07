@@ -100,7 +100,6 @@ public class UserController {
                 writer.write("<script> alert('密码错误'); history.go(-1);</script>");
                 writer.flush();
                 return;
-
             }
             else
             {
@@ -124,7 +123,6 @@ public class UserController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     @RequestMapping(value = "/logoutAction")
@@ -181,7 +179,6 @@ public class UserController {
             e.printStackTrace();
         }
     }
-
 
     @PostMapping("/changepassword")
     public void changePassword(HttpSession session, HttpServletResponse response,
