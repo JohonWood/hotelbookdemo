@@ -29,8 +29,6 @@ import java.util.Base64.Decoder;
 public class UserController {
     @Autowired
     private UserService userService;
-    @Autowired
-    private searchService serviceSearch;
 
     /************注册****************/
     @RequestMapping(value = "/register")
@@ -61,10 +59,11 @@ public class UserController {
                 writer.write("<script> alert('注册成功,请登录'); location.href='login';</script>");
                 writer.flush();
                 
-            } else {
+            }
+            else
+             {
                 writer.write("<script> alert('账号已被使用或两次输入密码不一致，请重新注册'); history.go(-1);</script>");
                 writer.flush();
-                
             }
 
         } catch (IOException e) {
@@ -95,7 +94,6 @@ public class UserController {
                 writer.write("<script> alert('该账号不存在'); history.go(-1);</script>");
                 writer.flush();
                 return;
-
             }
             if (!userPassword.equals(decryptBasedDes(dbUser.getLoginPassword())))//将数据库中加密的密码解密后与输入的密码进行比较
              {
@@ -103,7 +101,9 @@ public class UserController {
                 writer.flush();
                 return;
 
-            } else {
+            }
+            else
+            {
                 //用session保存用户登录信息
                 session.setAttribute("user", dbUser);
                 //创建cookie对象来保存session的id
@@ -259,7 +259,9 @@ public class UserController {
             // 把字符串进行解码，解码为为字节数组，并解密
             Decoder decoder = Base64.getDecoder();
             decryptedData = new String(cipher.doFinal(decoder.decode(cryptData)));
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             throw new RuntimeException("解密错误，错误信息：", e);
         }
         return decryptedData;
