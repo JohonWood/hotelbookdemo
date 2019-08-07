@@ -1,7 +1,6 @@
 package com.uestc.fff.hotel.controller;
 
 import com.uestc.fff.hotel.domain.UserInfo;
-import com.uestc.fff.hotel.domain.order;
 import com.uestc.fff.hotel.service.UserService;
 import com.uestc.fff.hotel.service.searchService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,6 @@ import java.security.SecureRandom;
 import java.util.Base64;
 import java.util.Base64.Encoder;
 import java.util.Base64.Decoder;
-import java.util.List;
 
 
 @Controller
@@ -58,8 +56,8 @@ public class UserController {
                 dbUser.setUserPhone(userPhone);
                 dbUser.setLoginName(loginName);
                 dbUser.setLoginPassword(encryptBasedDes(loginPassword));//将加密后的密码存入
-                userService.insertUserInfo(dbUser);
-                //保存注册信息到数据库
+                userService.insertUserInfo(dbUser); //保存注册信息到数据库
+
                 writer.write("<script> alert('注册成功,请登录'); location.href='login';</script>");
                 writer.flush();
                 
@@ -113,15 +111,14 @@ public class UserController {
                 cookie.setMaxAge(86400);//保存一天
                 response.addCookie(cookie);
 
-                if ( "admin".equals(dbUser.getUserId())){
-
+                if ( "admin".equals(dbUser.getUserId()))
+                {
                     writer.write("<script> alert('登录成功'); location.href='/manage/country';</script>");
                     writer.flush();
                     
                 } else {//普通用户登录
                     writer.write("<script> alert('登录成功'); location.href='/504/host?islogin=true';</script>");
                     writer.flush();
-                   
                 }
             }
         } catch (IOException e) {
