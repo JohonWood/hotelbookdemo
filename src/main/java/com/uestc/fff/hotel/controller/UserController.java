@@ -7,20 +7,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.crypto.Cipher;
-import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.DESKeySpec;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.security.SecureRandom;
-import java.util.Base64;
-import java.util.Base64.Encoder;
-import java.util.Base64.Decoder;
 
 import static com.uestc.fff.hotel.domain.pass.decryptBasedDes;
 import static com.uestc.fff.hotel.domain.pass.encryptBasedDes;
