@@ -1,6 +1,5 @@
 package com.uestc.fff.hotel.controller;
 
-import com.sun.tools.corba.se.idl.constExpr.Or;
 import com.uestc.fff.hotel.domain.*;
 import com.uestc.fff.hotel.service.BookListService;
 import com.uestc.fff.hotel.service.searchService;

@@ -81,10 +81,12 @@ public class searchController {
             model.addAttribute("resultNum",0);
             session.setAttribute("resultList", fullSearResultList);
             session.setAttribute("originList",fullSearResultList);
+            session.setAttribute("orderedList",fullSearResultList);
         }
         else{
             session.setAttribute("resultList", resultList);
             session.setAttribute("originList",resultList);
+            session.setAttribute("orderedList",resultList);
             if(resultList.size()<10){
                 for(int i=0;i<resultList.size();i++){
                     fullSearResultList.add(resultList.get(i));
@@ -102,6 +104,7 @@ public class searchController {
 
             model.addAttribute("resultNum",resultList.size());
             model.addAttribute("resultList",fullSearResultList);
+            model.addAttribute("fullResult",resultList);
         }
 
         return "searchResult";
@@ -133,7 +136,7 @@ public class searchController {
         String highGrade=httpServletRequest.getParameter("highGrade");
         String lowGrade=httpServletRequest.getParameter("lowGrade");
         String rating=httpServletRequest.getParameter("rating");
-        List<FullSearResult> fullSearResultList=(List<FullSearResult>) session.getAttribute("originList");
+        List<FullSearResult> fullSearResultList=(List<FullSearResult>) session.getAttribute("orderedList");
         List<FullSearResult> resultList=service.filterPrice(lowPrice,highPrice,fullSearResultList);
         resultList=service.filterGrade(lowGrade,highGrade,resultList);
         resultList=service.filterRating(rating,resultList);
@@ -146,20 +149,28 @@ public class searchController {
         String orderChoose=httpServletRequest.getParameter("orderChoose");
 
         List<FullSearResult> resultList=(List<FullSearResult>) session.getAttribute("resultList");
+        List<FullSearResult> orderedList=(List<FullSearResult>) session.getAttribute("orderedList");
         if(orderChoose.equals("1")){
             resultList=service.orderRating(resultList);
+            orderedList=service.orderRating(orderedList);
+
         }
         else if(orderChoose.equals("2")){
             resultList=service.orderGrade(resultList);
+            orderedList=service.orderGrade(orderedList);
+
         }
         else if(orderChoose.equals("3.5")){
             resultList=service.orderPriceHTL(resultList);
+            orderedList=service.orderPriceHTL(orderedList);
 
         }
         else if(orderChoose.equals("3")){
             resultList=service.orderPriceLTH(resultList);
+            orderedList=service.orderPriceLTH(orderedList);
         }
         session.setAttribute("resultList",resultList);
+        session.setAttribute("orderedList",orderedList);
         return resultList;
     }
 
@@ -167,6 +178,30 @@ public class searchController {
     @ResponseBody
     public List<FullSearResult> locResult(Model model ,HttpServletRequest httpServletRequest,HttpServletResponse httpServletResponse,HttpSession session){
         List<FullSearResult> resultList=(List<FullSearResult>) session.getAttribute("resultList");
+        return resultList;
+    }
+
+    @RequestMapping("/searchList")
+    @ResponseBody
+    public List<FullSearResult> searchList(Model model,HttpServletRequest httpServletRequest,HttpServletResponse httpServletResponse,HttpSession session) throws UnsupportedEncodingException {
+        String hotelKey=httpServletRequest.getParameter("hotelKey");
+        String countryKey=URLDecoder.decode(httpServletRequest.getParameter("countryKey"),"UTF-8");
+        String cityKey=URLDecoder.decode(httpServletRequest.getParameter("cityKey"),"UTF-8");
+        System.out.println(hotelKey+countryKey+cityKey);
+        List<FullSearResult> resultList=service.fullSearch(hotelKey,countryKey,cityKey);
+        List<FullSearResult> fullSearResultList=new ArrayList<FullSearResult>();
+        if(resultList==null){
+            session.setAttribute("resultList", fullSearResultList);
+            session.setAttribute("originList",fullSearResultList);
+            session.setAttribute("orderedList",fullSearResultList);
+            return fullSearResultList;
+        }
+        else {
+            session.setAttribute("resultList", resultList);
+            session.setAttribute("originList", resultList);
+            session.setAttribute("orderedList",resultList);
+        }
+
         return resultList;
     }
 

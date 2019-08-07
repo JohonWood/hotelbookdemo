@@ -45,10 +45,9 @@
             margin-left: -10px;
             z-index:999
         }
-        #allmap{height:500px;width:700px;}
-        td{
-            heigh:30px;
+        #allmap{height:500px;width:1140px;position: absolute;
         }
+
     </style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini layout-top-nav">
@@ -83,17 +82,17 @@
                             </ul>
                         </li>
                     </ul>
-                    <form class="navbar-form navbar-left" role="search" th:action="@{/504/post}" method="post">
+                    <div class="navbar-form navbar-left" role="search">
                         <div class="input-group">
-                            <input type="text" name="hotelKey" class="form-control" placeholder="Search...">
+                            <input id="searchText" type="text" name="hotelKey" class="form-control" placeholder="Search...">
                             <span class="input-group-btn">
-                                <button type="submit" name="search" id="search-btn" class="btn btn-adn bg-purple-active"><i class="fa fa-search"></i>
+                                <button type="button" name="search" id="search-btn" class="btn btn-adn bg-purple-active"><i class="fa fa-search"></i>
                                 </button>
                                 <button type="button" name="search" id="Area-btn" class="btn btn-adn bg-purple-active dropdown-toggle" data-toggle="dropdown"><i class="fa fa-map-pin"></i>
                                 </button>
                                 <ul class="dropdown-menu navbar-static-top" role="menu">
                                 <li>
-                                    <select name="countryKey" class="select2" id="CountrySelect" style="width: 100%">
+                                    <select name="countryKey" class="select2 CountrySelect" id="CountrySelect" style="width: 100%">
                                     <option th:each="country: ${countryList}" th:text="${country}" th:if="${country}!='中国'"></option>
                                     <option th:each="country: ${countryList}" th:text="${country}" selected="selected" th:if="${country}=='中国'"></option>
                                     </select>
@@ -110,7 +109,7 @@
                         <!--<div class="form-group">-->
                             <!--<input type="text" class="form-control" id="navbar-search-input" placeholder="Search">-->
                         <!--</div>-->
-                    </form>
+                    </div>
                 </div>
                 <!-- /.navbar-collapse -->
                 <!-- Navbar Right Menu -->
@@ -231,7 +230,7 @@
     -o-background-size: cover;
     background-size: cover;'">
 
-        <div class="top " id="FilterDiv" style="z-index:999" >
+        <div class="top " id="FilterDiv" style="z-index:999;left: -200px" >
             <div class="box box-widget">
                 <div class="box-header bg-purple">
                     <div class="user-block">
@@ -239,13 +238,13 @@
                     </div>
                     <!-- /.user-block -->
                     <div class="box-tools">
-                        <button  type="button" class="btn btn-box-tool" id="filterBtn" ><i  class="fa fa-chevron-left fa-inverse"></i>
+                        <button  type="button" class="btn btn-box-tool" id="filterBtn" style="transform:rotate(180deg);" ><i  class="fa fa-chevron-left fa-inverse"></i>
                         </button>
                     </div>
                     <!-- /.box-tools -->
                 </div>
                 <!-- /.box-header -->
-                <div id="filterContent">
+                <div id="filterContent" style="display: none">
                     <div class="box-footer box-comments">
                         <div class="box-comment">
                             <div class="row" style="margin-left:10px">
@@ -329,7 +328,7 @@
                     <li><a href="#">搜索结果</a></li>
                 </ol>
             </section>
-            <nav class="navbar navbar-static-top bg-purple" role="navigation" style="margin-top:20px;margin-bottom:0px;width:100%;z-index: 1;">
+            <nav class="navbar navbar-static-top bg-purple" role="navigation" style="margin-top:20px;margin-bottom:0px;width:100%;z-index: 3;">
                 <div class="container">
 
                     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -369,30 +368,66 @@
                 </div>
             </nav>
 
-            <div id="mapBox"  class="box pull-left" style="display: none;width: 437px;height: 500px;">
-                <div class="box box-widget widget-user-2" style="width: 437px;">
+            <div id="mapBox"  class="box pull-left" style="display: none;width:437px;height: 10px ;z-index:2 ;margin-bottom: 0px">
+                <div id="mapListNav" class="box box-widget widget-user-2" style="width: 437px;">
                     <!-- Add the bg color to the header using any of the bg-* classes -->
-                    <div class="widget-user-header bg-yellow">
-                        <div class="widget-user-image">
+                    <div  class="widget-user-header bg-purple" style="height: 50px;padding: 0px;">
+                        <div class="navbar-form navbar-left" role="search" style="margin-left: 10px">
+                            <div class="input-group">
+                                <input type="text" id="mapHKey" class="form-control" placeholder="Search...">
+                                <span class="input-group-btn">
+                                <button id="mapNavBtn" type="button" class="btn btn-adn bg-purple-active"><i class="fa fa-search"></i>
+                                </button>
+                                <button type="button" name="search" class="btn btn-adn bg-purple-active dropdown-toggle" data-toggle="dropdown"><i class="fa fa-map-pin"></i>
+                                </button>
+                                <ul class="dropdown-menu navbar-static-top" role="menu">
+                                <li>
+                                    <select class="select2 CountrySelect" id="CountrySelect2" style="width: 100%">
+                                    <option th:each="country: ${countryList}" th:text="${country}" th:if="${country}!='中国'"></option>
+                                    <option th:each="country: ${countryList}" th:text="${country}" selected="selected" th:if="${country}=='中国'"></option>
+                                    </select>
+                                </li>
+                                <li>
+                                    <select class="form-control input-lg select2" id="CitySelect2" style="width: 100%">
+                                    <!--由JS代码生成-->
+                                    </select>
 
+                                </li>
+                            </ul>
+                            </span>
+                            </div>
+                            <!--<div class="form-group">-->
+                            <!--<input type="text" class="form-control" id="navbar-search-input" placeholder="Search">-->
+                            <!--</div>-->
                         </div>
-                        <!-- /.widget-user-image -->
-                        <h3 class="widget-user-username">Nadia Carmichael</h3>
-                        <h5 class="widget-user-desc">Lead Developer</h5>
+                        <button class="navbar-right navbar-btn btn btn-box-tool" style="margin-right: 30px" id="mapLisrBtn"><i class="fa fa-2x fa-caret-down fa-inverse"></i> </button>
                     </div>
-                    <div class="box-footer no-padding">
+                    <div id="tableWrapper" class="box-footer no-padding scrollBox" style="position:absolute; width:437px; height:440px; overflow-y:scroll;overflow-x: hidden;position: absolute">
                         <table id="example2" class="table table-bordered table-hover">
                             <thead style="display: none">
                             <tr>
                                 <th></th>
                             </tr>
                             </thead>
-                            <tbody>
-                            <tr ><td><a class="liBtn"  >Projects 5<span class="pull-right badge bg-blue">31</span></a></td></tr>
-                            <tr ><td><a class="liBtn"  >Projects 2<span class="pull-right badge bg-blue">31</span></a></td></tr>
-                            <tr ><td><a class="liBtn"  >Projects 3<span class="pull-right badge bg-blue">31</span></a></td></tr>
-                            <tr ><td><a class="liBtn"  >Projects 4<span class="pull-right badge bg-blue">31</span></a></td></tr>
+                            <tbody id="tbody">
+                            <tr ><td><div class="mapListDiv">
+                                <a class="liBtn"  ><span>成都按时打算的撒酒店</span><span class="pull-right badge bg-blue" >7.1</span></a>
+                                <p style="display: none;"class="mapStar">
+                                    <span class="label label-warning">品质保证</span>
+                                    <span >
+                                        <i class="fa fa-fw fa-star"></i><i class="fa fa-fw fa-star"></i><i class="fa fa-fw fa-star"></i><i class="fa fa-fw fa-star"></i>
+                                    </span>
+                                </p>
+                                <small class="mapStar" style="display: none;"><span >某某路某某街道12号</span> </small>
+                            </div>
+                            </td>
+                            </tr>
+
                             </tbody>
+                            <!--<tbody th:each="fResult,fResultStat: ${fullResult}" th:if="${resultNum!=0}">-->
+                                <!--<tr ><td><div class="mapListDiv"><a class="liBtn"  ><span class="badge badge-pill" th:text="${fResultStat.count}"></span> <span th:text="${fResult.hotelName}"></span><span class="pull-right badge bg-blue" >31</span></a></div></td></tr>-->
+
+                            <!--</tbody>-->
                         </table>
 
                     </div>
@@ -444,7 +479,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="text-center btn bg-purple center-block downList" title="加载10项" id="downList" th:if="${resultNum > 11}">
+                <div class="text-center btn bg-purple center-block downList" title="加载10项" id="downList" >
                     <span ><i class="fa fa-fw fa-chevron-down"></i></span>
                 </div>
             </section>
@@ -458,12 +493,14 @@
         <footer class="main-footer fixed">
         <!-- To the right -->
         <div class="pull-right hidden-xs">
-            电子科技大学第22组
+            电子科技大学第20组
         </div>
         <!-- Default to the left -->
         <strong>Copyright &copy; 2019 <a href="https://www.uestc.edu.cn/">电子科技大学</a>.</strong> All rights reserved.
     </footer>
 </div>
+
+
 
 
 <script type="text/javascript" th:src="@{/adminlte/bower_components/jquery/dist/jquery.min.js}"
@@ -498,30 +535,152 @@
 
 <script th:inline="javascript">
     var indexOfList=10;
-    var filterAni=false;
+    var filterAni=true;
     var orderArrow=false;
     var orderClick=false;
-    var map = new BMap.Map("allmap");
-    var point = new BMap.Point(116.331398,39.897445);
+    var mapListArrow=false;
+    var pointArray=new Array()
+    var nowPArray=new Array()
+    var infoArray=new Array()
+    var map = new BMap.Map("allmap",{enableMapClick:false});
+    var point = new BMap.Point(104.06,30.67);
     map.centerAndZoom(point,12);
+    var top_left_control = new BMap.ScaleControl({anchor: BMAP_ANCHOR_TOP_LEFT});// 左上角，添加比例尺
+    var top_left_navigation = new BMap.NavigationControl();  //左上角，添加默认缩放平移控件
+    var top_right_navigation = new BMap.NavigationControl({anchor: BMAP_ANCHOR_TOP_RIGHT, type: BMAP_NAVIGATION_CONTROL_SMALL}); //右上角，仅包含平移和缩放按钮
+    map.addControl(top_left_control);
+    map.addControl(top_left_navigation);
+    map.addControl(top_right_navigation);
+    map.enableScrollWheelZoom();
+    var infoWindow = new BMap.InfoWindow("sadasdasd",opts);
 
-    map.setMapStyleV2({
-        styleId: '5744eefececb47cb102e5995c308a0f3'
-    });
+
+    function myFun(result){
+        var cityName = result.name;
+        map.setCenter(cityName);
+    }
+    var myCity = new BMap.LocalCity();
+    myCity.get(myFun);
+
+    var opts = {
+        width : 250,     // 信息窗口宽度
+        height: 80,     // 信息窗口高度
+        title : "信息窗口" , // 信息窗口标题
+        enableMessage:true//设置允许信息窗发送短息
+    };
+
+    $('#tbody').empty()
+    for (var i=0;i<[[${resultNum}]];i++){
+        $('#tbody').append(
+            '<tr ><td><div class="mapListDiv" id="mLD'+(parseInt(i)+1)+'" >\n' +
+            '    <span class="badge bg-red">'+(parseInt(i)+1)+'</span><a class="liBtn"  href="/mybook/book?hotelID='+[[${fullResult}]][i]["hotelId"]+'">'+[[${fullResult}]][i]["hotelName"]+'<span class="pull-right badge bg-blue" >'+[[${fullResult}]][i]["hotelRating"]+'</span></a>\n' +
+            '        <p style="display: none;"class="mapStar">\n' +
+            '            <span class="label label-warning">品质保证</span>\n' +
+            '            <span id="mapGrade'+(parseInt(i)+1)+'">\n' +
+            '            </span>\n' +
+            '        </p>\n' +
+            '        <small class="mapStar" style="display: none;"><span >'+[[${fullResult}]][i]["hotelAddress"]+'</span> </small>\n' +
+            '    </div>\n' +
+            '    </td>\n' +
+            '</tr>'
+        )
+        for (var j=0;j<[[${fullResult}]][i]["hotelGrade"];j++){
+            $('#mapGrade'+(parseInt(i)+1)).append('<i class="fa fa-fw fa-star">')
+        }
+        var content=
+        '<div>\n' +
+        '    <span class="badge bg-red">'+(parseInt(i)%10+1)+'</span><a href="/mybook/book?hotelID='+[[${fullResult}]][i]["hotelId"]+'">'+[[${fullResult}]][i]["hotelName"]+'<span class="pull-right badge bg-blue" >'+[[${fullResult}]][i]["hotelRating"]+'</span></a>\n' +
+        '        <p >\n' +
+        '            <span class="label label-warning">品质保证</span>\n' +
+        '            <span id="mapGradeT'+(parseInt(i)+1)+'">\n' +
+                         [[${fullResult}]][i]["hotelGrade"]+'星级' +
+        '            </span>\n' +
+        '        </p>\n' +
+        '        <small><span >'+[[${fullResult}]][i]["hotelAddress"]+'</span> </small>\n' +
+        '    </div>\n'
+        var infoWindow = new BMap.InfoWindow(content);
+        infoArray.push(infoWindow)
+        var lng=parseFloat([[${fullResult}]][i]["lng"])
+        var lat=parseFloat([[${fullResult}]][i]["lat"])
+        var point=new BMap.Point(lng, lat)
+        pointArray[i]=point;
+        if (i<10){
+            console.log(point)
+            addMarker(point,i)
+        } else {
+            continue
+        }
+
+    }
+    console.log(infoArray)
 
     $("td").click(function () {
-        $('td').animate({height:'30px'},250)
-        $(this).animate({height:'100px'},250)
+        if ($(this).children("div.mapListDiv").css("height")=="75px"){
+            $(this).children("div.mapListDiv").children(".mapStar").slideUp(100,function () {
+                $('td').children("div.mapListDiv").animate({height:'20px'},250)
+            });
+            map.closeInfoWindow()
+
+        }
+        else{
+            $('td').children("div.mapListDiv").children(".mapStar").slideUp(100)
+            $('td').children("div.mapListDiv").animate({height:'20px'},250)
+            $(this).children("div.mapListDiv").animate({height:'75px'},250)
+            $(this).children("div.mapListDiv").children(".mapStar").slideDown(100)
+            var t=parseInt(($(this).children("div.mapListDiv").attr("id")).substring(3))-1
+            var x=parseInt($(this).children("div.mapListDiv").children(".bg-red").text())-1
+            map.openInfoWindow(infoArray[t],nowPArray[x]);
+            map.panTo(nowPArray[x])
+        }
     })
+    $('#example2').DataTable({
+        'paging'      : true,
+        'lengthChange': false,
+        'searching'   : false,
+        'ordering'    : false,
+        'info'        : false,
+        'autoWidth'   : false
+    })
+
+    $("#example2_paginate").css({"position":"absolute","left":"-150px"})
+    $("#example2_paginate").children("ul").children(".previous").children("a").text("上一页")
+    $("#example2_paginate").children("ul").children(".next").children("a").text("下一页")
+    $(".dataTables_empty").text("无搜索结果")
+
+    $("#example2_paginate").on("click",function (event) {
+        $("#example2_paginate").children("ul").children(".previous").children("a").text("上一页")
+        $("#example2_paginate").children("ul").children(".next").children("a").text("下一页")
+        var index=$(this).children("ul").children(".active").children("a").text()
+        console.log(index)
+        for (var i=1;i<=10;i++){
+            $('#mLD'+((parseInt(index)-1)*10+i)).children("span.bg-red").text(i)
+        }
+        deletePoint()
+        map.closeInfoWindow()
+        nowPArray.length=0
+        for (var j=0;j<10;j++){
+            var x=(parseInt(index)-1)*10+j
+            addMarker(pointArray[x],x)
+            console.log(pointArray[x])
+        }
+        console.log(nowPArray)
+    })
+
+    $("#mapNavBtn").click(function () {
+
+    })
+
+
+
     $("#topArrow").click(function(){
         $(document).scrollTop(0);
     })
 
     $('#filterBtn').click(function () {
         if (filterAni==false){
-            $('#filterContent').hide(500,function () {
+            $('#filterContent').slideUp(250,function () {
                 $('#FilterDiv').animate({left:'-200px'},function () {
-                    $('#filterBtn').rotate({animateTo: 180,duration:500});
+                    $('#filterBtn').rotate({animateTo: 180,duration:250});
 
                 });
             });
@@ -529,8 +688,8 @@
         }
         else{
             $('#FilterDiv').animate({left:'15px'},function (){
-                $('#filterContent').show(500,function () {
-                    $('#filterBtn').rotate({animateTo: 0,duration:500});
+                $('#filterContent').slideDown(250,function () {
+                    $('#filterBtn').rotate({animateTo: 0,duration:250});
                 })
             })
             filterAni=false;
@@ -539,17 +698,47 @@
 
     })
 
+    $('#mapLisrBtn').click(function () {
+        if (mapListArrow==false){
+            $('#tableWrapper').slideUp(500,function () {
+                $('#mapLisrBtn').rotate({animateTo: 180,duration:500});
+                $('#mapListNav').slideUp(100)
+                $('#mapBox').on("mouseenter",function () {
+                    $('#mapListNav').slideDown(100)
+                })
+                $('#mapBox').on("mouseleave",function () {
+                    $('#mapListNav').slideUp(100)
+                })
+            });
+            mapListArrow=true;
+        }
+        else{
+            $('#mapBox').off("mouseleave")
+            $('#mapBox').off("mouseenter")
+            $('#tableWrapper').slideDown(500,function () {
+                $('#mapLisrBtn').rotate({animateTo: 0,duration:500});
+
+            })
+            mapListArrow=false;
+        }
+
+
+    })
+
 
     $('#listSwitch').click(function(){
-        $('#mapBox').slideUp(500)
-        $('#allmap').slideUp(500,function () {
-            $('#resultSection').slideDown(1000,function () {
+        $('#mapBox').slideUp(250)
+        $('#allmap').slideUp(250,function () {
+            $('#resultSection').slideDown(350,function () {
                 if ($('#numOfHotel').text()=="0") {
-                    $('.downList').slideDown(1000);
+
+
                 }
                 else {
-                    $('.fullResultBox').slideDown(1000,function () {
-                        $('.downList').slideDown(1000);
+                    $('.fullResultBox').slideDown(350,function () {
+                        if ($("#numOfHotel").text()>10){
+                            $('.downList').slideDown(350);
+                        }
                     })
                 }
 
@@ -561,16 +750,16 @@
         $('.downList').slideUp();
 
             if($('#numOfHotel').text()=="0"){
-                $('#resultSection').slideUp(1000,function () {
-                    $('#allmap').slideDown(500)
-                    $('#mapBox').slideDown(500)
+                $('#resultSection').slideUp(250,function () {
+                    $('#allmap').slideDown(350)
+                    $('#mapBox').slideDown(350)
                 })
             }
             else{
-                $('.fullResultBox').slideUp(1000,function () {
-                    $('#resultSection').slideUp(1000,function () {
-                        $('#allmap').slideDown(500)
-                        $('#mapBox').slideDown(500)
+                $('.fullResultBox').slideUp(250,function () {
+                    $('#resultSection').slideUp(250,function () {
+                        $('#allmap').slideDown(350)
+                        $('#mapBox').slideDown(350)
                     })
                 })
             }
@@ -586,14 +775,14 @@
     }
 
     $(function () {
-        $('#example2').DataTable({
-            'paging'      : true,
-            'lengthChange': false,
-            'searching'   : false,
-            'ordering'    : false,
-            'info'        : true,
-            'autoWidth'   : false
-        })
+        var resultNumX=[[${resultNum}]]
+        if (resultNumX>11) {
+            $("#downList").show();
+        }
+        else{
+            $("#downList").hide();
+        }
+
         xmlhttp.open("GET", "/504/city?country=" + encodeURI(encodeURI($("#CountrySelect").val())), true);
         xmlhttp.send();
         xmlhttp.onreadystatechange = function () {
@@ -604,9 +793,12 @@
                 for (x in jsonData) {
                     if (jsonData[x]=="成都") {
                         $("#CitySelect").append('<option selected="selected">' + jsonData[x] + '</option>');
+                        $("#CitySelect2").append('<option selected="selected">' + jsonData[x] + '</option>');
                     }
                     else{
                         $("#CitySelect").append('<option>' + jsonData[x] + '</option>');
+                        $("#CitySelect2").append('<option>' + jsonData[x] + '</option>');
+                        console.log("tesdasdas")
                     }
 
                 }
@@ -614,54 +806,11 @@
             }
         }
     })
-
-    $(".whiteToB").mouseenter(function () {
-        $(this).css("color","black")
-        $(this).css("background","white")
-    })
-
-    $(".whiteToB").mouseleave(function () {
-        $(this).css("color","white")
-        $(this).css("background","#605ca8")
-    })
-    $(".whiteToB").click(function () {
-        if (orderClick==false){
-            $(".whiteToB").css("color","white")
-            $(".whiteToB").css("background","#605ca8")
-            $(this).css("background","white")
-            $(this).css("color","black")
-            $(this).unbind("mouseleave")
-            orderClick=true;
-        }
-        else{
-            $(".whiteToB").css("color","white")
-            $(".whiteToB").css("background","#605ca8")
-            $(".whiteToB").bind("mouseleave",function () {
-                $(this).css("color","white")
-                $(this).css("background","#605ca8")
-            })
-            $(this).css("background","white")
-            $(this).css("color","black")
-            $(this).unbind("mouseleave")
-        }
-        
-        if ($(this).text()=="评分"){
-            var orderChoose=1;
-        }
-        else if ($(this).text()=="星级"){
-            var orderChoose=2;
-        }
-        else if ($(this).text()=="价格"){
-
-            if (orderArrow==false) {
-                var orderChoose=3.5;
-            }
-            else{
-                var orderChoose=3.0;
-            }
-        }
-
-        xmlhttp.open("GET", "/504/order?orderChoose="+orderChoose, true);
+    $("#mapNavBtn").click(function () {
+        var text=$('#mapHKey').val()
+        var coKey=encodeURI(encodeURI($("#CountrySelect2").val()))
+        var ciKey=encodeURI(encodeURI($("#CitySelect2").val()))
+        xmlhttp.open("GET", "/504/searchList?hotelKey="+text+"&countryKey="+coKey+"&cityKey="+ciKey, true);
         xmlhttp.send();
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -671,10 +820,122 @@
                 var num = parseInt(text.length)
                 $('#numOfHotel').text(num);
                 $('.fullResultBox').remove();
+                infoArray.length=0
+                pointArray.length=0
+                nowPArray.length=0
+                deletePoint()
+                $('#tableWrapper').empty();
+                $('#tableWrapper').append('<table id="example2" class="table table-bordered table-hover">\n' +
+                    '                            <thead style="display: none">\n' +
+                    '                            <tr>\n' +
+                    '                                <th></th>\n' +
+                    '                            </tr>\n' +
+                    '                            </thead>\n' +
+                    '                            <tbody id="tbody">\n' +
+                    '                            </tbody>\n' +
+                    '                        </table>')
+                for (var j=0;j<num;j++) {
+                    $('#tbody').append(
+                        '<tr ><td><div class="mapListDiv" id="mLD'+(parseInt(j)+1)+'" >\n' +
+                        '    <span class="badge bg-red">'+(parseInt(j)+1)+'</span><a class="liBtn"  href="/mybook/book?hotelID='+text[j]["hotelId"]+'">'+text[j]["hotelName"]+'<span class="pull-right badge bg-blue" >'+text[j]["hotelRating"]+'</span></a>\n' +
+                        '        <p style="display: none;"class="mapStar">\n' +
+                        '            <span class="label label-warning">品质保证</span>\n' +
+                        '            <span id="mapGrade'+(parseInt(j)+1)+'">\n' +
+                        '            </span>\n' +
+                        '        </p>\n' +
+                        '        <small class="mapStar" style="display: none;"><span >'+text[j]["hotelAddress"]+'</span> </small>\n' +
+                        '    </div>\n' +
+                        '    </td>\n' +
+                        '</tr>'
+                    )
+                    for (var k=0;k<text[j]["hotelGrade"];k++){
+                        $('#mapGrade'+(parseInt(j)+1)).append('<i class="fa fa-fw fa-star">')
+                    }
+                    var content=
+                        '<div>\n' +
+                        '    <span class="badge bg-red">'+(parseInt(j)%10+1)+'</span><a href="/mybook/book?hotelID='+text[j]["hotelId"]+'">'+text[j]["hotelName"]+'<span class="pull-right badge bg-blue" >'+text[j]["hotelRating"]+'</span></a>\n' +
+                        '        <p >\n' +
+                        '            <span class="label label-warning">品质保证</span>\n' +
+                        '            <span id="mapGradeT'+(parseInt(j)+1)+'">\n' +
+                        text[j]["hotelGrade"]+'星级' +
+                        '            </span>\n' +
+                        '        </p>\n' +
+                        '        <small><span >'+text[j]["hotelAddress"]+'</span> </small>\n' +
+                        '    </div>\n'
+                    var infoWindow = new BMap.InfoWindow(content);
+                    infoArray.push(infoWindow)
+                    var lng=parseFloat(text[j]["lng"])
+                    var lat=parseFloat(text[j]["lat"])
+                    var point=new BMap.Point(lng, lat)
+                    pointArray[j]=point;
+                    if (j<10){
+                        console.log(point)
+                        addMarker(point,j)
+                    }
+                    else {
+                        continue
+                    }
+
+                }
+                $("td").click(function () {
+                    if ($(this).children("div.mapListDiv").css("height")=="75px"){
+                        $(this).children("div.mapListDiv").children(".mapStar").slideUp(100,function () {
+                            $('td').children("div.mapListDiv").animate({height:'20px'},250)
+                        });
+                        map.closeInfoWindow()
+
+                    }
+                    else{
+                        $('td').children("div.mapListDiv").children(".mapStar").slideUp(100)
+                        $('td').children("div.mapListDiv").animate({height:'20px'},250)
+                        $(this).children("div.mapListDiv").animate({height:'75px'},250)
+                        $(this).children("div.mapListDiv").children(".mapStar").slideDown(100)
+                        var t=parseInt(($(this).children("div.mapListDiv").attr("id")).substring(3))-1
+                        var x=parseInt($(this).children("div.mapListDiv").children(".bg-red").text())-1
+                        map.openInfoWindow(infoArray[t],nowPArray[x]);
+                        map.panTo(nowPArray[x])
+                    }
+                })
+                $('#example2').DataTable({
+                    'paging'      : true,
+                    'lengthChange': false,
+                    'searching'   : false,
+                    'ordering'    : false,
+                    'info'        : false,
+                    'autoWidth'   : false
+                })
+
+
+                $("#example2_paginate").css({"position":"absolute","left":"-150px"})
+                $("#example2_paginate").children("ul").children(".previous").children("a").text("上一页")
+                $("#example2_paginate").children("ul").children(".next").children("a").text("下一页")
+                $(".dataTables_empty").text("无搜索结果")
+                $("#example2_paginate").on("click",function (event) {
+                    $("#example2_paginate").children("ul").children(".previous").children("a").text("上一页")
+                    $("#example2_paginate").children("ul").children(".next").children("a").text("下一页")
+                    var index=$(this).children("ul").children(".active").children("a").text()
+                    console.log(index)
+                    for (var i=1;i<=10;i++){
+                        $('#mLD'+((parseInt(index)-1)*10+i)).children("span.bg-red").text(i)
+                    }
+                    deletePoint()
+                    map.closeInfoWindow()
+                    nowPArray.length=0
+                    for (var j=0;j<10;j++){
+                        var x=(parseInt(index)-1)*10+j
+                        addMarker(pointArray[x],x)
+                        console.log(pointArray[x])
+                    }
+                    console.log(nowPArray)
+                })
+
+
+
                 if (parseInt(num) == 0) {
                     $('.downList').hide()
                     $('#none2').show();
-                } else if (num < 10) {
+                }
+                else if (num < 10) {
                     var x = 0;
                     $('#none2').after(
                         '<div id="resultList' + (parseInt(x) + 1) + '" class="box box-default fullResultBox" style="margin: 5px auto;">\n' +
@@ -742,7 +1003,8 @@
                     }
                     $('.downList').hide()
                     $('#none2').hide();
-                } else {
+                }
+                else {
                     $('#none2').hide();
                     var x = 0;
                     $('#none2').after(
@@ -818,6 +1080,624 @@
                     //indexOfList=parseInt($('#numOfHotel').text())
                     indexOfList = 10;
                 }
+                $(".whiteToB").css("color","white")
+                $(".whiteToB").css("background","#605ca8")
+                $("#select2-gradeSelectL-container").text("一星级")
+                $("#select2-gradeSelectL-container").attr("title","一星级")
+                $('.select2').select2();
+
+            }
+        }
+    })
+
+    $("#search-btn").click(function () {
+        var text=$('#searchText').val()
+        var coKey=encodeURI(encodeURI($("#CountrySelect").val()))
+        var ciKey=encodeURI(encodeURI($("#CitySelect").val()))
+        xmlhttp.open("GET", "/504/searchList?hotelKey="+text+"&countryKey="+coKey+"&cityKey="+ciKey, true);
+        xmlhttp.send();
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                var text;
+                text = xmlhttp.responseText;
+                text = JSON.parse(text)
+                var num = parseInt(text.length)
+                $('#numOfHotel').text(num);
+                $('.fullResultBox').remove();
+                infoArray.length=0
+                pointArray.length=0
+                nowPArray.length=0
+                deletePoint()
+                $('#tableWrapper').empty();
+                $('#tableWrapper').append('<table id="example2" class="table table-bordered table-hover">\n' +
+                    '                            <thead style="display: none">\n' +
+                    '                            <tr>\n' +
+                    '                                <th></th>\n' +
+                    '                            </tr>\n' +
+                    '                            </thead>\n' +
+                    '                            <tbody id="tbody">\n' +
+                    '                            </tbody>\n' +
+                    '                        </table>')
+                for (var j=0;j<num;j++) {
+                    $('#tbody').append(
+                        '<tr ><td><div class="mapListDiv" id="mLD'+(parseInt(j)+1)+'" >\n' +
+                        '    <span class="badge bg-red">'+(parseInt(j)+1)+'</span><a class="liBtn"  href="/mybook/book?hotelID='+text[j]["hotelId"]+'">'+text[j]["hotelName"]+'<span class="pull-right badge bg-blue" >'+text[j]["hotelRating"]+'</span></a>\n' +
+                        '        <p style="display: none;"class="mapStar">\n' +
+                        '            <span class="label label-warning">品质保证</span>\n' +
+                        '            <span id="mapGrade'+(parseInt(j)+1)+'">\n' +
+                        '            </span>\n' +
+                        '        </p>\n' +
+                        '        <small class="mapStar" style="display: none;"><span >'+text[j]["hotelAddress"]+'</span> </small>\n' +
+                        '    </div>\n' +
+                        '    </td>\n' +
+                        '</tr>'
+                    )
+                    for (var k=0;k<text[j]["hotelGrade"];k++){
+                        $('#mapGrade'+(parseInt(j)+1)).append('<i class="fa fa-fw fa-star">')
+                    }
+                    var content=
+                        '<div>\n' +
+                        '    <span class="badge bg-red">'+(parseInt(j)%10+1)+'</span><a href="/mybook/book?hotelID='+text[j]["hotelId"]+'">'+text[j]["hotelName"]+'<span class="pull-right badge bg-blue" >'+text[j]["hotelRating"]+'</span></a>\n' +
+                        '        <p >\n' +
+                        '            <span class="label label-warning">品质保证</span>\n' +
+                        '            <span id="mapGradeT'+(parseInt(j)+1)+'">\n' +
+                        text[j]["hotelGrade"]+'星级' +
+                        '            </span>\n' +
+                        '        </p>\n' +
+                        '        <small><span >'+text[j]["hotelAddress"]+'</span> </small>\n' +
+                        '    </div>\n'
+                    var infoWindow = new BMap.InfoWindow(content);
+                    infoArray.push(infoWindow)
+                    var lng=parseFloat(text[j]["lng"])
+                    var lat=parseFloat(text[j]["lat"])
+                    var point=new BMap.Point(lng, lat)
+                    pointArray[j]=point;
+                    if (j<10){
+                        console.log(point)
+                        addMarker(point,j)
+                    }
+                    else {
+                        continue
+                    }
+
+                }
+                $("td").click(function () {
+                    if ($(this).children("div.mapListDiv").css("height")=="75px"){
+                        $(this).children("div.mapListDiv").children(".mapStar").slideUp(100,function () {
+                            $('td').children("div.mapListDiv").animate({height:'20px'},250)
+                        });
+                        map.closeInfoWindow()
+
+                    }
+                    else{
+                        $('td').children("div.mapListDiv").children(".mapStar").slideUp(100)
+                        $('td').children("div.mapListDiv").animate({height:'20px'},250)
+                        $(this).children("div.mapListDiv").animate({height:'75px'},250)
+                        $(this).children("div.mapListDiv").children(".mapStar").slideDown(100)
+                        var t=parseInt(($(this).children("div.mapListDiv").attr("id")).substring(3))-1
+                        var x=parseInt($(this).children("div.mapListDiv").children(".bg-red").text())-1
+                        map.openInfoWindow(infoArray[t],nowPArray[x]);
+                        map.panTo(nowPArray[x])
+                    }
+                })
+                $('#example2').DataTable({
+                    'paging'      : true,
+                    'lengthChange': false,
+                    'searching'   : false,
+                    'ordering'    : false,
+                    'info'        : false,
+                    'autoWidth'   : false
+                })
+
+
+                $("#example2_paginate").css({"position":"absolute","left":"-150px"})
+                $("#example2_paginate").children("ul").children(".previous").children("a").text("上一页")
+                $("#example2_paginate").children("ul").children(".next").children("a").text("下一页")
+                $(".dataTables_empty").text("无搜索结果")
+                $("#example2_paginate").on("click",function (event) {
+                    $("#example2_paginate").children("ul").children(".previous").children("a").text("上一页")
+                    $("#example2_paginate").children("ul").children(".next").children("a").text("下一页")
+                    var index=$(this).children("ul").children(".active").children("a").text()
+                    console.log(index)
+                    for (var i=1;i<=10;i++){
+                        $('#mLD'+((parseInt(index)-1)*10+i)).children("span.bg-red").text(i)
+                    }
+                    deletePoint()
+                    map.closeInfoWindow()
+                    nowPArray.length=0
+                    for (var j=0;j<10;j++){
+                        var x=(parseInt(index)-1)*10+j
+                        addMarker(pointArray[x],x)
+                        console.log(pointArray[x])
+                    }
+                    console.log(nowPArray)
+                })
+
+
+                
+                if (parseInt(num) == 0) {
+                    $('.downList').hide()
+                    $('#none2').show();
+                }
+                else if (num < 10) {
+                    var x = 0;
+                    $('#none2').after(
+                        '<div id="resultList' + (parseInt(x) + 1) + '" class="box box-default fullResultBox" style="margin: 5px auto;">\n' +
+                        '    <span id="hotelID'+(parseInt(x) + 1)+ '"style="visibility: hidden"; >'+text[x]["hotelId"]+'</span>' +
+                        '    <div class="box-body" style="padding-left: 10px;position: relative;">\n' +
+                        '        <div class="product-img sidebar-menu" style="float: left;margin-right: 20px;margin-top: 30px">\n' +
+                        '            <img src="' + text[x]["hotelPhoto1"] + '" alt="Product Image">\n' +
+                        '        </div>\n' +
+                        '        <div class="product-info" style="margin-right: 10px;overflow: hidden">\n' +
+                        '            <h3><i class="fa fa-fw fa-bed"></i>\n' +
+                        '                <a href="javascript:void(0)" class="product-title"><span>' + text[x]["hotelName"] + '</span> </a>\n' +
+                        '                <span class="pull-right"><a class="btn btn-warning" style="height: 40px;padding-top: 0px;font-size:25px;width:90px" href="#">\n' +
+                        '                <i class="fa fa-thumbs-up"></i><span>' + text[x]["hotelRating"] + '</span></a></span>\n' +
+                        '            </h3>\n' +
+                        '            <h3><span class="pull-right text-red"><i class="fa fa-fw fa-cny"></i><span class="hotelFee">' + text[x]["leastPrice"] + '</span>起</span></h3>\n' +
+                        '            <p id="hotelStar"><span  class="label label-warning">品质保证</span>\n' +
+                        '                <span id="hotelGradeStar' + (parseInt(x) + 1) + '">\n' +
+                        '                </span>\n' +
+                        '            </p>\n' +
+                        '            <small><span>' + text[x]["hotelAddress"] + '</span> </small>\n' +
+                        '            <span class="product-description block">\n' +
+                        '                <p><br>&emsp;&emsp;<span>' + text[x]["hotelOverview"] + '</span></p>\n' +
+                        '            </span>\n' +
+                        '            <a class="btn bg-purple btn-lg pull-right infBtn" href="/mybook/book?hotelID='+text[x]["hotelId"]+'" id="resultBtn'+(parseInt(x) + 1)+'">查看详情</a>\n' +
+                        '        </div>\n' +
+                        '    </div>\n' +
+                        '</div>'
+                    );
+                    for (var i = 0; i < parseInt(text[x]["hotelGrade"]); i++) {
+                        $('#hotelGradeStar' + (parseInt(x) + 1)).append('<i class="fa fa-fw fa-star" ></i>')
+                    }
+                    x = x + 1;
+                    for (x; x < num; x++) {
+                        console.log(text[x])
+                        $('#resultList' + (parseInt(x))).after(
+                            '<div id="resultList' + (parseInt(x) + 1) + '" class="box box-default fullResultBox" style="margin: 5px auto;">\n' +
+                            '    <span id="hotelID'+(parseInt(x) + 1)+ '"style="visibility: hidden"; >'+text[x]["hotelId"]+'</span>' +
+                            '    <div class="box-body" style="padding-left: 10px;position: relative;">\n' +
+                            '        <div class="product-img sidebar-menu" style="float: left;margin-right: 20px;margin-top: 30px">\n' +
+                            '            <img src="' + text[x]["hotelPhoto1"] + '" alt="Product Image">\n' +
+                            '        </div>\n' +
+                            '        <div class="product-info" style="margin-right: 10px;overflow: hidden">\n' +
+                            '            <h3><i class="fa fa-fw fa-bed"></i>\n' +
+                            '                <a href="javascript:void(0)" class="product-title"><span>' + text[x]["hotelName"] + '</span> </a>\n' +
+                            '                <span class="pull-right"><a class="btn btn-warning" style="height: 40px;padding-top: 0px;font-size:25px;width:90px" href="#">\n' +
+                            '                <i class="fa fa-thumbs-up"></i><span>' + text[x]["hotelRating"] + '</span></a></span>\n' +
+                            '            </h3>\n' +
+                            '            <h3><span class="pull-right text-red"><i class="fa fa-fw fa-cny"></i><span class="hotelFee">' + text[x]["leastPrice"] + '</span>起</span></h3>\n' +
+                            '            <p id="hotelStar"><span  class="label label-warning">品质保证</span>\n' +
+                            '                <span id="hotelGradeStar' + (parseInt(x) + 1) + '">\n' +
+                            '                </span>\n' +
+                            '            </p>\n' +
+                            '            <small><span>' + text[x]["hotelAddress"] + '</span> </small>\n' +
+                            '            <span class="product-description block">\n' +
+                            '                <p><br>&emsp;&emsp;<span>' + text[x]["hotelOverview"] + '</span></p>\n' +
+                            '            </span>\n' +
+                            '            <a class="btn bg-purple btn-lg pull-right infBtn" href="/mybook/book?hotelID='+text[x]["hotelId"]+'" id="resultBtn'+(parseInt(x) + 1)+'">查看详情</a>\n' +
+                            '        </div>\n' +
+                            '    </div>\n' +
+                            '</div>'
+                        );
+                        for (var i = 0; i < parseInt(text[x]["hotelGrade"]); i++) {
+                            $('#hotelGradeStar' + (parseInt(x) + 1)).append('<i class="fa fa-fw fa-star" ></i>')
+                        }
+                    }
+                    $('.downList').hide()
+                    $('#none2').hide();
+                }
+                else {
+                    $('#none2').hide();
+                    var x = 0;
+                    $('#none2').after(
+                        '<div id="resultList' + (parseInt(x) + 1) + '" class="box box-default fullResultBox" style="margin: 5px auto;">\n' +
+                        '    <span id="hotelID'+(parseInt(x) + 1)+ '"style="visibility: hidden"; >'+text[x]["hotelId"]+'</span>' +
+                        '    <div class="box-body" style="padding-left: 10px;position: relative;">\n' +
+                        '        <div class="product-img sidebar-menu" style="float: left;margin-right: 20px;margin-top: 30px">\n' +
+                        '            <img src="' + text[x]["hotelPhoto1"] + '" alt="Product Image">\n' +
+                        '        </div>\n' +
+                        '        <div class="product-info" style="margin-right: 10px;overflow: hidden">\n' +
+                        '            <h3><i class="fa fa-fw fa-bed"></i>\n' +
+                        '                <a href="javascript:void(0)" class="product-title"><span>' + text[x]["hotelName"] + '</span> </a>\n' +
+                        '                <span class="pull-right"><a class="btn btn-warning" style="height: 40px;padding-top: 0px;font-size:25px;width:90px" href="#">\n' +
+                        '                <i class="fa fa-thumbs-up"></i><span>' + text[x]["hotelRating"] + '</span></a></span>\n' +
+                        '            </h3>\n' +
+                        '            <h3><span class="pull-right text-red"><i class="fa fa-fw fa-cny"></i><span class="hotelFee">' + text[x]["leastPrice"] + '</span>起</span></h3>\n' +
+                        '            <p id="hotelStar"><span  class="label label-warning">品质保证</span>\n' +
+                        '                <span id="hotelGradeStar' + (parseInt(x) + 1) + '">\n' +
+                        '                </span>\n' +
+                        '            </p>\n' +
+                        '            <small><span>' + text[x]["hotelAddress"] + '</span> </small>\n' +
+                        '            <span class="product-description block">\n' +
+                        '                <p><br>&emsp;&emsp;<span>' + text[x]["hotelOverview"] + '</span></p>\n' +
+                        '            </span>\n' +
+                        '            <a class="btn bg-purple btn-lg pull-right infBtn" href="/mybook/book?hotelID='+text[x]["hotelId"]+'" id="resultBtn'+(parseInt(x) + 1)+'">查看详情</a>\n' +
+                        '        </div>\n' +
+                        '    </div>\n' +
+                        '</div>'
+                    );
+                    for (var i = 0; i < parseInt(text[x]["hotelGrade"]); i++) {
+                        $('#hotelGradeStar' + (parseInt(x) + 1)).append('<i class="fa fa-fw fa-star" ></i>')
+                    }
+                    x = x + 1;
+                    for (x; x < 10; x++) {
+                        console.log(text[x])
+                        $('#resultList' + (parseInt(x))).after(
+                            '<div id="resultList' + (parseInt(x) + 1) + '" class="box box-default fullResultBox" style="margin: 5px auto;">\n' +
+                            '    <span id="hotelID'+(parseInt(x) + 1)+ '"style="visibility: hidden"; >'+text[x]["hotelId"]+'</span>' +
+                            '    <div class="box-body" style="padding-left: 10px;position: relative;">\n' +
+                            '        <div class="product-img sidebar-menu" style="float: left;margin-right: 20px;margin-top: 30px">\n' +
+                            '            <img src="' + text[x]["hotelPhoto1"] + '" alt="Product Image">\n' +
+                            '        </div>\n' +
+                            '        <div class="product-info" style="margin-right: 10px;overflow: hidden">\n' +
+                            '            <h3><i class="fa fa-fw fa-bed"></i>\n' +
+                            '                <a href="javascript:void(0)" class="product-title"><span>' + text[x]["hotelName"] + '</span> </a>\n' +
+                            '                <span class="pull-right"><a class="btn btn-warning" style="height: 40px;padding-top: 0px;font-size:25px;width:90px" href="#">\n' +
+                            '                <i class="fa fa-thumbs-up"></i><span>' + text[x]["hotelRating"] + '</span></a></span>\n' +
+                            '            </h3>\n' +
+                            '            <h3><span class="pull-right text-red"><i class="fa fa-fw fa-cny"></i><span class="hotelFee">' + text[x]["leastPrice"] + '</span>起</span></h3>\n' +
+                            '            <p id="hotelStar"><span  class="label label-warning">品质保证</span>\n' +
+                            '                <span id="hotelGradeStar' + (parseInt(x) + 1) + '">\n' +
+                            '                </span>\n' +
+                            '            </p>\n' +
+                            '            <small><span>' + text[x]["hotelAddress"] + '</span> </small>\n' +
+                            '            <span class="product-description block">\n' +
+                            '                <p><br>&emsp;&emsp;<span>' + text[x]["hotelOverview"] + '</span></p>\n' +
+                            '            </span>\n' +
+                            '            <a class="btn bg-purple btn-lg pull-right infBtn" href="/mybook/book?hotelID='+text[x]["hotelId"]+'" id="resultBtn'+(parseInt(x) + 1)+'">查看详情</a>\n' +
+                            '        </div>\n' +
+                            '    </div>\n' +
+                            '</div>'
+                        );
+                        for (var i = 0; i < parseInt(text[x]["hotelGrade"]); i++) {
+                            $('#hotelGradeStar' + (parseInt(x) + 1)).append('<i class="fa fa-fw fa-star" ></i>')
+                        }
+                    }
+                    if (num == 10) {
+                        $('.downList').hide();
+                    } else {
+                        $('.downList').show();
+                    }
+
+                    //indexOfList=parseInt($('#numOfHotel').text())
+                    indexOfList = 10;
+                }
+                $(".whiteToB").css("color","white")
+                $(".whiteToB").css("background","#605ca8")
+                $("#select2-gradeSelectL-container").text("一星级")
+                $("#select2-gradeSelectL-container").attr("title","一星级")
+                $('.select2').select2();
+
+            }
+        }
+    })
+
+
+
+
+    $(".whiteToB").mouseenter(function () {
+        $(this).css("color","black")
+        $(this).css("background","white")
+    })
+
+    $(".whiteToB").mouseleave(function () {
+        $(this).css("color","white")
+        $(this).css("background","#605ca8")
+    })
+    $(".whiteToB").click(function () {
+        if (orderClick==false){
+            $(".whiteToB").css("color","white")
+            $(".whiteToB").css("background","#605ca8")
+            $(this).css("background","white")
+            $(this).css("color","black")
+            $(this).unbind("mouseleave")
+            orderClick=true;
+        }
+        else{
+            $(".whiteToB").css("color","white")
+            $(".whiteToB").css("background","#605ca8")
+            $(".whiteToB").bind("mouseleave",function () {
+                $(this).css("color","white")
+                $(this).css("background","#605ca8")
+            })
+            $(this).css("background","white")
+            $(this).css("color","black")
+            $(this).unbind("mouseleave")
+        }
+        
+        if ($(this).text()=="评分"){
+            var orderChoose=1;
+        }
+        else if ($(this).text()=="星级"){
+            var orderChoose=2;
+        }
+        else if ($(this).text()=="价格"){
+
+            if (orderArrow==false) {
+                var orderChoose=3.5;
+            }
+            else{
+                var orderChoose=3.0;
+            }
+        }
+
+        xmlhttp.open("GET", "/504/order?orderChoose="+orderChoose, true);
+        xmlhttp.send();
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                var text;
+                text = xmlhttp.responseText;
+                text = JSON.parse(text)
+                var num = parseInt(text.length)
+                $('#numOfHotel').text(num);
+                $('.fullResultBox').remove();
+                infoArray.length=0
+                pointArray.length=0
+                nowPArray.length=0
+                deletePoint()
+                $('#tableWrapper').empty();
+                $('#tableWrapper').append('<table id="example2" class="table table-bordered table-hover">\n' +
+                    '                            <thead style="display: none">\n' +
+                    '                            <tr>\n' +
+                    '                                <th></th>\n' +
+                    '                            </tr>\n' +
+                    '                            </thead>\n' +
+                    '                            <tbody id="tbody">\n' +
+                    '                            </tbody>\n' +
+                    '                        </table>')
+                for (var j=0;j<num;j++) {
+                    $('#tbody').append(
+                        '<tr ><td><div class="mapListDiv" id="mLD'+(parseInt(j)+1)+'" >\n' +
+                        '    <span class="badge bg-red">'+(parseInt(j)+1)+'</span><a class="liBtn"  href="/mybook/book?hotelID='+text[j]["hotelId"]+'">'+text[j]["hotelName"]+'<span class="pull-right badge bg-blue" >'+text[j]["hotelRating"]+'</span></a>\n' +
+                        '        <p style="display: none;"class="mapStar">\n' +
+                        '            <span class="label label-warning">品质保证</span>\n' +
+                        '            <span id="mapGrade'+(parseInt(j)+1)+'">\n' +
+                        '            </span>\n' +
+                        '        </p>\n' +
+                        '        <small class="mapStar" style="display: none;"><span >'+text[j]["hotelAddress"]+'</span> </small>\n' +
+                        '    </div>\n' +
+                        '    </td>\n' +
+                        '</tr>'
+                    )
+                    for (var k=0;k<text[j]["hotelGrade"];k++){
+                        $('#mapGrade'+(parseInt(j)+1)).append('<i class="fa fa-fw fa-star">')
+                    }
+                    var content=
+                        '<div>\n' +
+                        '    <span class="badge bg-red">'+(parseInt(j)%10+1)+'</span><a href="/mybook/book?hotelID='+text[j]["hotelId"]+'">'+text[j]["hotelName"]+'<span class="pull-right badge bg-blue" >'+text[j]["hotelRating"]+'</span></a>\n' +
+                        '        <p >\n' +
+                        '            <span class="label label-warning">品质保证</span>\n' +
+                        '            <span id="mapGradeT'+(parseInt(j)+1)+'">\n' +
+                        text[j]["hotelGrade"]+'星级' +
+                        '            </span>\n' +
+                        '        </p>\n' +
+                        '        <small><span >'+text[j]["hotelAddress"]+'</span> </small>\n' +
+                        '    </div>\n'
+                    var infoWindow = new BMap.InfoWindow(content);
+                    infoArray.push(infoWindow)
+                    var lng=parseFloat(text[j]["lng"])
+                    var lat=parseFloat(text[j]["lat"])
+                    var point=new BMap.Point(lng, lat)
+                    pointArray[j]=point;
+                    if (j<10){
+                        console.log(point)
+                        addMarker(point,j)
+                    }
+                    else {
+                        continue
+                    }
+
+                }
+                $("td").click(function () {
+                    if ($(this).children("div.mapListDiv").css("height")=="75px"){
+                        $(this).children("div.mapListDiv").children(".mapStar").slideUp(100,function () {
+                            $('td').children("div.mapListDiv").animate({height:'20px'},250)
+                        });
+                        map.closeInfoWindow()
+
+                    }
+                    else{
+                        $('td').children("div.mapListDiv").children(".mapStar").slideUp(100)
+                        $('td').children("div.mapListDiv").animate({height:'20px'},250)
+                        $(this).children("div.mapListDiv").animate({height:'75px'},250)
+                        $(this).children("div.mapListDiv").children(".mapStar").slideDown(100)
+                        var t=parseInt(($(this).children("div.mapListDiv").attr("id")).substring(3))-1
+                        var x=parseInt($(this).children("div.mapListDiv").children(".bg-red").text())-1
+                        map.openInfoWindow(infoArray[t],nowPArray[x]);
+                        map.panTo(nowPArray[x])
+                    }
+                })
+                $('#example2').DataTable({
+                    'paging'      : true,
+                    'lengthChange': false,
+                    'searching'   : false,
+                    'ordering'    : false,
+                    'info'        : false,
+                    'autoWidth'   : false
+                })
+
+
+                $("#example2_paginate").css({"position":"absolute","left":"-150px"})
+                $("#example2_paginate").children("ul").children(".previous").children("a").text("上一页")
+                $("#example2_paginate").children("ul").children(".next").children("a").text("下一页")
+                $(".dataTables_empty").text("无搜索结果")
+                $("#example2_paginate").on("click",function (event) {
+                    $("#example2_paginate").children("ul").children(".previous").children("a").text("上一页")
+                    $("#example2_paginate").children("ul").children(".next").children("a").text("下一页")
+                    var index=$(this).children("ul").children(".active").children("a").text()
+                    console.log(index)
+                    for (var i=1;i<=10;i++){
+                        $('#mLD'+((parseInt(index)-1)*10+i)).children("span.bg-red").text(i)
+                    }
+                    deletePoint()
+                    map.closeInfoWindow()
+                    nowPArray.length=0
+                    for (var j=0;j<10;j++){
+                        var x=(parseInt(index)-1)*10+j
+                        addMarker(pointArray[x],x)
+                        console.log(pointArray[x])
+                    }
+                    console.log(nowPArray)
+                })
+
+
+
+                if (parseInt(num) == 0) {
+                    $('.downList').hide()
+                    $('#none2').show();
+                }
+                else if (num < 10) {
+                    var x = 0;
+                    $('#none2').after(
+                        '<div id="resultList' + (parseInt(x) + 1) + '" class="box box-default fullResultBox" style="margin: 5px auto;">\n' +
+                        '    <span id="hotelID'+(parseInt(x) + 1)+ '"style="visibility: hidden"; >'+text[x]["hotelId"]+'</span>' +
+                        '    <div class="box-body" style="padding-left: 10px;position: relative;">\n' +
+                        '        <div class="product-img sidebar-menu" style="float: left;margin-right: 20px;margin-top: 30px">\n' +
+                        '            <img src="' + text[x]["hotelPhoto1"] + '" alt="Product Image">\n' +
+                        '        </div>\n' +
+                        '        <div class="product-info" style="margin-right: 10px;overflow: hidden">\n' +
+                        '            <h3><i class="fa fa-fw fa-bed"></i>\n' +
+                        '                <a href="javascript:void(0)" class="product-title"><span>' + text[x]["hotelName"] + '</span> </a>\n' +
+                        '                <span class="pull-right"><a class="btn btn-warning" style="height: 40px;padding-top: 0px;font-size:25px;width:90px" href="#">\n' +
+                        '                <i class="fa fa-thumbs-up"></i><span>' + text[x]["hotelRating"] + '</span></a></span>\n' +
+                        '            </h3>\n' +
+                        '            <h3><span class="pull-right text-red"><i class="fa fa-fw fa-cny"></i><span class="hotelFee">' + text[x]["leastPrice"] + '</span>起</span></h3>\n' +
+                        '            <p id="hotelStar"><span  class="label label-warning">品质保证</span>\n' +
+                        '                <span id="hotelGradeStar' + (parseInt(x) + 1) + '">\n' +
+                        '                </span>\n' +
+                        '            </p>\n' +
+                        '            <small><span>' + text[x]["hotelAddress"] + '</span> </small>\n' +
+                        '            <span class="product-description block">\n' +
+                        '                <p><br>&emsp;&emsp;<span>' + text[x]["hotelOverview"] + '</span></p>\n' +
+                        '            </span>\n' +
+                        '            <a class="btn bg-purple btn-lg pull-right infBtn" href="/mybook/book?hotelID='+text[x]["hotelId"]+'" id="resultBtn'+(parseInt(x) + 1)+'">查看详情</a>\n' +
+                        '        </div>\n' +
+                        '    </div>\n' +
+                        '</div>'
+                    );
+                    for (var i = 0; i < parseInt(text[x]["hotelGrade"]); i++) {
+                        $('#hotelGradeStar' + (parseInt(x) + 1)).append('<i class="fa fa-fw fa-star" ></i>')
+                    }
+                    x = x + 1;
+                    for (x; x < num; x++) {
+                        console.log(text[x])
+                        $('#resultList' + (parseInt(x))).after(
+                            '<div id="resultList' + (parseInt(x) + 1) + '" class="box box-default fullResultBox" style="margin: 5px auto;">\n' +
+                            '    <span id="hotelID'+(parseInt(x) + 1)+ '"style="visibility: hidden"; >'+text[x]["hotelId"]+'</span>' +
+                            '    <div class="box-body" style="padding-left: 10px;position: relative;">\n' +
+                            '        <div class="product-img sidebar-menu" style="float: left;margin-right: 20px;margin-top: 30px">\n' +
+                            '            <img src="' + text[x]["hotelPhoto1"] + '" alt="Product Image">\n' +
+                            '        </div>\n' +
+                            '        <div class="product-info" style="margin-right: 10px;overflow: hidden">\n' +
+                            '            <h3><i class="fa fa-fw fa-bed"></i>\n' +
+                            '                <a href="javascript:void(0)" class="product-title"><span>' + text[x]["hotelName"] + '</span> </a>\n' +
+                            '                <span class="pull-right"><a class="btn btn-warning" style="height: 40px;padding-top: 0px;font-size:25px;width:90px" href="#">\n' +
+                            '                <i class="fa fa-thumbs-up"></i><span>' + text[x]["hotelRating"] + '</span></a></span>\n' +
+                            '            </h3>\n' +
+                            '            <h3><span class="pull-right text-red"><i class="fa fa-fw fa-cny"></i><span class="hotelFee">' + text[x]["leastPrice"] + '</span>起</span></h3>\n' +
+                            '            <p id="hotelStar"><span  class="label label-warning">品质保证</span>\n' +
+                            '                <span id="hotelGradeStar' + (parseInt(x) + 1) + '">\n' +
+                            '                </span>\n' +
+                            '            </p>\n' +
+                            '            <small><span>' + text[x]["hotelAddress"] + '</span> </small>\n' +
+                            '            <span class="product-description block">\n' +
+                            '                <p><br>&emsp;&emsp;<span>' + text[x]["hotelOverview"] + '</span></p>\n' +
+                            '            </span>\n' +
+                            '            <a class="btn bg-purple btn-lg pull-right infBtn" href="/mybook/book?hotelID='+text[x]["hotelId"]+'" id="resultBtn'+(parseInt(x) + 1)+'">查看详情</a>\n' +
+                            '        </div>\n' +
+                            '    </div>\n' +
+                            '</div>'
+                        );
+                        for (var i = 0; i < parseInt(text[x]["hotelGrade"]); i++) {
+                            $('#hotelGradeStar' + (parseInt(x) + 1)).append('<i class="fa fa-fw fa-star" ></i>')
+                        }
+                    }
+                    $('.downList').hide()
+                    $('#none2').hide();
+                }
+                else {
+                    $('#none2').hide();
+                    var x = 0;
+                    $('#none2').after(
+                        '<div id="resultList' + (parseInt(x) + 1) + '" class="box box-default fullResultBox" style="margin: 5px auto;">\n' +
+                        '    <span id="hotelID'+(parseInt(x) + 1)+ '"style="visibility: hidden"; >'+text[x]["hotelId"]+'</span>' +
+                        '    <div class="box-body" style="padding-left: 10px;position: relative;">\n' +
+                        '        <div class="product-img sidebar-menu" style="float: left;margin-right: 20px;margin-top: 30px">\n' +
+                        '            <img src="' + text[x]["hotelPhoto1"] + '" alt="Product Image">\n' +
+                        '        </div>\n' +
+                        '        <div class="product-info" style="margin-right: 10px;overflow: hidden">\n' +
+                        '            <h3><i class="fa fa-fw fa-bed"></i>\n' +
+                        '                <a href="javascript:void(0)" class="product-title"><span>' + text[x]["hotelName"] + '</span> </a>\n' +
+                        '                <span class="pull-right"><a class="btn btn-warning" style="height: 40px;padding-top: 0px;font-size:25px;width:90px" href="#">\n' +
+                        '                <i class="fa fa-thumbs-up"></i><span>' + text[x]["hotelRating"] + '</span></a></span>\n' +
+                        '            </h3>\n' +
+                        '            <h3><span class="pull-right text-red"><i class="fa fa-fw fa-cny"></i><span class="hotelFee">' + text[x]["leastPrice"] + '</span>起</span></h3>\n' +
+                        '            <p id="hotelStar"><span  class="label label-warning">品质保证</span>\n' +
+                        '                <span id="hotelGradeStar' + (parseInt(x) + 1) + '">\n' +
+                        '                </span>\n' +
+                        '            </p>\n' +
+                        '            <small><span>' + text[x]["hotelAddress"] + '</span> </small>\n' +
+                        '            <span class="product-description block">\n' +
+                        '                <p><br>&emsp;&emsp;<span>' + text[x]["hotelOverview"] + '</span></p>\n' +
+                        '            </span>\n' +
+                        '            <a class="btn bg-purple btn-lg pull-right infBtn" href="/mybook/book?hotelID='+text[x]["hotelId"]+'" id="resultBtn'+(parseInt(x) + 1)+'">查看详情</a>\n' +
+                        '        </div>\n' +
+                        '    </div>\n' +
+                        '</div>'
+                    );
+                    for (var i = 0; i < parseInt(text[x]["hotelGrade"]); i++) {
+                        $('#hotelGradeStar' + (parseInt(x) + 1)).append('<i class="fa fa-fw fa-star" ></i>')
+                    }
+                    x = x + 1;
+                    for (x; x < 10; x++) {
+                        console.log(text[x])
+                        $('#resultList' + (parseInt(x))).after(
+                            '<div id="resultList' + (parseInt(x) + 1) + '" class="box box-default fullResultBox" style="margin: 5px auto;">\n' +
+                            '    <span id="hotelID'+(parseInt(x) + 1)+ '"style="visibility: hidden"; >'+text[x]["hotelId"]+'</span>' +
+                            '    <div class="box-body" style="padding-left: 10px;position: relative;">\n' +
+                            '        <div class="product-img sidebar-menu" style="float: left;margin-right: 20px;margin-top: 30px">\n' +
+                            '            <img src="' + text[x]["hotelPhoto1"] + '" alt="Product Image">\n' +
+                            '        </div>\n' +
+                            '        <div class="product-info" style="margin-right: 10px;overflow: hidden">\n' +
+                            '            <h3><i class="fa fa-fw fa-bed"></i>\n' +
+                            '                <a href="javascript:void(0)" class="product-title"><span>' + text[x]["hotelName"] + '</span> </a>\n' +
+                            '                <span class="pull-right"><a class="btn btn-warning" style="height: 40px;padding-top: 0px;font-size:25px;width:90px" href="#">\n' +
+                            '                <i class="fa fa-thumbs-up"></i><span>' + text[x]["hotelRating"] + '</span></a></span>\n' +
+                            '            </h3>\n' +
+                            '            <h3><span class="pull-right text-red"><i class="fa fa-fw fa-cny"></i><span class="hotelFee">' + text[x]["leastPrice"] + '</span>起</span></h3>\n' +
+                            '            <p id="hotelStar"><span  class="label label-warning">品质保证</span>\n' +
+                            '                <span id="hotelGradeStar' + (parseInt(x) + 1) + '">\n' +
+                            '                </span>\n' +
+                            '            </p>\n' +
+                            '            <small><span>' + text[x]["hotelAddress"] + '</span> </small>\n' +
+                            '            <span class="product-description block">\n' +
+                            '                <p><br>&emsp;&emsp;<span>' + text[x]["hotelOverview"] + '</span></p>\n' +
+                            '            </span>\n' +
+                            '            <a class="btn bg-purple btn-lg pull-right infBtn" href="/mybook/book?hotelID='+text[x]["hotelId"]+'" id="resultBtn'+(parseInt(x) + 1)+'">查看详情</a>\n' +
+                            '        </div>\n' +
+                            '    </div>\n' +
+                            '</div>'
+                        );
+                        for (var i = 0; i < parseInt(text[x]["hotelGrade"]); i++) {
+                            $('#hotelGradeStar' + (parseInt(x) + 1)).append('<i class="fa fa-fw fa-star" ></i>')
+                        }
+                    }
+                    if (num == 10) {
+                        $('.downList').hide();
+                    } else {
+                        $('.downList').show();
+                    }
+
+                    //indexOfList=parseInt($('#numOfHotel').text())
+                    indexOfList = 10;
+                }
+                $(".whiteToB").css("color","white")
+                $(".whiteToB").css("background","#605ca8")
+                $("#select2-gradeSelectL-container").text("一星级")
+                $("#select2-gradeSelectL-container").attr("title","一星级")
+                $('.select2').select2();
 
             }
         }
@@ -867,6 +1747,22 @@
             }
         }   
     });
+    $("#CountrySelect2").change(function () {
+        xmlhttp.open("GET", "/504/city?country=" + encodeURI(encodeURI($("#CountrySelect2").val())), true);
+        xmlhttp.send();
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                var text;
+                text = xmlhttp.responseText;
+                var jsonData = JSON.parse(text);
+                $("#CitySelect2").empty();
+                for (x in jsonData) {
+                    $("#CitySelect2").append('<option>' + jsonData[x] + '</option>');
+                }
+                $('.select2').select2();
+            }
+        }
+    });
 
     $('#filterSub').click(function () {
 
@@ -908,10 +1804,122 @@
                         var num = parseInt(text.length)
                         $('#numOfHotel').text(num);
                         $('.fullResultBox').remove();
+                        infoArray.length=0
+                        pointArray.length=0
+                        nowPArray.length=0
+                        deletePoint()
+                        $('#tableWrapper').empty();
+                        $('#tableWrapper').append('<table id="example2" class="table table-bordered table-hover">\n' +
+                            '                            <thead style="display: none">\n' +
+                            '                            <tr>\n' +
+                            '                                <th></th>\n' +
+                            '                            </tr>\n' +
+                            '                            </thead>\n' +
+                            '                            <tbody id="tbody">\n' +
+                            '                            </tbody>\n' +
+                            '                        </table>')
+                        for (var j=0;j<num;j++) {
+                            $('#tbody').append(
+                                '<tr ><td><div class="mapListDiv" id="mLD'+(parseInt(j)+1)+'" >\n' +
+                                '    <span class="badge bg-red">'+(parseInt(j)+1)+'</span><a class="liBtn"  href="/mybook/book?hotelID='+text[j]["hotelId"]+'">'+text[j]["hotelName"]+'<span class="pull-right badge bg-blue" >'+text[j]["hotelRating"]+'</span></a>\n' +
+                                '        <p style="display: none;"class="mapStar">\n' +
+                                '            <span class="label label-warning">品质保证</span>\n' +
+                                '            <span id="mapGrade'+(parseInt(j)+1)+'">\n' +
+                                '            </span>\n' +
+                                '        </p>\n' +
+                                '        <small class="mapStar" style="display: none;"><span >'+text[j]["hotelAddress"]+'</span> </small>\n' +
+                                '    </div>\n' +
+                                '    </td>\n' +
+                                '</tr>'
+                            )
+                            for (var k=0;k<text[j]["hotelGrade"];k++){
+                                $('#mapGrade'+(parseInt(j)+1)).append('<i class="fa fa-fw fa-star">')
+                            }
+                            var content=
+                                '<div>\n' +
+                                '    <span class="badge bg-red">'+(parseInt(j)%10+1)+'</span><a href="/mybook/book?hotelID='+text[j]["hotelId"]+'">'+text[j]["hotelName"]+'<span class="pull-right badge bg-blue" >'+text[j]["hotelRating"]+'</span></a>\n' +
+                                '        <p >\n' +
+                                '            <span class="label label-warning">品质保证</span>\n' +
+                                '            <span id="mapGradeT'+(parseInt(j)+1)+'">\n' +
+                                text[j]["hotelGrade"]+'星级' +
+                                '            </span>\n' +
+                                '        </p>\n' +
+                                '        <small><span >'+text[j]["hotelAddress"]+'</span> </small>\n' +
+                                '    </div>\n'
+                            var infoWindow = new BMap.InfoWindow(content);
+                            infoArray.push(infoWindow)
+                            var lng=parseFloat(text[j]["lng"])
+                            var lat=parseFloat(text[j]["lat"])
+                            var point=new BMap.Point(lng, lat)
+                            pointArray[j]=point;
+                            if (j<10){
+                                console.log(point)
+                                addMarker(point,j)
+                            }
+                            else {
+                                continue
+                            }
+
+                        }
+                        $("td").click(function () {
+                            if ($(this).children("div.mapListDiv").css("height")=="75px"){
+                                $(this).children("div.mapListDiv").children(".mapStar").slideUp(100,function () {
+                                    $('td').children("div.mapListDiv").animate({height:'20px'},250)
+                                });
+                                map.closeInfoWindow()
+
+                            }
+                            else{
+                                $('td').children("div.mapListDiv").children(".mapStar").slideUp(100)
+                                $('td').children("div.mapListDiv").animate({height:'20px'},250)
+                                $(this).children("div.mapListDiv").animate({height:'75px'},250)
+                                $(this).children("div.mapListDiv").children(".mapStar").slideDown(100)
+                                var t=parseInt(($(this).children("div.mapListDiv").attr("id")).substring(3))-1
+                                var x=parseInt($(this).children("div.mapListDiv").children(".bg-red").text())-1
+                                map.openInfoWindow(infoArray[t],nowPArray[x]);
+                                map.panTo(nowPArray[x])
+                            }
+                        })
+                        $('#example2').DataTable({
+                            'paging'      : true,
+                            'lengthChange': false,
+                            'searching'   : false,
+                            'ordering'    : false,
+                            'info'        : false,
+                            'autoWidth'   : false
+                        })
+
+
+                        $("#example2_paginate").css({"position":"absolute","left":"-150px"})
+                        $("#example2_paginate").children("ul").children(".previous").children("a").text("上一页")
+                        $("#example2_paginate").children("ul").children(".next").children("a").text("下一页")
+                        $(".dataTables_empty").text("无搜索结果")
+                        $("#example2_paginate").on("click",function (event) {
+                            $("#example2_paginate").children("ul").children(".previous").children("a").text("上一页")
+                            $("#example2_paginate").children("ul").children(".next").children("a").text("下一页")
+                            var index=$(this).children("ul").children(".active").children("a").text()
+                            console.log(index)
+                            for (var i=1;i<=10;i++){
+                                $('#mLD'+((parseInt(index)-1)*10+i)).children("span.bg-red").text(i)
+                            }
+                            deletePoint()
+                            map.closeInfoWindow()
+                            nowPArray.length=0
+                            for (var j=0;j<10;j++){
+                                var x=(parseInt(index)-1)*10+j
+                                addMarker(pointArray[x],x)
+                                console.log(pointArray[x])
+                            }
+                            console.log(nowPArray)
+                        })
+
+
+
                         if (parseInt(num) == 0) {
                             $('.downList').hide()
                             $('#none2').show();
-                        } else if (num < 10) {
+                        }
+                        else if (num < 10) {
                             var x = 0;
                             $('#none2').after(
                                 '<div id="resultList' + (parseInt(x) + 1) + '" class="box box-default fullResultBox" style="margin: 5px auto;">\n' +
@@ -979,7 +1987,8 @@
                             }
                             $('.downList').hide()
                             $('#none2').hide();
-                        } else {
+                        }
+                        else {
                             $('#none2').hide();
                             var x = 0;
                             $('#none2').after(
@@ -1055,6 +2064,11 @@
                             //indexOfList=parseInt($('#numOfHotel').text())
                             indexOfList = 10;
                         }
+                        $(".whiteToB").css("color","white")
+                        $(".whiteToB").css("background","#605ca8")
+                        $("#select2-gradeSelectL-container").text("一星级")
+                        $("#select2-gradeSelectL-container").attr("title","一星级")
+                        $('.select2').select2();
 
                     }
                 }
@@ -1131,6 +2145,43 @@
         } else {
             return true
         }
+    }
+    function deletePoint(){
+        var allOverlay = map.getOverlays();
+        for (var i = 0; i < allOverlay.length ; i++){
+            map.removeOverlay(allOverlay[i]);
+        }
+    }
+
+    function addMarker(point,x) {
+        console.log(point)
+        translateCallback = function (data){
+            if(data.status === 0) {
+                nowPArray.push(data.points[0])
+                var infoWindow = new BMap.InfoWindow("sadasdasd",opts);
+                var marker = new BMap.Marker(data.points[0]);
+                map.addOverlay(marker);
+                marker.addEventListener("click", function(){
+                    map.openInfoWindow(infoArray[x],data.points[0]); //开启信息窗口
+                    if ($("#mLD"+(parseInt(x)+1)).css("height")=="75px"){
+                        $("#mLD"+(parseInt(x)+1)).children(".mapStar").slideUp(100,function () {
+                            $('td').children("div.mapListDiv").animate({height:'20px'},250)
+                        });
+                    }
+                    else{
+                        $('td').children("div.mapListDiv").children(".mapStar").slideUp(100)
+                        $('td').children("div.mapListDiv").animate({height:'20px'},250)
+                        $("#mLD"+(parseInt(x)+1)).animate({height:'75px'},250)
+                        $("#mLD"+(parseInt(x)+1)).children(".mapStar").slideDown(100)
+                    }
+                });
+
+            }
+        }
+        var convertor = new BMap.Convertor();
+        var pointArr = [];
+        pointArr.push(point);
+        convertor.translate(pointArr, 1, 5, translateCallback)
     }
 
 </script>
