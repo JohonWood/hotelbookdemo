@@ -14,15 +14,15 @@
           th:href="@{/adminlte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css}">
     <link rel="stylesheet" type="text/css" media="all" href="../dist/css/AdminLTE.min.css"
           th:href="@{/adminlte/dist/css/AdminLTE.min.css}"/>
-    <link rel="stylesheet" type="text/css" media="all" href="../dist/css/skins/skin-blue.min.css"
-          th:href="@{/adminlte/dist/css/skins/skin-blue.min.css}"/>
+    <link rel="stylesheet" type="text/css" media="all" href="../dist/css/skins/_all-skins.min.css"
+          th:href="@{/adminlte/dist/css/skins/_all-skins.min.css}"/>
     <link rel="stylesheet" type="text/css" media="all"
           th:href="@{/adminlte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css}"/>
     <script th:src="@{/js/jquery-3.4.1.min.js}"></script>
 </head>
 </head>
 
-<body class="hold-transition skin-yellow sidebar-mini">
+<body class="hold-transition skin-blue-light sidebar-mini">
 <div class="wrapper">
 
     <!-- Main Header -->
@@ -62,9 +62,6 @@
 
                             <!-- Menu Footer-->
                             <li class="user-footer">
-                                <div class="pull-left">
-                                    <a href="#" class="btn btn-default btn-flat">简况</a>
-                                </div>
                                 <div class="pull-right">
                                     <a href="/user/login" class="btn btn-default btn-flat">退出</a>
                                 </div>
@@ -86,13 +83,14 @@
                 <li class="treeview active">
                     <a href="#"><i class="fa fa-link"></i> <span>资源库管理</span>
                         <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
                     </a>
                     <ul class="treeview-menu">
                         <li><a href="/manage/country"><i class="fa fa-map-signs"></i>国家数据管理</a></li>
                         <li><a href="/manage/city"><i class="fa fa-map-signs"></i>城市数据管理</a></li>
                         <li><a href="/manage/hotel"><i class="fa fa-map-signs"></i>酒店数据管理</a></li>
+                        <li><a href="/manage/user"><i class="fa fa-map-signs"></i>用户数据管理</a></li>
                     </ul>
                 </li>
             </ul>
@@ -112,36 +110,27 @@
                 <div class="box-body">
                     <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
                         <div class="row">
-                            <!--<div class="col-sm-6">
-                                <div class="dataTables_length" id="example1_length">
-                                    <label>Show <select name="example1_length" aria-controls="example1"
-                                                        class="form-control input-sm">
-                                        <option value="10">10</option>
-                                        <option value="25">25</option>
-                                        <option value="50">50</option>
-                                        <option value="100">100</option>
-                                    </select> entries</label>
-                                </div>
-                            </div>-->
                             <div class="col-sm-12" style="padding: 0px;position: relative">
                                 <form th:action="@{/manage/searchCountry}" method="post">
-                                    <div class="col-sm-2" >
+                                    <div class="col-sm-2">
                                         <div id="example1_filter" class="dataTables_filter">
                                             <label><input type="text" class="form-control input-sm"
-                                                                 placeholder="请输入国家名字"
-                                                                 aria-controls="example1" name="countryName"></label>
+                                                          placeholder="请输入国家名字"
+                                                          aria-controls="example1" name="countryName"></label>
                                         </div>
                                     </div>
                                     <div class="col-sm-2">
-                                            <button type="submit" class="btn btn-block btn-info" style="height: 30px">
-                                                查询
-                                            </button>
+                                        <button type="submit" class="btn btn-block btn-info" style="height: 30px">
+                                            查询
+                                        </button>
                                     </div>
                                 </form>
                                 <div class="col-sm-2">
-                                    <a th:href="@{/manage/addCountry}" method="get"><button class="btn btn-block btn-info" style="height: 30px">
-                                        添加国家
-                                    </button></a>
+                                    <a th:href="@{/manage/addCountry}" method="get">
+                                        <button class="btn btn-block btn-info" style="height: 30px">
+                                            添加国家
+                                        </button>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -159,6 +148,9 @@
                                             国家名字
                                         </th>
                                         <th style="width: 66.6px;">
+                                            城市
+                                        </th>
+                                        <th style="width: 66.6px;">
                                             编辑
                                         </th>
                                         <th style="width: 66.6px;">
@@ -170,6 +162,9 @@
                                     <tr th:each="country : ${listCountry}">
                                         <td th:text="${country.countryCode}"></td>
                                         <td th:text="${country.countryName}"></td>
+                                        <td><a th:href="@{/manage/countrytoCity(countryCode = ${country.countryCode})}">
+                                            <button type="button" class="btn btn-block btn-info">城市</button>
+                                        </a></td>
                                         <td><a th:href="@{/manage/editCountry(countryCode = ${country.countryCode})}">
                                             <button type="button" class="btn btn-block btn-info">编辑</button>
                                         </a></td>
@@ -185,45 +180,12 @@
                                     <tr>
                                         <th rowspan="1" colspan="1">国家代码</th>
                                         <th rowspan="1" colspan="1">国家名字</th>
-
                                     </tr>
                                     </tfoot>
                                 </table>
                             </div>
                         </div>
                     </div>
-                    <!-- <div class="row">
-                         <div class="col-sm-5">
-                         </div>
-                         <div class="col-sm-7">
-                             <div class="dataTables_paginate paging_simple_numbers" id="example1_paginate">
-                                 <ul class="pagination">
-                                     <li class="paginate_button previous disabled" id="example1_previous"><a href="#"
-                                                                                                             aria-controls="example1"
-                                                                                                             data-dt-idx="0"
-                                                                                                             tabindex="0">Previous</a>
-                                     </li>
-                                     <li class="paginate_button active"><a href="#" aria-controls="example1"
-                                                                           data-dt-idx="1" tabindex="0">1</a></li>
-                                     <li class="paginate_button "><a href="#" aria-controls="example1"
-                                                                     data-dt-idx="2" tabindex="0">2</a></li>
-                                     <li class="paginate_button "><a href="#" aria-controls="example1"
-                                                                     data-dt-idx="3" tabindex="0">3</a></li>
-                                     <li class="paginate_button "><a href="#" aria-controls="example1"
-                                                                     data-dt-idx="4" tabindex="0">4</a></li>
-                                     <li class="paginate_button "><a href="#" aria-controls="example1"
-                                                                     data-dt-idx="5" tabindex="0">5</a></li>
-                                     <li class="paginate_button "><a href="#" aria-controls="example1"
-                                                                     data-dt-idx="6" tabindex="0">6</a></li>
-                                     <li class="paginate_button next" id="example1_next"><a href="#"
-                                                                                            aria-controls="example1"
-                                                                                            data-dt-idx="7"
-                                                                                            tabindex="0">Next</a>
-                                     </li>
-                                 </ul>
-                             </div>
-                         </div>
-                     </div>-->
                 </div>
             </div>
             <!-- /.box-body -->
@@ -260,7 +222,7 @@
                 $(elem).parent().parent().parent().remove();
             },
             fail: function (data) {
-                    console.log('fial delete country')
+                console.log('fial delete country')
             }
         })
     }
@@ -268,15 +230,15 @@
 <script>
     $(function () {
         $('#example1').DataTable({
-            'searching'   : false
+            'searching': false
         })
         $('#example2').DataTable({
-            'paging'      : true,
+            'paging': true,
             'lengthChange': false,
-            'searching'   : false,
-            'ordering'    : true,
-            'info'        : true,
-            'autoWidth'   : false
+            'searching': false,
+            'ordering': true,
+            'info': true,
+            'autoWidth': false
         })
     })
 </script>

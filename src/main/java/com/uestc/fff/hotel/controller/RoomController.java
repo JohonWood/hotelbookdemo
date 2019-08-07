@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -22,11 +23,11 @@ public class RoomController {
     private searchService serviceSearch;
 
     @RequestMapping("/roomdetail")
-    public String RoomPage(Model model, HttpSession session){
+    public String RoomPage(@RequestParam("rid") String rid, @RequestParam("hid") String hid,
+                           Model model, HttpSession session){
 
         UserInfo userInfotest = (UserInfo) session.getAttribute("user");
         boolean islogin;
-        String hid = "108387";
         if (userInfotest == null) { islogin = false; }
         else  {
             islogin = true;
@@ -41,7 +42,6 @@ public class RoomController {
         model.addAttribute("countryList",listOfCountry);
         model.addAttribute("Hotels",serviceBook.HotelInfomation(hid));
 
-        String rid = "171";//需要传值
         model.addAttribute("RoomType",serviceBook.RoomInfomation(rid).getRoomType());
         model.addAttribute("RoomArea","50平方米");
         model.addAttribute("Floor","6楼");

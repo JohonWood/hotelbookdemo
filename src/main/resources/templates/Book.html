@@ -44,7 +44,7 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                     <ul class="nav navbar-nav">
-                        <li class="dropdown"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+                        <li><a href="/mybook/booklist">我的订单</a></li>
                         <li><a href="#">Link</a></li>
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
@@ -212,7 +212,7 @@
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h1>
-                    我的订单列表
+                    酒店详情
                 </h1>
                 <ol class="breadcrumb">
                     <li><a href="/504/host"><i class="fa fa-dashboard"></i> 主页</a></li>
@@ -281,8 +281,8 @@
                                                 <td th:text="${'Tel: '+Hotel.hotelPhone}"></td></tr>
                                             </tr>
                                             <tr>
-                                                <td th:text="${'上班时间: '+Hotel.hotelCheckin}"></td>
-                                                <td th:text="${'下班时间: '+Hotel.hotelCheckout}"></td>
+                                                <td th:text="${'入住时间: '+Hotel.hotelCheckin}"></td>
+                                                <td th:text="${'退房时间: '+Hotel.hotelCheckout}"></td>
                                             </tr>
                                             </tbody>
                                         </table>
@@ -313,6 +313,12 @@
                                                     <td th:text="${Room.roomBreakfirst}"></td>
                                                     <td th:text="${Room.roomLast}"></td>
                                                     <td th:text="${'¥'+Room.roomFee}"></td>
+                                                    <td align="center" valign="middle">
+                                                        <button type="button" class="btn btn-info" style="width: 50%"
+                                                                data-th-attr="onclick='SeeInfo(\'' + ${Room.roomid} + '\',\'' + ${Room.hotelId} + '\')'">
+                                                            查看详细
+                                                        </button>
+                                                    </td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -321,9 +327,17 @@
                                     <div>
                                         <p th:each="Hotel : ${Hotels}">
                                             <!-- 按钮触发模态框 -->
-                                            <button class="btn btn-block btn-success bg-purple" data-toggle="modal" data-target="#myModal">
-                                                >>立即预订<<
-                                            </button>
+                                            <div class="col-md-6 pull-left">
+                                                <button type="button" class="btn btn-default btn-block" style="margin-right: 5px;"
+                                                        data-th-attr="onclick='goback()'">
+                                                    <i class="fa fa-arrow-left"></i> 返回
+                                                </button>
+                                            </div>
+                                            <div class="col-md-6 pull-right">
+                                                <button class="btn btn-block btn-success bg-purple pull-right col-md-5" data-toggle="modal" data-target="#myModal">
+                                                    >>立即预订<<
+                                                </button>
+                                            </div>
                                             <!-- 模态框（Modal） -->
                                             <form role="book" action="/mybook/bookconfirm" class="form-horizontal" method="post">
                                                 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -345,7 +359,7 @@
                                                                     </div>
                                                                     <div class="form-group" style="margin:auto">
                                                                         <label>请选择房间数量</label>
-                                                                        <select name="RoomN" class="form-control" id="RoomNum" style="width: 100%;">
+                                                                        <select name="RoomN" class="form-control" id="RoomNum" style="width: 100%;" onchange="JudgeSel()">
                                                                             <option value="1" selected="selected">1</option>
                                                                             <option value="2">2</option>
                                                                             <option value="3">3</option>
@@ -353,22 +367,22 @@
                                                                     </div>
                                                                     <div class="form-group" style="margin:auto">
                                                                         <label>请选择房间1</label>
-                                                                        <select name="Se1" class="form-control" id="RoomSelect1" style="width: 100%;">
-                                                                            <option selected="selected">请选择</option>
+                                                                        <select name="Se1" class="form-control" id="RoomSelect1" style="width: 100%;" required="required">
+                                                                            <option></option>
                                                                             <option th:each="Room: ${RoomList}" th:text="${Room.roomType}"></option>
                                                                         </select>
                                                                     </div>
-                                                                    <div class="form-group" style="margin:auto">
+                                                                    <div class="form-group" style="margin:auto;display: none" id="Sel2">
                                                                         <label>请选择房间2</label>
                                                                         <select name="Se2" class="form-control" id="RoomSelect2" style="width: 100%;">
-                                                                            <option selected="selected">请选择</option>
+                                                                            <option></option>
                                                                             <option th:each="Room: ${RoomList}" th:text="${Room.roomType}"></option>
                                                                         </select>
                                                                     </div>
-                                                                    <div class="form-group" style="margin:auto">
+                                                                    <div class="form-group" style="margin:auto;display: none" id="Sel3">
                                                                         <label>请选择房间3</label>
                                                                         <select name="Se3" class="form-control" id="RoomSelect3" style="width: 100%;">
-                                                                            <option selected="selected">请选择</option>
+                                                                            <option></option>
                                                                             <option th:each="Room: ${RoomList}" th:text="${Room.roomType}"></option>
                                                                         </select>
                                                                     </div>
@@ -473,19 +487,36 @@
             autoclose: true
         })
     })
+    function SeeInfo(roomID, hotelID) {
+        var clicks = $(this).data('clicks');
+        if (!clicks) {
+            open("/room/roomdetail?rid=" + roomID + "&hid=" + hotelID);
+        }
+    }
+    function goback() {
+        var clicks = $(this).data('clicks');
+        if (!clicks) {
+            history.go(-1)
+            //open("/mybook/booklist")
+        }
+    }
+    function JudgeSel() {
+        var slt=document.getElementById("RoomNum");
 
-    // function sel() {
-    //     var mySelect = document.getElementById("RoomNum");
-    //     var s2 = document.getElementById("RoomSelect2");
-    //     var s3 = document.getElementById("RoomSelect3");
-    //     if (mySelect.options[1].selected) {
-    //         s3.style = "hidden:'true'"
-    //     }
-    //     else if(mySelect.options[2].selected){
-    //         s2.hidden="hidden";
-    //         s3.hidden="hidden";
-    //     }
-    // }
+        if(slt.value=="1"){
+            document.getElementById("Sel2").style.display="none";
+            document.getElementById("Sel3").style.display="none";
+        }
+
+        if(slt.value=="2"){
+            document.getElementById("Sel2").style.display="block";
+            document.getElementById("Sel3").style.display="none";
+        }
+        if(slt.value=="3"){
+            document.getElementById("Sel2").style.display="block";
+            document.getElementById("Sel3").style.display="block";
+        }
+    }
 </script>
 </body>
 </html>

@@ -108,37 +108,31 @@
                     <!-- general form elements -->
                     <div class="box box-primary">
                         <div class="box-header with-border">
-                            <h3 class="box-title" th:text="'编辑房间 - '+(${hotelName})"></h3>
+                            <h3 class="box-title">编辑用户数据</h3>
                         </div>
                         <!-- /.box-header -->
                         <!-- form start -->
-                        <form th:action="@{/manage/editRoom(hotelName = ${hotelName})}" method="post"  th:object="${room}" role="form">
+                        <form th:action="@{/manage/editUser(userCode=${userID})}" method="post"  th:object="${listUser}" role="form">
                             <div class="box-body">
                                 <div class="form-group">
-                                    <input type="hidden" class="form-control" th:field="*{hotelId}">
+                                    <label for="code">用户ID</label>
+                                    <input type="text" class="form-control" id="code" th:field="*{userId}" placeholder="输入用户ID">
                                 </div>
                                 <div class="form-group">
-                                    <input type="hidden" class="form-control" th:field="*{roomStatus}">
+                                    <label for="Ccode">用户姓名</label>
+                                    <input type="text" class="form-control" id="Ccode" th:field="*{userName}" placeholder="输入用户姓名">
                                 </div>
                                 <div class="form-group">
-                                    <label th:text="'房间代码：'+(${room.roomid})"></label>
-                                    <input type="hidden" class="form-control"th:field="*{roomid}" placeholder="输入早餐类型">
+                                    <label for="name">用户电话</label>
+                                    <input type="text" class="form-control" id="name" th:field="*{userPhone}" placeholder="输入用户电话">
                                 </div>
                                 <div class="form-group">
-                                    <label for="type">房间类型</label>
-                                    <input type="text" class="form-control" id="type" name="type" th:field="*{roomType}" placeholder="输入房间类型">
+                                    <label for="lname">用户昵称</label>
+                                    <input type="text" class="form-control" id="lname"  th:field="*{loginName}" placeholder="输入用户昵称">
                                 </div>
                                 <div class="form-group">
-                                    <label for="fee">房间费用</label>
-                                    <input type="text" class="form-control" id="fee" name="fee" th:field="*{roomFee}" placeholder="输入房间费用">
-                                </div>
-                                <div class="form-group">
-                                    <label for="last">同类房间剩余量</label>
-                                    <input type="text" class="form-control" id="last" name="last" th:field="*{roomLast}" placeholder="输入房间剩余量">
-                                </div>
-                                <div class="form-group">
-                                    <label for="name">早餐类型</label>
-                                    <input type="text" class="form-control" id="name" name="name" th:field="*{roomBreakfirst}" placeholder="输入早餐类型">
+                                    <label for="state">用户密码</label>
+                                    <input type="text" class="form-control" id="state" name="state" th:field="*{loginPassword}" placeholder="输入用户密码">
                                 </div>
                             </div>
                             <!-- /.box-body -->
@@ -171,5 +165,4 @@
         src="../dist/js/adminlte.min.js"></script>
 
 </body>
-
 </html>

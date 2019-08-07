@@ -1,21 +1,29 @@
 package com.uestc.fff.hotel.controller;
 
 import com.uestc.fff.hotel.domain.UserInfo;
-import com.uestc.fff.hotel.domain.order;
 import com.uestc.fff.hotel.service.UserService;
-import com.uestc.fff.hotel.service.searchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.DESKeySpec;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
+import java.security.SecureRandom;
+import java.util.Base64;
+import java.util.Base64.Encoder;
+import java.util.Base64.Decoder;
+
+import static com.uestc.fff.hotel.domain.pass.decryptBasedDes;
+import static com.uestc.fff.hotel.domain.pass.encryptBasedDes;
 
 
 @Controller
@@ -23,8 +31,6 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserService userService;
-    @Autowired
-    private searchService serviceSearch;
 
     /************注册****************/
     @RequestMapping(value = "/register")
@@ -38,32 +44,28 @@ public class UserController {
                               @RequestParam("userPhone") String userPhone,
                               @RequestParam("loginName") String loginName,
                               @RequestParam("loginPassword") String loginPassword,
+                              @RequestParam("loginPasswordAgain") String loginPasswordAgain,
                               HttpServletResponse response) {
         response.setContentType("text/html;charset=utf-8");//操作返回消息提示
         try (PrintWriter writer = response.getWriter()) {
-            if("".equals(userID) || "".equals(userName) || "".equals(userPhone) || "".equals(loginName) || "".equals(loginPassword))
-            {
-                writer.write("<script> alert('请填写完整信息'); history.go(-1);</script>");
-                writer.flush();
-                return;
-            }
             UserInfo testid = userService.findUserByUserID(userID);
-            if (testid == null) {
+            if (testid == null && loginPassword.equals(loginPasswordAgain)) {
                 UserInfo dbUser = new UserInfo();
                 dbUser.setUserId(userID);
                 dbUser.setUserName(userName);
                 dbUser.setUserPhone(userPhone);
                 dbUser.setLoginName(loginName);
-                dbUser.setLoginPassword(loginPassword);
-                userService.insertUserInfo(dbUser);
-                //保存注册信息到数据库
+                dbUser.setLoginPassword(encryptBasedDes(loginPassword));//将加密后的密码存入
+                userService.insertUserInfo(dbUser); //保存注册信息到数据库
+
                 writer.write("<script> alert('注册成功,请登录'); location.href='login';</script>");
                 writer.flush();
                 
-            } else {
-                writer.write("<script> alert('账号已被使用，请重新注册'); history.go(-1);</script>");
+            }
+            else
+             {
+                writer.write("<script> alert('账号已被使用或两次输入密码不一致，请重新注册'); history.go(-1);</script>");
                 writer.flush();
-                
             }
 
         } catch (IOException e) {
@@ -86,24 +88,23 @@ public class UserController {
 
         response.setContentType("text/html;charset=utf-8");//操作返回消息提示
         try (PrintWriter writer = response.getWriter()) {
-            if("".equals(userID) ||  "".equals(userPassword))
+
+            UserInfo dbUser = userService.findUserByUserID(userID);
+
+            if (dbUser == null)
             {
-                writer.write("<script> alert('请将帐号密码填写完整'); history.go(-1);</script>");
+                writer.write("<script> alert('该账号不存在'); history.go(-1);</script>");
                 writer.flush();
                 return;
             }
-            UserInfo dbUser = userService.findUserByUserID(userID);
-            if (dbUser == null) {
-                writer.write("<script> alert('该账号不存在'); history.go(-1);</script>");
-                writer.flush();
-
-
-            } else if (!dbUser.getLoginPassword().equals(userPassword)) {
+            if (!userPassword.equals(decryptBasedDes(dbUser.getLoginPassword())))//将数据库中加密的密码解密后与输入的密码进行比较
+             {
                 writer.write("<script> alert('密码错误'); history.go(-1);</script>");
                 writer.flush();
-                
-
-            } else {
+                return;
+            }
+            else
+            {
                 //用session保存用户登录信息
                 session.setAttribute("user", dbUser);
                 //创建cookie对象来保存session的id
@@ -111,21 +112,19 @@ public class UserController {
                 cookie.setMaxAge(86400);//保存一天
                 response.addCookie(cookie);
 
-                if ( "admin".equals(dbUser.getUserId())){
-
+                if ( "admin".equals(dbUser.getUserId()))
+                {
                     writer.write("<script> alert('登录成功'); location.href='/manage/country';</script>");
                     writer.flush();
                     
                 } else {//普通用户登录
                     writer.write("<script> alert('登录成功'); location.href='/504/host?islogin=true';</script>");
                     writer.flush();
-                   
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     @RequestMapping(value = "/logoutAction")
@@ -157,15 +156,6 @@ public class UserController {
     public String userInfoPages(Model model, HttpSession session){
 /*        boolean islogin;*/
         UserInfo userInfotest = (UserInfo) session.getAttribute("user");
-/*
-        if (userInfotest == null) { islogin = false; }
-        else  { islogin = true; }
-        model.addAttribute("isLogin",islogin);
-        model.addAttribute("User_name",userInfotest.getLoginName());
-        model.addAttribute("numOfOrders",serviceSearch.countOrder("1"));
-        List<order> orderList=serviceSearch.orderList("1");
-        model.addAttribute("orderList",orderList);
-*/
         model.addAttribute("userID",userInfotest.getUserId());
         model.addAttribute("userName",userInfotest.getUserName());
         model.addAttribute("userPhone",userInfotest.getUserPhone());
@@ -192,7 +182,6 @@ public class UserController {
         }
     }
 
-
     @PostMapping("/changepassword")
     public void changePassword(HttpSession session, HttpServletResponse response,
                                @RequestParam("originpassword") String originPassword,
@@ -203,7 +192,7 @@ public class UserController {
         UserInfo changeUser = (UserInfo) session.getAttribute("user");
         try
         {
-            if(!changeUser.getLoginPassword().equals(originPassword))
+            if(!originPassword.equals(decryptBasedDes(changeUser.getLoginPassword())))
             {
                 response.getWriter().write("<script> alert('原密码不正确'); location.href='/user/userinfo';</script>");
                 return;
@@ -215,8 +204,9 @@ public class UserController {
             }
             else
             {
-                changeUser.setLoginPassword(newPassword);
+                changeUser.setLoginPassword(encryptBasedDes(newPassword));
                 userService.updateUserInfo(changeUser);
+                session.setAttribute("user",changeUser);
                 response.getWriter().write("<script> alert('密码修改成功'); location.href='/user/userinfo';</script>");
             }
         }

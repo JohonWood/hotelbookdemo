@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <title>酒店详情</title>
+    <title>房间详情</title>
 
     <link rel="stylesheet" type="text/css" media="all" href="../adminlte/bower_components/bootstrap/dist/css/bootstrap.min.css"
           th:href="@{/adminlte/bower_components/bootstrap/dist/css/bootstrap.min.css}"/>
@@ -239,14 +239,10 @@
                                             <li data-target="#demo" data-slide-to="1"></li>
                                             <li data-target="#demo" data-slide-to="2"></li>
                                             <li data-target="#demo" data-slide-to="3"></li>
-                                            <li data-target="#demo" data-slide-to="4"></li>
                                         </ul>
                                         <!-- 轮播图片 -->
                                         <div class="carousel-inner" th:each="Hotel : ${Hotels}">
                                             <div class="item active">
-                                        <img th:src="${Hotel.hotelPhoto1}">
-                                            </div>
-                                            <div class="item">
                                                 <img th:src="${Hotel.hotelPhoto2}">
                                             </div>
                                             <div class="item">
@@ -306,11 +302,6 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                    <HR align=center color=#987cb9 SIZE=5 class="col-md-12">
-                                        <button class="btn btn-block btn-success bg-purple">
-                                            返回
-                                            <a href="#" onclick="javascript:history.go(-1);"></a>
-                                        </button>
                                     <HR align=center color=#987cb9 SIZE=5 class="col-md-12">
                                     <br>
                                 </div>
@@ -372,15 +363,5 @@
 <!-- AdminLTE for demo purposes -->
 <script src="../adminlte/dist/js/demo.js"></script>
 
-<script>
-
-    $(function () {
-        //Date picker
-        $('#datepicker').datepicker({
-            autoclose: true
-        })
-    })
-
-</script>
 </body>
 </html>

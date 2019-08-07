@@ -59,6 +59,26 @@ public class BookListService {
         orderInfoMapper.updateByPrimaryKeySelective(orderInfo);
     }
 
+    public void IncreaseLastRooms(String rid){
+        RoomInfo roomInfo = new RoomInfo();
+        RoomInfo roomInfo0 = roomInfoMapper.selectByPrimaryKey(rid);
+        int RoomLast = roomInfo0.getRoomLast();
+        RoomLast++;
+        roomInfo.setRoomid(rid);
+        roomInfo.setRoomLast(RoomLast);
+        roomInfoMapper.updateByPrimaryKeySelective(roomInfo);
+    }
+
+    public void DecreaseLastRooms(String rid){
+        RoomInfo roomInfo = new RoomInfo();
+        RoomInfo roomInfo0 = roomInfoMapper.selectByPrimaryKey(rid);
+        int RoomLast = roomInfo0.getRoomLast();
+        RoomLast--;
+        roomInfo.setRoomid(rid);
+        roomInfo.setRoomLast(RoomLast);
+        roomInfoMapper.updateByPrimaryKeySelective(roomInfo);
+    }
+
     public void SaveOrder(OrderInfo orderInfo){ orderInfoMapper.insertSelective(orderInfo); }
 
     public void SaveOrderTR(OrderTR orderTR){ orderTRMapper.insertSelective(orderTR); }
