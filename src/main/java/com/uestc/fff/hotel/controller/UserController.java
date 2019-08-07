@@ -2,7 +2,6 @@ package com.uestc.fff.hotel.controller;
 
 import com.uestc.fff.hotel.domain.UserInfo;
 import com.uestc.fff.hotel.service.UserService;
-import com.uestc.fff.hotel.service.searchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
