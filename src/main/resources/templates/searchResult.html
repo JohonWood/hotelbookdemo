@@ -50,7 +50,7 @@
 
     </style>
 </head>
-<body class="hold-transition skin-blue sidebar-mini layout-top-nav">
+<body class="hold-transition skin-blue sidebar-mini layout-top-nav" onpagehide="myFunction()" onpageshow="myFunction1()">
 
 <div class="wrapper">
 
@@ -532,8 +532,11 @@
 <script src="../adminlte/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
 <script src="../adminlte/plugins/input-mask/jquery.inputmask.extensions.js"></script>
 <script src="../adminlte/dist/js/demo.js"></script>
+<script src="../adminlte/dist/js/jquerysession.js"></script>
 
 <script th:inline="javascript">
+    var pagePointer=[[${pagePointer}]]
+    console.log(pagePointer)
     var indexOfList=10;
     var filterAni=true;
     var orderArrow=false;
@@ -775,6 +778,7 @@
     }
 
     $(function () {
+
         var resultNumX=[[${resultNum}]]
         if (resultNumX>11) {
             $("#downList").show();
@@ -1080,11 +1084,7 @@
                     //indexOfList=parseInt($('#numOfHotel').text())
                     indexOfList = 10;
                 }
-                $(".whiteToB").css("color","white")
-                $(".whiteToB").css("background","#605ca8")
-                $("#select2-gradeSelectL-container").text("一星级")
-                $("#select2-gradeSelectL-container").attr("title","一星级")
-                $('.select2').select2();
+
 
             }
         }
@@ -1104,6 +1104,7 @@
                 var num = parseInt(text.length)
                 $('#numOfHotel').text(num);
                 $('.fullResultBox').remove();
+                $("#none1").hide()
                 infoArray.length=0
                 pointArray.length=0
                 nowPArray.length=0
@@ -1437,6 +1438,7 @@
                 pointArray.length=0
                 nowPArray.length=0
                 deletePoint()
+                $("#none1").hide()
                 $('#tableWrapper').empty();
                 $('#tableWrapper').append('<table id="example2" class="table table-bordered table-hover">\n' +
                     '                            <thead style="display: none">\n' +
@@ -1693,11 +1695,6 @@
                     //indexOfList=parseInt($('#numOfHotel').text())
                     indexOfList = 10;
                 }
-                $(".whiteToB").css("color","white")
-                $(".whiteToB").css("background","#605ca8")
-                $("#select2-gradeSelectL-container").text("一星级")
-                $("#select2-gradeSelectL-container").attr("title","一星级")
-                $('.select2').select2();
 
             }
         }
@@ -1808,6 +1805,7 @@
                         pointArray.length=0
                         nowPArray.length=0
                         deletePoint()
+                        $("#none1").hide()
                         $('#tableWrapper').empty();
                         $('#tableWrapper').append('<table id="example2" class="table table-bordered table-hover">\n' +
                             '                            <thead style="display: none">\n' +
@@ -2182,6 +2180,22 @@
         var pointArr = [];
         pointArr.push(point);
         convertor.translate(pointArr, 1, 5, translateCallback)
+    }
+    function myFunction() {
+        console.log(pagePointer);
+    }
+    function myFunction1() {
+        // xmlhttp.open("GET", "/504/pageInit",true);
+        // xmlhttp.send();
+        // xmlhttp.onreadystatechange = function () {
+        //     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+        //         var text;
+        //         text = xmlhttp.responseText;
+        //         text = JSON.parse(text)
+        //         console.log(text["pagePointer"])
+        //     }
+        // }
+        pagePointer=1
     }
 
 </script>

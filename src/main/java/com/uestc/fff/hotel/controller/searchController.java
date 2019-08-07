@@ -77,6 +77,8 @@ public class searchController {
         model.addAttribute("isLogin",islogin);
         List<String> listOfCountry=service.searchCountry();
         model.addAttribute("countryList",listOfCountry);
+        model.addAttribute("pagePointer",0);
+        session.setAttribute("pagePointer",0);
         if(resultList==null){
             model.addAttribute("resultNum",0);
             session.setAttribute("resultList", fullSearResultList);
@@ -203,6 +205,18 @@ public class searchController {
         }
 
         return resultList;
+    }
+
+    @RequestMapping("/pageInit")
+    @ResponseBody
+    public SearchSession pageInit(HttpServletRequest httpServletRequest,HttpServletResponse httpServletResponse,HttpSession session){
+        SearchSession searchSession=new SearchSession();
+        if((int)session.getAttribute("pagePointer")==0){
+            searchSession.setResultList(null);
+        }
+
+        searchSession.setPagePointer((int)session.getAttribute("pagePointer"));
+        return searchSession;
     }
 
 }
